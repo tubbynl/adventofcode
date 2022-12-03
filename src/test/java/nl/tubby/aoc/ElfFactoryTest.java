@@ -21,12 +21,10 @@ public class ElfFactoryTest {
         assertEquals(5,elves.size());
         Elf first = elves.get(0);
         assertEquals(1,first.nr());
-        assertEquals(3,first.inventory().size());
         assertEquals(6000,first.sumCalories());
 
         Elf second = elves.get(1);
         assertEquals(2,second.nr());
-        assertEquals(1,second.inventory().size());
         assertEquals(4000,second.sumCalories());
     }
 
