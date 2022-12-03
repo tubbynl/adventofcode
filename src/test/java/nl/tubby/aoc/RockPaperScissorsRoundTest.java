@@ -25,4 +25,17 @@ class RockPaperScissorsRoundTest {
 
         assertEquals(expected,outcome);
     }
+
+    @ParameterizedTest
+    @CsvSource({
+            "rock,paper,8",
+            "paper,rock,1",
+            "scissors,scissors,6"
+    })
+    void calculateScore(RockPaperScissors opponent, RockPaperScissors me, int expectedScore) {
+        var round = new RockPaperScissorsRound(opponent,me);
+        var score = round.calculateScore();
+
+        assertEquals(expectedScore,score);
+    }
 }

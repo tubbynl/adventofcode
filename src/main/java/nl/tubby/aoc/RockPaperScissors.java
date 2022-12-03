@@ -32,4 +32,8 @@ public enum RockPaperScissors {
                 .map(StringUtils::upperCase)
                 .map(VALUES::get);
     }
+
+    public int getScore() {
+        return score;
+    }
 }

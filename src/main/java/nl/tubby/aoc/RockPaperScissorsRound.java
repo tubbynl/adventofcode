@@ -18,5 +18,9 @@ record RockPaperScissorsRound(RockPaperScissors opponent, RockPaperScissors me) 
         }
         return RoundState.loss;
     }
+
+    int calculateScore() {
+        return me.getScore() + outcome().getScore();
+    }
 }
 
