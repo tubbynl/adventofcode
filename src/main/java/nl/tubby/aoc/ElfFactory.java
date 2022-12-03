@@ -1,11 +1,9 @@
 package nl.tubby.aoc;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ElfFactory {
-    private static final Optional<FoodItem> EMPTY = Optional.empty();
     private final FoodItemSlurper slurper;
     private int currentElfNr = 1;
 
