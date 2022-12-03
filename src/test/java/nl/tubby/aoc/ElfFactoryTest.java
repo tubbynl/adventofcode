@@ -6,6 +6,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,19 +31,18 @@ public class ElfFactoryTest {
 
     @ParameterizedTest
     @CsvSource({
-            "src/test/resources,puzzle-example-day1.txt,4,24000",
-            "src/test/resources,puzzle-input-day1.txt,238,68442",
-            "src/test/resources,aoc_2022_day01_large_input.txt,3664655,184028272"
+            "src/test/resources,puzzle-example-day1.txt,24000",
+            "src/test/resources,puzzle-input-day1.txt,68442",
+            "src/test/resources,aoc_2022_day01_large_input.txt,184028272"
     })
-    void findTheBest(String dir,String file,int expectedNr,int expectedSum) {
+    void findTheBest(String dir,String file,int expectedSum) {
         ElfFactory elfFactory = new ElfFactory(dir,file);
 
-        Elf best = elfFactory.build().stream()
-                .sorted(Comparator.comparing(Elf::sumCalories).reversed())
-                .findFirst().get();
+        Optional<Integer> best = elfFactory.build().stream()
+                .map(Elf::sumCalories)
+                .max(Integer::compareTo);
 
-        assertEquals(expectedNr,best.nr());
-        assertEquals(expectedSum,best.sumCalories());
+        assertEquals(expectedSum,best.get());
     }
 
     @ParameterizedTest
