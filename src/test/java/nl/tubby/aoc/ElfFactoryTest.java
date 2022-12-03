@@ -6,6 +6,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -44,4 +45,19 @@ public class ElfFactoryTest {
         assertEquals(expectedSum,best.sumCalories());
     }
 
+    @ParameterizedTest
+    @CsvSource({
+            "src/test/resources,example.txt,45000",
+            "src/test/resources,puzzle-input-day1.txt,204837"
+    })
+    void findTheTop3(String dir,String file,int sumTop3) {
+        ElfFactory elfFactory = new ElfFactory(new FoodItemSlurper(dir,file));
+
+        int top3sum = elfFactory.build().stream()
+                .sorted(Comparator.comparing(Elf::sumCalories).reversed())
+                .limit(3)
+                .collect(Collectors.summingInt(Elf::sumCalories));
+
+        assertEquals(sumTop3,top3sum);
+    }
 }
