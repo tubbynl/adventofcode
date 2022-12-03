@@ -32,7 +32,7 @@ public class ElfFactoryTest {
         ElfFactory elfFactory = new ElfFactory(slurper);
 
         Elf best = elfFactory.build().stream()
-                .sorted(Comparator.comparing(Elf::sumCalories))
+                .sorted(Comparator.comparing(Elf::sumCalories).reversed())
                 .findFirst().get();
 
         assertEquals(4,best.nr());
