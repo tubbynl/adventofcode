@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-abstract public class Slurper<T extends Object> {
+public class Slurper<T extends Object> {
     private final Path path;
 
     public Slurper(String path, String fileName) {
@@ -15,8 +15,7 @@ abstract public class Slurper<T extends Object> {
 
     protected Stream<String> stream() {
         try {
-            return Files.readAllLines(this.path)
-                    .stream();
+            return Files.lines(this.path);
         } catch (IOException e) {
             System.err.println("unable to stream "+this.path+": "+e.getMessage());
             return Stream.empty();
