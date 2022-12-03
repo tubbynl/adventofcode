@@ -4,9 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -47,15 +46,18 @@ public class ElfFactoryTest {
     @ParameterizedTest
     @CsvSource({
             "src/test/resources,puzzle-example-day1.txt,45000",
-            "src/test/resources,puzzle-input-day1.txt,204837"
+            "src/test/resources,puzzle-input-day1.txt,204837",
+            "src/test/resources,aoc_2022_day01_large_input.txt,549010145"
     })
     void findTheTop3(String dir,String file,int sumTop3) {
         ElfFactory elfFactory = new ElfFactory(dir,file);
 
         int top3sum = elfFactory.build().stream()
-                .sorted(Comparator.comparing(Elf::sumCalories).reversed())
+                .map(Elf::sumCalories)
+                .sorted(Collections.reverseOrder())
+                .mapToInt(Integer::intValue)
                 .limit(3)
-                .collect(Collectors.summingInt(Elf::sumCalories));
+                .sum();
 
         assertEquals(sumTop3,top3sum);
     }
