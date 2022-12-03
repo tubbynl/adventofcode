@@ -8,26 +8,10 @@ import java.nio.file.Path;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-class RockPaperScissorsRoundSlurper{
-    private final Path path;
+class RockPaperScissorsRoundSlurper extends Slurper<RockPaperScissorsRound> {
 
     public RockPaperScissorsRoundSlurper(String path, String fileName) {
-        this.path = Path.of(path,fileName);
-    }
-
-    private Stream<String> stream() {
-        try {
-            return Files.readAllLines(this.path)
-                    .stream();
-        } catch (IOException e) {
-            System.err.println("unable to open "+this.path+": "+e.getMessage());
-            return Stream.empty();
-        }
-    }
-
-    public Stream<RockPaperScissorsRound> slurp(Function<String,RockPaperScissorsRound> apply) {
-        return stream()
-                .map(apply);
+        super(path,fileName);
     }
 
     public static RockPaperScissorsRound createRound(String round) {
