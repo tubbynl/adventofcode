@@ -11,7 +11,7 @@ class FoodItemSlurperTest {
 
     @Test
     void slurp() {
-        FoodItemSlurper slurper = new FoodItemSlurper("src/test/resources","example.txt");
+        FoodItemSlurper slurper = new FoodItemSlurper("src/test/resources", "puzzle-example-day1.txt");
 
         List<List<FoodItem>> items = slurper.slurp().collect(Collectors.toList());
         assertEquals(5,slurper.slurp().count());

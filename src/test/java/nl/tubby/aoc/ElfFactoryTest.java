@@ -14,7 +14,7 @@ public class ElfFactoryTest {
 
     @Test
     void build() {
-        FoodItemSlurper slurper = new FoodItemSlurper("src/test/resources","example.txt");
+        FoodItemSlurper slurper = new FoodItemSlurper("src/test/resources", "puzzle-example-day1.txt");
         ElfFactory elfFactory = new ElfFactory(slurper);
 
         List<Elf> elves = elfFactory.build();
@@ -31,7 +31,7 @@ public class ElfFactoryTest {
 
     @ParameterizedTest
     @CsvSource({
-            "src/test/resources,example.txt,4,24000",
+            "src/test/resources,puzzle-example-day1.txt,4,24000",
             "src/test/resources,puzzle-input-day1.txt,238,68442"
     })
     void findTheBest(String dir,String file,int expectedNr,int expectedSum) {
@@ -47,7 +47,7 @@ public class ElfFactoryTest {
 
     @ParameterizedTest
     @CsvSource({
-            "src/test/resources,example.txt,45000",
+            "src/test/resources,puzzle-example-day1.txt,45000",
             "src/test/resources,puzzle-input-day1.txt,204837"
     })
     void findTheTop3(String dir,String file,int sumTop3) {
