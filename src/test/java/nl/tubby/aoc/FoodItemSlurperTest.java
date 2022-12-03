@@ -8,7 +8,6 @@ class FoodItemSlurperTest {
 
     @Test
     void findElveWithMostFoodItems() {
-
         FoodItemSlurper slurper = new FoodItemSlurper("src/test/resources","example.txt");
 
         assertEquals(14,slurper.slurp().count());
