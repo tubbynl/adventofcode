@@ -30,7 +30,8 @@ public class ElfFactoryTest {
 
     @ParameterizedTest
     @CsvSource({
-            "src/test/resources,example.txt,4,24000"
+            "src/test/resources,example.txt,4,24000",
+            "src/test/resources,puzzle-input-day1.txt,238,68442"
     })
     void findTheBest(String dir,String file,int expectedNr,int expectedSum) {
         ElfFactory elfFactory = new ElfFactory(new FoodItemSlurper(dir,file));
@@ -42,4 +43,5 @@ public class ElfFactoryTest {
         assertEquals(expectedNr,best.nr());
         assertEquals(expectedSum,best.sumCalories());
     }
+
 }
