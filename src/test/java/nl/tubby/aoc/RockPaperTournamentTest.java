@@ -23,4 +23,19 @@ public class RockPaperTournamentTest {
 
         assertEquals(expectedScore,totalScore);
     }
+
+    @ParameterizedTest
+    @CsvSource({
+            "puzzle-example-day2.txt,12",
+            "puzzle-input-day2.txt,12526"
+    })
+    void tournament2(String filename, int expectedScore) {
+        var slurper = new RockPaperScissorsRoundSlurper("src/test/resources",filename);
+
+        var rounds = slurper.slurp(RockPaperScissorsRoundSlurper::createRoundPart2);
+
+        var totalScore = rounds.collect(Collectors.summingInt(RockPaperScissorsRound::calculateScore));
+
+        assertEquals(expectedScore,totalScore);
+    }
 }
