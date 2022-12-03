@@ -51,4 +51,16 @@ public enum RockPaperScissors {
         }
         return RoundState.loss;
     }
+
+    RockPaperScissors determineMyMoveFor(RoundState state) {
+        if(state.equals(RoundState.tie)) {
+            return this;
+        }
+        if(state.equals(RoundState.loss)) {
+            return WINS.get(this);
+        }
+        return WINS.entrySet().stream()
+                .filter(e -> e.getValue().equals(this))
+                .map(Map.Entry::getKey).findFirst().get();
+    }
 }
