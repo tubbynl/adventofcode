@@ -39,3 +39,6 @@ public class ElfFactory extends Slurper<Elf> {
                 .map(NumberUtils::createInteger);
     }
 }
+
+record Elf(int nr,int sumCalories){
+}
