@@ -7,17 +7,19 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public enum RockPaperScissors {
-    rock("A","X"),
-    paper("B","Y"),
-    scissor("C","Z");
+    rock(1,"A","X"),
+    paper(2, "B","Y"),
+    scissor(3,"C","Z");
 
     private static final Map<String,RockPaperScissors> VALUES = Stream.of(values())
             .flatMap(RockPaperScissors::asEntries)
             .collect(Collectors.toMap(Map.Entry::getKey,Map.Entry::getValue));
     private final Set<String> aliases;
+    private final int score;
 
-    RockPaperScissors(String... aliases) {
+    RockPaperScissors(int score,String... aliases) {
         this.aliases = Set.of(aliases);
+        this.score = score;
     }
 
     private Stream<Map.Entry<String, RockPaperScissors>> asEntries() {
