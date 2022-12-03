@@ -35,7 +35,7 @@ class RockPaperScissorsTest {
             "scissors,scissors,tie",
     })
     void determine(RockPaperScissors opponent, RockPaperScissors me, RoundState expected) {
-        var outcome = me.determine(opponent);
+        var outcome = me.determineOutcome(opponent);
 
         assertEquals(expected,outcome);
     }

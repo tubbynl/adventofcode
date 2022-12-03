@@ -14,7 +14,7 @@ class RockPaperScissorsRoundTest {
             "scissors,scissors,6"
     })
     void calculateScore(RockPaperScissors opponent, RockPaperScissors me, int expectedScore) {
-        var round = new RockPaperScissorsRound(opponent,me,me.determine(opponent));
+        var round = new RockPaperScissorsRound(opponent,me,me.determineOutcome(opponent));
         var score = round.calculateScore();
 
         assertEquals(expectedScore,score);

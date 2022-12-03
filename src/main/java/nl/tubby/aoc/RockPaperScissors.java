@@ -42,7 +42,7 @@ public enum RockPaperScissors {
         return score;
     }
 
-    RoundState determine(RockPaperScissors opponent) {
+    RoundState determineOutcome(RockPaperScissors opponent) {
         if(equals(opponent)) {
             return RoundState.tie;
         }

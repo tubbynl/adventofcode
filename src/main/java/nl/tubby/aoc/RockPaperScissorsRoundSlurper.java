@@ -34,7 +34,7 @@ class RockPaperScissorsRoundSlurper{
         String[] split = StringUtils.split(round," ");
         RockPaperScissors opponent = RockPaperScissors.parse(split[0]).get();
         RockPaperScissors me = RockPaperScissors.parse(split[1]).get();
-        return new RockPaperScissorsRound(opponent,me,me.determine(opponent));
+        return new RockPaperScissorsRound(opponent,me,me.determineOutcome(opponent));
     }
 }
 
