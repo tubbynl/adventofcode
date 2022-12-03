@@ -13,10 +13,10 @@ class RockPaperScissorsTest {
     @CsvSource({
             "A,rock",
             "B,paper",
-            "C,scissor",
+            "C,scissors",
             "X,rock",
             "Y,paper",
-            "Z,scissor"
+            "Z,scissors"
     })
     void testIfParsable(String value,RockPaperScissors expected) {
         assertEquals(Optional.of(expected),RockPaperScissors.parse(value));

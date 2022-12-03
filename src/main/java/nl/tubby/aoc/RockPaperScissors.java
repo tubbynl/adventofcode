@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 public enum RockPaperScissors {
     rock(1,"A","X"),
     paper(2, "B","Y"),
-    scissor(3,"C","Z");
+    scissors(3,"C","Z");
 
     private static final Map<String,RockPaperScissors> VALUES = Stream.of(values())
             .flatMap(RockPaperScissors::asEntries)
