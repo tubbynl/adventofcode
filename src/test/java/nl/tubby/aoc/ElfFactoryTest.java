@@ -1,6 +1,8 @@
 package nl.tubby.aoc;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.Comparator;
 import java.util.List;
@@ -26,15 +28,18 @@ public class ElfFactoryTest {
         assertEquals(4000,second.sumCalories());
     }
 
-    @Test
-    void findTheBest() {
-        FoodItemSlurper slurper = new FoodItemSlurper("src/test/resources","example.txt");
-        ElfFactory elfFactory = new ElfFactory(slurper);
+    @ParameterizedTest
+    @CsvSource({
+            "src/test/resources,example.txt,4,24000"
+    })
+    void findTheBest(String dir,String file,int expectedNr,int expectedSum) {
+        ElfFactory elfFactory = new ElfFactory(new FoodItemSlurper(dir,file));
 
         Elf best = elfFactory.build().stream()
                 .sorted(Comparator.comparing(Elf::sumCalories).reversed())
                 .findFirst().get();
 
-        assertEquals(4,best.nr());
+        assertEquals(expectedNr,best.nr());
+        assertEquals(expectedSum,best.sumCalories());
     }
 }
