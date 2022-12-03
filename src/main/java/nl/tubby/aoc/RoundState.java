@@ -33,22 +33,6 @@ public enum RoundState {
         return alias;
     }
 
-    static RoundState determine(RockPaperScissors opponent, RockPaperScissors me) {
-        if(me.equals(opponent)) {
-            return tie;
-        }
-        if(me.equals(rock) && opponent.equals(scissors)) {
-            return win;
-        }
-        if(me.equals(scissors) && opponent.equals(paper)) {
-            return win;
-        }
-        if(me.equals(paper) && opponent.equals(rock)) {
-            return win;
-        }
-        return loss;
-    }
-
     static Optional<RoundState> parse(String value) {
         return Optional.ofNullable(value)
                 .map(MAP::get);

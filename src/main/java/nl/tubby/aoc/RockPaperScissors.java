@@ -14,6 +14,11 @@ public enum RockPaperScissors {
     private static final Map<String,RockPaperScissors> VALUES = Stream.of(values())
             .flatMap(RockPaperScissors::asEntries)
             .collect(Collectors.toMap(Map.Entry::getKey,Map.Entry::getValue));
+    public static final Map<RockPaperScissors,RockPaperScissors> WINS = Map.of(
+            rock,scissors,//Rock defeats Scissors
+            scissors,paper,//Scissors defeats Paper
+            paper,rock//Paper defeats Rock
+    );
     private final Set<String> aliases;
     private final int score;
 
@@ -35,5 +40,15 @@ public enum RockPaperScissors {
 
     public int getScore() {
         return score;
+    }
+
+    RoundState determine(RockPaperScissors opponent) {
+        if(equals(opponent)) {
+            return RoundState.tie;
+        }
+        if(WINS.get(this).equals(opponent)) {
+            return RoundState.win;
+        }
+        return RoundState.loss;
     }
 }
