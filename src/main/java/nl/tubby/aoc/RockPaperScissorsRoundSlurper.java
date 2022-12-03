@@ -32,10 +32,9 @@ class RockPaperScissorsRoundSlurper{
 
     public static RockPaperScissorsRound createRound(String round) {
         String[] split = StringUtils.split(round," ");
-        return new RockPaperScissorsRound(
-                RockPaperScissors.parse(split[0]).get(),
-                RockPaperScissors.parse(split[1]).get()
-        );
+        RockPaperScissors opponent = RockPaperScissors.parse(split[0]).get();
+        RockPaperScissors me = RockPaperScissors.parse(split[1]).get();
+        return new RockPaperScissorsRound(opponent,me,RoundState.determine(opponent,me));
     }
 }
 
