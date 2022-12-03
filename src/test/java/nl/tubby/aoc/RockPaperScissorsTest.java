@@ -2,6 +2,9 @@ package nl.tubby.aoc;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class RockPaperScissorsTest {
@@ -10,12 +13,12 @@ class RockPaperScissorsTest {
     @CsvSource({
             "A,rock",
             "B,paper",
-            "C,paper",
+            "C,scissor",
             "X,rock",
-            "Y,scissor",
+            "Y,paper",
             "Z,scissor"
     })
     void testIfParsable(String value,RockPaperScissors expected) {
-        assertEquals(expected,RockPaperScissors.parse(value));
+        assertEquals(Optional.of(expected),RockPaperScissors.parse(value));
     }
 }
