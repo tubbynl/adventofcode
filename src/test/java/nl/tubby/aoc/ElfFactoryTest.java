@@ -6,7 +6,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -38,11 +37,11 @@ public class ElfFactoryTest {
     void findTheBest(String dir,String file,int expectedSum) {
         ElfFactory elfFactory = new ElfFactory(dir,file);
 
-        Optional<Integer> best = elfFactory.build().stream()
-                .map(Elf::sumCalories)
-                .max(Integer::compareTo);
+        int best = elfFactory.build().stream()
+                .mapToInt(Elf::sumCalories)
+                .max().orElse(0);
 
-        assertEquals(expectedSum,best.get());
+        assertEquals(expectedSum,best);
     }
 
     @ParameterizedTest
