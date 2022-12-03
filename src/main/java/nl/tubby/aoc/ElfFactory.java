@@ -1,6 +1,5 @@
 package nl.tubby.aoc;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,6 +20,6 @@ public class ElfFactory {
     }
 
     private Elf buildElf(List<FoodItem> foodItems) {
-        return new Elf(++currentElfNr,foodItems);
+        return new Elf(currentElfNr++,foodItems);
     }
 }

@@ -17,11 +17,13 @@ public class ElfFactoryTest {
         List<Elf> elves = elfFactory.build();
 
         assertEquals(5,elves.size());
-        assertEquals(1,elves.get(0).nr());
-        assertEquals(1000,elves.get(0).sumCalories());
+        Elf first = elves.get(0);
+        assertEquals(1,first.nr());
+        assertEquals(6000,first.sumCalories());
 
-        assertEquals(2,elves.get(1).nr());
-        assertEquals(2000,elves.get(1).sumCalories());
+        Elf second = elves.get(1);
+        assertEquals(2,second.nr());
+        assertEquals(4000,second.sumCalories());
     }
 
     @Test
