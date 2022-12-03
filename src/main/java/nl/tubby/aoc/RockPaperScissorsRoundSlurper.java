@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 class RockPaperScissorsRoundSlurper{
@@ -24,12 +25,12 @@ class RockPaperScissorsRoundSlurper{
         }
     }
 
-    public Stream<RockPaperScissorsRound> slurp() {
+    public Stream<RockPaperScissorsRound> slurp(Function<String,RockPaperScissorsRound> apply) {
         return stream()
-                .map(RockPaperScissorsRoundSlurper::createRound);
+                .map(apply);
     }
 
-    private static RockPaperScissorsRound createRound(String round) {
+    public static RockPaperScissorsRound createRound(String round) {
         String[] split = StringUtils.split(round," ");
         return new RockPaperScissorsRound(
                 RockPaperScissors.parse(split[0]).get(),

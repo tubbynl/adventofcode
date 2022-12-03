@@ -17,7 +17,7 @@ public class RockPaperTournamentTest {
     void tournament(String filename, int expectedScore) {
         var slurper = new RockPaperScissorsRoundSlurper("src/test/resources",filename);
 
-        var rounds = slurper.slurp();
+        var rounds = slurper.slurp(RockPaperScissorsRoundSlurper::createRound);
 
         var totalScore = rounds.collect(Collectors.summingInt(RockPaperScissorsRound::calculateScore));
 
