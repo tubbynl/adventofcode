@@ -25,17 +25,18 @@ public class RucksackTest {
 
     @ParameterizedTest
     @CsvSource({
-            "vJrwpWtwJgWrhcsFMMfFFhFp,p",
-            "jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL,L",
-            "PmmdzqPrVvPwwTWBwg,P",
-            "wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn,v",
-            "ttgJtRGJQctTZtZT,t",
-            "CrZsJsPPZsGzwwsLwLmpwMDw,s"
+            "vJrwpWtwJgWrhcsFMMfFFhFp,p,16",
+            "jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL,L,38",
+            "PmmdzqPrVvPwwTWBwg,P,42",
+            "wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn,v,22",
+            "ttgJtRGJQctTZtZT,t,20",
+            "CrZsJsPPZsGzwwsLwLmpwMDw,s,19"
     })
-    void intersect(String line,String expected) {
+    void intersectAndPriority(String line,String expected, int expectedPrority) {
         var rucksack = Rucksack.parse(line);
 
         assertEquals(expected,rucksack.intersect());
+        assertEquals(expectedPrority,rucksack.priority());
     }
 
     @ParameterizedTest

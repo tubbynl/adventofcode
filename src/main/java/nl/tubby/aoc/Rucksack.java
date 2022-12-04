@@ -25,6 +25,10 @@ public record Rucksack(String compartment1, String compartment2) {
                 .filter(s -> compartment1().contains(s))
                 .collect(Collectors.joining());
     }
+
+    public int priority() {
+        return 0;
+    }
 }
 
 class RucksackSlurper extends Slurper<Rucksack> {
