@@ -52,4 +52,15 @@ public class RucksackTest {
         assertEquals(expectedCount,rucksacks.size());
         assertEquals(expectedSum,rucksacks.stream().mapToInt(Rucksack::priority).sum());
     }
+
+    @ParameterizedTest
+    @CsvSource({
+            "a,1",
+            "z,26",
+            "A,27",
+            "Z,52"
+    })
+    void charToPrority(char ch,int priority) {
+        assertEquals(priority,Rucksack.charToPrority(ch));
+    }
 }
