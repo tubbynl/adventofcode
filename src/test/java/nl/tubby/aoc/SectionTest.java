@@ -19,16 +19,16 @@ class SectionTest {
         assertEquals(6,result.size());
 
         var first = result.get(0);
-        assertEquals(2,first.getLeft().start());
-        assertEquals(4,first.getLeft().end());
-        assertEquals(6,first.getRight().start());
-        assertEquals(8,first.getRight().end());
+        assertEquals(2, first.left().start());
+        assertEquals(4,first.left().end());
+        assertEquals(6,first.right().start());
+        assertEquals(8,first.right().end());
 
         var last = result.get(5);
-        assertEquals(2,last.getLeft().start());
-        assertEquals(6,last.getLeft().end());
-        assertEquals(4,last.getRight().start());
-        assertEquals(8,last.getRight().end());
+        assertEquals(2,last.left().start());
+        assertEquals(6,last.left().end());
+        assertEquals(4,last.right().start());
+        assertEquals(8,last.right().end());
     }
 
     @ParameterizedTest
@@ -40,7 +40,7 @@ class SectionTest {
         var slurper = new SectionSlurper("src/test/resources",file);
 
         var count = slurper.build()
-                .filter(p -> p.getLeft().contains(p.getRight()) || p.getRight().contains(p.getLeft()))
+                .filter(PairOfSections::contains)
                 .count();
 
         assertEquals(expectedPairCount,count);
@@ -55,7 +55,7 @@ class SectionTest {
         var slurper = new SectionSlurper("src/test/resources",file);
 
         var count = slurper.build()
-                .filter(p -> p.getLeft().overlaps(p.getRight()) || p.getRight().overlaps(p.getLeft()))
+                .filter(PairOfSections::overlaps)
                 .count();
 
         assertEquals(expectedPairCount,count);
@@ -74,10 +74,7 @@ class SectionTest {
     },delimiterString = ";")
     void overlap(String input, boolean overlaps) {
         var pair = SectionSlurper.build(input);
-
-        var result = pair.getLeft().overlaps(pair.getRight()) ||
-                pair.getRight().overlaps(pair.getLeft());
-
-        assertEquals(overlaps,result);
+        
+        assertEquals(overlaps,pair.overlaps());
     }
 }

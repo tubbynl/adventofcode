@@ -18,24 +18,35 @@ public record Section(int start, int end) {
     }
 }
 
-class SectionSlurper extends Slurper<Pair<Section,Section>> {
+class SectionSlurper extends Slurper<PairOfSections> {
 
     public SectionSlurper(String path, String fileName) {
         super(path, fileName);
     }
 
-    public Stream<Pair<Section,Section>> build() {
+    public Stream<PairOfSections> build() {
         return slurp(SectionSlurper::build);
     }
 
-    protected static Pair<Section,Section> build(String line) {
+    protected static PairOfSections build(String line) {
         String[] sections = StringUtils.split(line,",");
-        return Pair.of(parse(sections[0]),parse(sections[1]));
+        return new PairOfSections(parse(sections[0]),parse(sections[1]));
     }
 
     private static Section parse(String line) {
         int[] values = Stream.of(StringUtils.split(line,"-"))
                 .mapToInt(NumberUtils::toInt).toArray();
         return new Section(values[0],values[1]);
+    }
+}
+
+record PairOfSections(Section left,Section right) {
+
+    boolean contains() {
+        return left().contains(right()) || right().contains(left());
+    }
+
+    boolean overlaps() {
+        return left().overlaps(right()) || right().overlaps(left());
     }
 }
