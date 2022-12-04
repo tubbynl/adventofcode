@@ -14,10 +14,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * day 4
  */
 class SectionTest {
-
     @Test
     void testBuild() {
-        var result = new SectionSlurper()
+        var result = new Slurper<>(PairOfSections::parse)
                 .slurp(Path.of("src/test/resources","puzzle-example-day4.txt"))
                 .collect(Collectors.toList());
 
@@ -47,7 +46,7 @@ class SectionTest {
             "puzzle-input-day4.txt,511"// <-- solution part 1
     })
     void testFindContainedPairs(String file,int expectedPairCount) {
-        var count = new SectionSlurper()
+        var count = new Slurper<>(PairOfSections::parse)
                 .slurp(Path.of("src/test/resources",file))
                 .filter(PairOfSections::contains)
                 .count();
@@ -61,7 +60,7 @@ class SectionTest {
             "puzzle-input-day4.txt,821"// <-- solution part 2
     })
     void testFindOverlappedPairs(String file,int expectedPairCount) {
-        var count = new SectionSlurper()
+        var count = new Slurper<>(PairOfSections::parse)
                 .slurp(Path.of("src/test/resources",file))
                 .filter(PairOfSections::overlaps)
                 .count();

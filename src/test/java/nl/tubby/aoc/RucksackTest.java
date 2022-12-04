@@ -47,7 +47,7 @@ public class RucksackTest {
             "puzzle-input-day3.txt,300,7903"// <-- solution part 1
     })
     void testForFile(String file,int expectedCount,int expectedSum) {
-        List<Rucksack> rucksacks = new RucksackSlurper()
+        List<Rucksack> rucksacks = new Slurper<>(Rucksack::parse)
                 .slurp(Path.of("src/test/resources",file))
                 .toList();
 

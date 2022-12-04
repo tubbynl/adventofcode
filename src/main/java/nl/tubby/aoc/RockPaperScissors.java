@@ -90,18 +90,6 @@ record RockPaperScissorsRound(RockPaperScissors opponent, RockPaperScissors me,R
     }
 }
 
-class RockPaperScissorsRoundSlurper extends Slurper<RockPaperScissorsRound> {
-    public RockPaperScissorsRoundSlurper() {
-        super(RockPaperScissorsRound::build);
-    }
-}
-
-class RockPaperScissorsRoundSlurper2 extends Slurper<RockPaperScissorsRound> {
-    public RockPaperScissorsRoundSlurper2() {
-        super(RockPaperScissorsRound::build2);
-    }
-}
-
 enum RoundState {
     loss(0, "X"),
     tie(3, "Y"),

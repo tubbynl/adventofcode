@@ -64,7 +64,7 @@ class RockPaperScissorsTest {
             "puzzle-input-day2.txt,10994"// <-- solution part 1
     })
     void tournament(String filename, int expectedScore) {
-        var totalScore = new RockPaperScissorsRoundSlurper()
+        var totalScore = new Slurper<>(RockPaperScissorsRound::build)
                 .slurp(Path.of("src/test/resources",filename))
                 .collect(Collectors.summingInt(RockPaperScissorsRound::calculateScore));
 
@@ -77,7 +77,7 @@ class RockPaperScissorsTest {
             "puzzle-input-day2.txt,12526"// <-- solution part 2
     })
     void tournament2(String filename, int expectedScore) {
-        var totalScore = new RockPaperScissorsRoundSlurper2()
+        var totalScore = new Slurper<>(RockPaperScissorsRound::build2)
                 .slurp(Path.of("src/test/resources",filename))
                 .collect(Collectors.summingInt(RockPaperScissorsRound::calculateScore));
 

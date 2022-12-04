@@ -7,7 +7,7 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-public abstract class Slurper<T extends Object> {
+public class Slurper<T extends Object> {
     private final Function<String,T> parser;
 
     public Slurper(Function<String, T> parser) {

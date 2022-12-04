@@ -50,12 +50,6 @@ public record Rucksack(String compartment1, String compartment2) {
     }
 }
 
-class RucksackSlurper extends Slurper<Rucksack> {
-    public RucksackSlurper() {
-        super(Rucksack::parse);
-    }
-}
-
 record ThreeElves(Rucksack[] sacks) {
     String intersect() {
         String firstResult = intersect(sacks[0].full(),sacks[1]);

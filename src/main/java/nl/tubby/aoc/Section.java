@@ -34,12 +34,6 @@ public record Section(int start, int end) {
     }
 }
 
-class SectionSlurper extends Slurper<PairOfSections> {
-    public SectionSlurper() {
-        super(PairOfSections::parse);
-    }
-}
-
 record PairOfSections(Section left,Section right) {
 
     static PairOfSections parse(String line) {
