@@ -2,7 +2,6 @@ package nl.tubby.aoc;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Set;
 import java.util.stream.Collectors;
