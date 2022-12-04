@@ -26,7 +26,11 @@ public class RucksackTest {
     @ParameterizedTest
     @CsvSource({
             "vJrwpWtwJgWrhcsFMMfFFhFp,p",
-            "jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL,L"
+            "jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL,L",
+            "PmmdzqPrVvPwwTWBwg,P",
+            "wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn,v",
+            "ttgJtRGJQctTZtZT,t",
+            "CrZsJsPPZsGzwwsLwLmpwMDw,s"
     })
     void intersect(String line,String expected) {
         var rucksack = Rucksack.parse(line);
