@@ -14,10 +14,9 @@ public class ElfFactoryTest {
 
     @Test
     void build() {
-        Path path = Path.of("src/test/resources", "puzzle-example-day1.txt");
-        ElfFactory elfFactory = new ElfFactory();
-
-        List<Elf> elves = elfFactory.slurp(path).toList();
+        List<Elf> elves = new ElfFactory()
+                .slurp(Path.of("src/test/resources", "puzzle-example-day1.txt"))
+                .toList();
 
         assertEquals(5,elves.size());
         Elf first = elves.get(0);
@@ -36,9 +35,8 @@ public class ElfFactoryTest {
             //"src/test/resources,aoc_2022_day01_large_input.txt,184028272" https://gathering.tweakers.net/forum/list_message/73652172#73652172
     })
     void findTheBest(String dir,String file,int expectedSum) {
-        ElfFactory elfFactory = new ElfFactory();
-
-        int best = elfFactory.slurp(Path.of(dir,file))
+        int best = new ElfFactory()
+                .slurp(Path.of(dir,file))
                 .mapToInt(Elf::sumCalories)
                 .max().orElse(0);
 

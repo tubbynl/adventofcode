@@ -44,9 +44,7 @@ public class RucksackTest {
             "puzzle-input-day3.txt,300,7903"
     })
     void testForFile(String file,int expectedCount,int expectedSum) {
-        var slurper = new RucksackSlurper();
-
-        List<Rucksack> rucksacks = slurper
+        List<Rucksack> rucksacks = new RucksackSlurper()
                 .slurp(Path.of("src/test/resources",file))
                 .toList();
 
@@ -71,9 +69,7 @@ public class RucksackTest {
             "puzzle-input-day3.txt,100,2548"
     })
     void buildThreeElves(String file, int expectedCount, int expectedPriority) {
-        var slurper = new ThreeElvesSlurper();
-
-        List<ThreeElves> groups = slurper
+        List<ThreeElves> groups = new ThreeElvesSlurper()
                 .slurp(Path.of("src/test/resources",file))
                 .toList();
 

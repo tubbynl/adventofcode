@@ -16,11 +16,9 @@ public class RockPaperTournamentTest {
             "puzzle-input-day2.txt,10994"
     })
     void tournament(String filename, int expectedScore) {
-        var slurper = new RockPaperScissorsRoundSlurper();
-
-        var rounds = slurper.slurp(Path.of("src/test/resources",filename));
-
-        var totalScore = rounds.collect(Collectors.summingInt(RockPaperScissorsRound::calculateScore));
+        var totalScore = new RockPaperScissorsRoundSlurper()
+                .slurp(Path.of("src/test/resources",filename))
+                .collect(Collectors.summingInt(RockPaperScissorsRound::calculateScore));
 
         assertEquals(expectedScore,totalScore);
     }
@@ -31,11 +29,9 @@ public class RockPaperTournamentTest {
             "puzzle-input-day2.txt,12526"
     })
     void tournament2(String filename, int expectedScore) {
-        var slurper = new RockPaperScissorsRoundSlurper2();
-
-        var rounds = slurper.slurp(Path.of("src/test/resources",filename));
-
-        var totalScore = rounds.collect(Collectors.summingInt(RockPaperScissorsRound::calculateScore));
+        var totalScore = new RockPaperScissorsRoundSlurper2()
+                .slurp(Path.of("src/test/resources",filename))
+                .collect(Collectors.summingInt(RockPaperScissorsRound::calculateScore));
 
         assertEquals(expectedScore,totalScore);
     }
