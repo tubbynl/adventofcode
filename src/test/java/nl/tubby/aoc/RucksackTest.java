@@ -41,7 +41,8 @@ public class RucksackTest {
 
     @ParameterizedTest
     @CsvSource({
-            "puzzle-example-day3.txt,6,157"
+            "puzzle-example-day3.txt,6,157",
+            "puzzle-input-day3.txt,300,7903"
     })
     void testForFile(String file,int expectedCount,int expectedSum) {
         var slurper = new RucksackSlurper("src/test/resources",file);
