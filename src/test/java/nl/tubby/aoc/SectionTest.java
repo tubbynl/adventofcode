@@ -10,6 +10,9 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * day 4
+ */
 class SectionTest {
 
     @Test
@@ -41,7 +44,7 @@ class SectionTest {
     @ParameterizedTest
     @CsvSource({
             "puzzle-example-day4.txt,2",
-            "puzzle-input-day4.txt,511"
+            "puzzle-input-day4.txt,511"// <-- solution part 1
     })
     void testFindContainedPairs(String file,int expectedPairCount) {
         var count = new SectionSlurper()
@@ -55,7 +58,7 @@ class SectionTest {
     @ParameterizedTest
     @CsvSource({
             "puzzle-example-day4.txt,4",
-            "puzzle-input-day4.txt,821"
+            "puzzle-input-day4.txt,821"// <-- solution part 2
     })
     void testFindOverlappedPairs(String file,int expectedPairCount) {
         var count = new SectionSlurper()

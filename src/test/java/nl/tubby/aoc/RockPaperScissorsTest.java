@@ -9,6 +9,9 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * day 2
+ */
 class RockPaperScissorsTest {
 
     @ParameterizedTest
@@ -58,7 +61,7 @@ class RockPaperScissorsTest {
     @ParameterizedTest
     @CsvSource({
             "puzzle-example-day2.txt,15",
-            "puzzle-input-day2.txt,10994"
+            "puzzle-input-day2.txt,10994"// <-- solution part 1
     })
     void tournament(String filename, int expectedScore) {
         var totalScore = new RockPaperScissorsRoundSlurper()
@@ -71,7 +74,7 @@ class RockPaperScissorsTest {
     @ParameterizedTest
     @CsvSource({
             "puzzle-example-day2.txt,12",
-            "puzzle-input-day2.txt,12526"
+            "puzzle-input-day2.txt,12526"// <-- solution part 2
     })
     void tournament2(String filename, int expectedScore) {
         var totalScore = new RockPaperScissorsRoundSlurper2()

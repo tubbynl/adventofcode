@@ -8,6 +8,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * day 3
+ */
 public class RucksackTest {
 
     @ParameterizedTest
@@ -41,7 +44,7 @@ public class RucksackTest {
     @ParameterizedTest
     @CsvSource({
             "puzzle-example-day3.txt,6,157",
-            "puzzle-input-day3.txt,300,7903"
+            "puzzle-input-day3.txt,300,7903"// <-- solution part 1
     })
     void testForFile(String file,int expectedCount,int expectedSum) {
         List<Rucksack> rucksacks = new RucksackSlurper()
@@ -66,7 +69,7 @@ public class RucksackTest {
     @ParameterizedTest
     @CsvSource({
             "puzzle-example-day3.txt,2,70",
-            "puzzle-input-day3.txt,100,2548"
+            "puzzle-input-day3.txt,100,2548"// <-- solution part 2
     })
     void buildThreeElves(String file, int expectedCount, int expectedPriority) {
         List<ThreeElves> groups = new ThreeElvesSlurper()

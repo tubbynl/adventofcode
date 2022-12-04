@@ -10,6 +10,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * day 1
+ */
 public class ElfFactoryTest {
 
     @Test
@@ -31,7 +34,7 @@ public class ElfFactoryTest {
     @ParameterizedTest
     @CsvSource({
             "src/test/resources,puzzle-example-day1.txt,24000",
-            "src/test/resources,puzzle-input-day1.txt,68442",
+            "src/test/resources,puzzle-input-day1.txt,68442",// <-- solution part 1
             //"src/test/resources,aoc_2022_day01_large_input.txt,184028272" //https://gathering.tweakers.net/forum/list_message/73652172#73652172
     })
     void findTheBest(String dir,String file,int expectedSum) {
@@ -46,7 +49,7 @@ public class ElfFactoryTest {
     @ParameterizedTest
     @CsvSource({
             "src/test/resources,puzzle-example-day1.txt,45000",
-            "src/test/resources,puzzle-input-day1.txt,204837",
+            "src/test/resources,puzzle-input-day1.txt,204837",// <-- solution part 2
             //"src/test/resources,aoc_2022_day01_large_input.txt,549010145"
     })
     void findTheTop3(String dir,String file,int sumTop3) {
