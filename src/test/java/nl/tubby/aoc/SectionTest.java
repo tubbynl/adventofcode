@@ -1,6 +1,8 @@
 package nl.tubby.aoc;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.stream.Collectors;
 
@@ -27,5 +29,19 @@ class SectionTest {
         assertEquals(6,last.getLeft().end());
         assertEquals(4,last.getRight().start());
         assertEquals(8,last.getRight().end());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "puzzle-example-day4.txt,2"
+    })
+    void testFindContainedPairs(String file,int expectedPairCount) {
+        var slurper = new SectionSlurper("src/test/resources","puzzle-example-day4.txt");
+
+        var count = slurper.build()
+                .filter(p -> p.getLeft().contains(p.getRight()) || p.getRight().contains(p.getLeft()))
+                .count();
+
+        assertEquals(expectedPairCount,count);
     }
 }

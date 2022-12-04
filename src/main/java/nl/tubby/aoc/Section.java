@@ -7,6 +7,9 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.stream.Stream;
 
 public record Section(int start, int end) {
+    boolean contains(Section section) {
+        return start()<= section.start() && end()>=section.end();
+    }
 }
 
 class SectionSlurper extends Slurper<Pair<Section,Section>> {
