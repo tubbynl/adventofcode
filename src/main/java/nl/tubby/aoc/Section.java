@@ -13,13 +13,16 @@ public record Section(int start, int end) {
         return set().containsAll(section.set());
     }
 
-    Set<Integer> set() {
-        return IntStream.range(start(),end()+1).boxed().collect(Collectors.toSet());
+    private IntStream stream() {
+        return IntStream.range(start(),end()+1);
+    }
+    protected Set<Integer> set() {
+        return stream().boxed().collect(Collectors.toSet());
     }
 
     boolean overlaps(Section section) {
         Set<Integer> otherSectionRange = section.set();
-        return set().stream()
+        return stream()
                 .filter(otherSectionRange::contains)
                 .findAny()
                 .isPresent();
