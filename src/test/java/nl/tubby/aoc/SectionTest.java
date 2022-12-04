@@ -33,10 +33,11 @@ class SectionTest {
 
     @ParameterizedTest
     @CsvSource({
-            "puzzle-example-day4.txt,2"
+            "puzzle-example-day4.txt,2",
+            "puzzle-input-day4.txt,511"
     })
     void testFindContainedPairs(String file,int expectedPairCount) {
-        var slurper = new SectionSlurper("src/test/resources","puzzle-example-day4.txt");
+        var slurper = new SectionSlurper("src/test/resources",file);
 
         var count = slurper.build()
                 .filter(p -> p.getLeft().contains(p.getRight()) || p.getRight().contains(p.getLeft()))
