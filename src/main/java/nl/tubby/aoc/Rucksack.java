@@ -2,6 +2,8 @@ package nl.tubby.aoc;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -44,3 +46,28 @@ class RucksackSlurper extends Slurper<Rucksack> {
     }
 }
 
+record ThreeElves(Rucksack[] sacks) {
+}
+
+class ThreeElvesSlurper extends Slurper<ThreeElves> {
+
+    private final List<Rucksack> rucksacks = new ArrayList<>();
+    public ThreeElvesSlurper(String path, String fileName) {
+        super(path, fileName);
+    }
+
+    public Stream<ThreeElves> build() {
+        return stream()
+                .flatMap(this::parse);
+    }
+
+    private Stream<ThreeElves> parse(String line) {
+        this.rucksacks.add(Rucksack.parse(line));
+        if(rucksacks.size()<3) {
+            return Stream.empty();
+        }
+        var threeElves = new ThreeElves(rucksacks.toArray(new Rucksack[3]));
+        rucksacks.clear();
+        return Stream.of(threeElves);
+    }
+}

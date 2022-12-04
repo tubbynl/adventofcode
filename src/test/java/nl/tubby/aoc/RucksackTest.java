@@ -63,4 +63,17 @@ public class RucksackTest {
     void charToPrority(char ch,int priority) {
         assertEquals(priority,Rucksack.charToPrority(ch));
     }
+
+    @ParameterizedTest
+    @CsvSource({
+            "puzzle-example-day3.txt,2",
+            "puzzle-input-day3.txt,100"
+    })
+    void buildThreeElves(String file, int expectedCount) {
+        var slurper = new ThreeElvesSlurper("src/test/resources",file);
+
+        List<ThreeElves> groups = slurper.build().toList();
+
+        assertEquals(expectedCount,groups.size());
+    }
 }
