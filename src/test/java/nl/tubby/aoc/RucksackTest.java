@@ -10,7 +10,8 @@ public class RucksackTest {
 
     @ParameterizedTest
     @CsvSource({
-            "vJrwpWtwJgWrhcsFMMfFFhFp,vJrwpWtwJgWr,hcsFMMfFFhFp"
+            "vJrwpWtwJgWrhcsFMMfFFhFp,vJrwpWtwJgWr,hcsFMMfFFhFp",
+            "jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL,jqHRNqRjqzjGDLGL,rsFMfFZSrLrFZsSL"
     })
     void parse(String line,String first,String second) {
         var rucksack = Rucksack.parse(line);
