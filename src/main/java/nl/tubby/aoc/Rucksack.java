@@ -15,20 +15,37 @@ public record Rucksack(String compartment1, String compartment2) {
         return new Rucksack(firstHalf,secondHalf);
     }
 
-    String intersect() {
-        return compartment2().chars()
+    String full() {
+        return compartment1()+compartment2();
+    }
+
+    boolean contains(String ch) {
+        return compartment1().contains(ch) || compartment2().contains(ch);
+    }
+
+    static Stream<String> distinctChars(String value) {
+       return  value.chars()
                 .distinct()
                 .mapToObj(i -> Character.valueOf((char)i))
-                .map(Object::toString)
+                .map(Object::toString);
+    }
+
+    String intersect() {
+        return distinctChars(compartment2())
                 .filter(s -> compartment1().contains(s))
                 .collect(Collectors.joining());
     }
 
     public int priority() {
-        return intersect().chars()
+        return calcPriority(intersect());
+    }
+
+    protected static int calcPriority(String input) {
+        return input.chars()
                 .map(Rucksack::charToPrority)
                 .sum();
     }
+
     protected static int charToPrority(int ch) {
         int correction = Character.isUpperCase((char)ch)?38:96;
         return ch-correction;
@@ -47,6 +64,20 @@ class RucksackSlurper extends Slurper<Rucksack> {
 }
 
 record ThreeElves(Rucksack[] sacks) {
+    String intersect() {
+        String firstResult = intersect(sacks[0].full(),sacks[1]);
+        return intersect(firstResult,sacks[2]);
+    }
+
+    int priority() {
+        return Rucksack.calcPriority(intersect());
+    }
+
+    static String intersect(String input, Rucksack two) {
+        return Rucksack.distinctChars(input)
+                .filter(two::contains)
+                .collect(Collectors.joining());
+    }
 }
 
 class ThreeElvesSlurper extends Slurper<ThreeElves> {
