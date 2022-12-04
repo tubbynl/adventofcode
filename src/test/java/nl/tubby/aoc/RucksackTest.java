@@ -41,13 +41,14 @@ public class RucksackTest {
 
     @ParameterizedTest
     @CsvSource({
-            "puzzle-example-day3.txt,6"
+            "puzzle-example-day3.txt,6,157"
     })
-    void testForFile(String file,int expectedCount) {
+    void testForFile(String file,int expectedCount,int expectedSum) {
         var slurper = new RucksackSlurper("src/test/resources",file);
 
         List<Rucksack> rucksacks = slurper.slurp().toList();
 
         assertEquals(expectedCount,rucksacks.size());
+        assertEquals(expectedSum,rucksacks.stream().mapToInt(Rucksack::priority).sum());
     }
 }
