@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,6 +32,11 @@ class SectionTest {
         assertEquals(8,last.right().end());
     }
 
+    @Test
+    void set() {
+        assertEquals(Set.of(2,3,4),new Section(2,4).set());
+    }
+
     @ParameterizedTest
     @CsvSource({
             "puzzle-example-day4.txt,2",
@@ -49,7 +55,7 @@ class SectionTest {
     @ParameterizedTest
     @CsvSource({
             "puzzle-example-day4.txt,4",
-            "puzzle-input-day4.txt,511"
+            "puzzle-input-day4.txt,821"
     })
     void testFindOverlappedPairs(String file,int expectedPairCount) {
         var slurper = new SectionSlurper("src/test/resources",file);
@@ -70,11 +76,11 @@ class SectionTest {
             "5-7,3-5;true",//5-7,3-5 overlap on 5
             "2-4,6-8;false",
             "2-3,4-5;false",
-            "2-6,4-8;false"
+            "2-6,4-8;true"
     },delimiterString = ";")
     void overlap(String input, boolean overlaps) {
         var pair = SectionSlurper.build(input);
-        
+
         assertEquals(overlaps,pair.overlaps());
     }
 }

@@ -4,17 +4,26 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public record Section(int start, int end) {
     boolean contains(Section section) {
-        return start()<= section.start() && end()>=section.end();
+        return set().containsAll(section.set());
+    }
+
+    Set<Integer> set() {
+        return IntStream.range(start(),end()+1).boxed().collect(Collectors.toSet());
     }
 
     boolean overlaps(Section section) {
-        // 5-7,7-9 overlap on 7
-        // 5-7,3-5 overlap on 5
-        return end()>=section.start() || start()<= section.end();
+        Set<Integer> otherSectionRange = section.set();
+        return set().stream()
+                .filter(otherSectionRange::contains)
+                .findAny()
+                .isPresent();
     }
 }
 
