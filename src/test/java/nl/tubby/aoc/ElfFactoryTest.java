@@ -53,9 +53,8 @@ public class ElfFactoryTest {
             //"src/test/resources,aoc_2022_day01_large_input.txt,549010145"
     })
     void findTheTop3(String dir,String file,int sumTop3) {
-        ElfFactory elfFactory = new ElfFactory();
-
-        int top3sum = elfFactory.slurp(Path.of(dir,file))
+        int top3sum = new ElfFactory()
+                .slurp(Path.of(dir,file))
                 .map(Elf::sumCalories)
                 .sorted(Collections.reverseOrder())
                 .mapToInt(Integer::intValue)
