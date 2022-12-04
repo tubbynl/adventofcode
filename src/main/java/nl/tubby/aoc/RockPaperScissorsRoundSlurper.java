@@ -2,12 +2,6 @@ package nl.tubby.aoc;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.function.Function;
-import java.util.stream.Stream;
-
 class RockPaperScissorsRoundSlurper extends Slurper<RockPaperScissorsRound> {
 
     public RockPaperScissorsRoundSlurper(String path, String fileName) {
