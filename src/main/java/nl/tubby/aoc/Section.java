@@ -10,6 +10,12 @@ public record Section(int start, int end) {
     boolean contains(Section section) {
         return start()<= section.start() && end()>=section.end();
     }
+
+    boolean overlaps(Section section) {
+        // 5-7,7-9 overlap on 7
+        // 5-7,3-5 overlap on 5
+        return end()>=section.start() || start()<= section.end();
+    }
 }
 
 class SectionSlurper extends Slurper<Pair<Section,Section>> {
@@ -22,7 +28,7 @@ class SectionSlurper extends Slurper<Pair<Section,Section>> {
         return slurp(SectionSlurper::build);
     }
 
-    private static Pair<Section,Section> build(String line) {
+    protected static Pair<Section,Section> build(String line) {
         String[] sections = StringUtils.split(line,",");
         return Pair.of(parse(sections[0]),parse(sections[1]));
     }

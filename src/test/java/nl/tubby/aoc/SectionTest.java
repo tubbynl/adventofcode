@@ -45,4 +45,39 @@ class SectionTest {
 
         assertEquals(expectedPairCount,count);
     }
+
+    @ParameterizedTest
+    @CsvSource({
+            "puzzle-example-day4.txt,4",
+            "puzzle-input-day4.txt,511"
+    })
+    void testFindOverlappedPairs(String file,int expectedPairCount) {
+        var slurper = new SectionSlurper("src/test/resources",file);
+
+        var count = slurper.build()
+                .filter(p -> p.getLeft().overlaps(p.getRight()) || p.getRight().overlaps(p.getLeft()))
+                .count();
+
+        assertEquals(expectedPairCount,count);
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {
+            "5-7,7-9;true",//5-7,7-9 overlap on 7
+            "2-8,3-7;true",
+            "6-6,4-6;true",
+            "2-6,4-8;true",
+            "5-7,3-5;true",//5-7,3-5 overlap on 5
+            "2-4,6-8;false",
+            "2-3,4-5;false",
+            "2-6,4-8;false"
+    },delimiterString = ";")
+    void overlap(String input, boolean overlaps) {
+        var pair = SectionSlurper.build(input);
+
+        var result = pair.getLeft().overlaps(pair.getRight()) ||
+                pair.getRight().overlaps(pair.getLeft());
+
+        assertEquals(overlaps,result);
+    }
 }
