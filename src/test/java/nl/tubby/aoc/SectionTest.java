@@ -16,9 +16,16 @@ class SectionTest {
 
         assertEquals(6,result.size());
 
-        assertEquals(2,result.get(0).getLeft().start());
-        assertEquals(4,result.get(0).getLeft().end());
-        assertEquals(6,result.get(0).getRight().start());
-        assertEquals(8,result.get(0).getRight().end());
+        var first = result.get(0);
+        assertEquals(2,first.getLeft().start());
+        assertEquals(4,first.getLeft().end());
+        assertEquals(6,first.getRight().start());
+        assertEquals(8,first.getRight().end());
+
+        var last = result.get(5);
+        assertEquals(2,last.getLeft().start());
+        assertEquals(6,last.getLeft().end());
+        assertEquals(4,last.getRight().start());
+        assertEquals(8,last.getRight().end());
     }
 }

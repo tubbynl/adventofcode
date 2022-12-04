@@ -1,5 +1,7 @@
 package nl.tubby.aoc;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.stream.Stream;
@@ -18,6 +20,13 @@ class SectionSlurper extends Slurper<Pair<Section,Section>> {
     }
 
     private static Pair<Section,Section> build(String line) {
-        return Pair.of(new Section(0,1),new Section(1,2));
+        String[] sections = StringUtils.split(line,",");
+        return Pair.of(parse(sections[0]),parse(sections[1]));
+    }
+
+    private static Section parse(String line) {
+        int[] values = Stream.of(StringUtils.split(line,"-"))
+                .mapToInt(NumberUtils::toInt).toArray();
+        return new Section(values[0],values[1]);
     }
 }
