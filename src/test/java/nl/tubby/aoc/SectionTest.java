@@ -15,7 +15,7 @@ class SectionTest {
     void testBuild() {
         var slurper = new SectionSlurper("src/test/resources","puzzle-example-day4.txt");
 
-        var result = slurper.build().collect(Collectors.toList());
+        var result = slurper.slurp().collect(Collectors.toList());
 
         assertEquals(6,result.size());
 
@@ -45,7 +45,7 @@ class SectionTest {
     void testFindContainedPairs(String file,int expectedPairCount) {
         var slurper = new SectionSlurper("src/test/resources",file);
 
-        var count = slurper.build()
+        var count = slurper.slurp()
                 .filter(PairOfSections::contains)
                 .count();
 
@@ -60,7 +60,7 @@ class SectionTest {
     void testFindOverlappedPairs(String file,int expectedPairCount) {
         var slurper = new SectionSlurper("src/test/resources",file);
 
-        var count = slurper.build()
+        var count = slurper.slurp()
                 .filter(PairOfSections::overlaps)
                 .count();
 
@@ -79,7 +79,7 @@ class SectionTest {
             "2-6,4-8;true"
     },delimiterString = ";")
     void overlap(String input, boolean overlaps) {
-        var pair = SectionSlurper.build(input);
+        var pair = PairOfSections.parse(input);
 
         assertEquals(overlaps,pair.overlaps());
     }

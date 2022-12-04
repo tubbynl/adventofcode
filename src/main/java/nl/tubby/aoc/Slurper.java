@@ -3,10 +3,10 @@ package nl.tubby.aoc;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.function.Function;
+import java.util.Objects;
 import java.util.stream.Stream;
 
-public class Slurper<T extends Object> {
+public abstract class Slurper<T extends Object> {
     private final Path path;
 
     public Slurper(String path, String fileName) {
@@ -22,8 +22,11 @@ public class Slurper<T extends Object> {
         }
     }
 
-    public Stream<T> slurp(Function<String,T> apply) {
+    protected abstract T build(String line);
+
+    public Stream<T> slurp() {
         return stream()
-                .map(apply);
+                .map(this::build)
+                .filter(Objects::nonNull);
     }
 }

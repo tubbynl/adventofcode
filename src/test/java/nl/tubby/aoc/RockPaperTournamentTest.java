@@ -17,7 +17,7 @@ public class RockPaperTournamentTest {
     void tournament(String filename, int expectedScore) {
         var slurper = new RockPaperScissorsRoundSlurper("src/test/resources",filename);
 
-        var rounds = slurper.slurp(RockPaperScissorsRoundSlurper::createRound);
+        var rounds = slurper.slurp();
 
         var totalScore = rounds.collect(Collectors.summingInt(RockPaperScissorsRound::calculateScore));
 
@@ -30,9 +30,9 @@ public class RockPaperTournamentTest {
             "puzzle-input-day2.txt,12526"
     })
     void tournament2(String filename, int expectedScore) {
-        var slurper = new RockPaperScissorsRoundSlurper("src/test/resources",filename);
+        var slurper = new RockPaperScissorsRoundSlurper2("src/test/resources",filename);
 
-        var rounds = slurper.slurp(RockPaperScissorsRoundSlurper::createRoundPart2);
+        var rounds = slurper.slurp();
 
         var totalScore = rounds.collect(Collectors.summingInt(RockPaperScissorsRound::calculateScore));
 

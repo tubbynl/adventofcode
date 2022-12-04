@@ -3,9 +3,7 @@ package nl.tubby.aoc;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ElfFactory extends Slurper<Elf> {
@@ -16,21 +14,21 @@ public class ElfFactory extends Slurper<Elf> {
         super(path,file);
     }
 
-    public List<Elf> build() {
-        return Stream.concat(stream(),Stream.of(""))
-                .flatMap(this::buildElf)
-                .collect(Collectors.toList());
+    @Override
+    protected Stream<String> stream() {
+        return Stream.concat(super.stream(),Stream.of(""));
     }
 
-    private Stream<Elf> buildElf(String foodStr) {
+    @Override
+    protected Elf build(String foodStr) {
         Optional<Integer> calories = parseCalories(foodStr);
         if(calories.isPresent()) {
             this.currentElfCalories+=calories.get();
-            return Stream.empty();
+            return null;
         }
         Elf elf = new Elf(currentElfNr++,this.currentElfCalories);
         this.currentElfCalories = 0;
-        return Stream.of(elf);
+        return elf;
     }
 
     private Optional<Integer> parseCalories(String food) {

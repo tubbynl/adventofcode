@@ -15,7 +15,7 @@ public class ElfFactoryTest {
     void build() {
         ElfFactory elfFactory = new ElfFactory("src/test/resources", "puzzle-example-day1.txt");
 
-        List<Elf> elves = elfFactory.build();
+        List<Elf> elves = elfFactory.slurp().toList();
 
         assertEquals(5,elves.size());
         Elf first = elves.get(0);
@@ -36,7 +36,7 @@ public class ElfFactoryTest {
     void findTheBest(String dir,String file,int expectedSum) {
         ElfFactory elfFactory = new ElfFactory(dir,file);
 
-        int best = elfFactory.build().stream()
+        int best = elfFactory.slurp()
                 .mapToInt(Elf::sumCalories)
                 .max().orElse(0);
 
@@ -52,7 +52,7 @@ public class ElfFactoryTest {
     void findTheTop3(String dir,String file,int sumTop3) {
         ElfFactory elfFactory = new ElfFactory(dir,file);
 
-        int top3sum = elfFactory.build().stream()
+        int top3sum = elfFactory.slurp()
                 .map(Elf::sumCalories)
                 .sorted(Collections.reverseOrder())
                 .mapToInt(Integer::intValue)

@@ -9,6 +9,11 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public record Section(int start, int end) {
+    static Section parse(String line) {
+        int[] values = Stream.of(StringUtils.split(line,"-"))
+                .mapToInt(NumberUtils::toInt).toArray();
+        return new Section(values[0],values[1]);
+    }
     boolean contains(Section section) {
         return set().containsAll(section.set());
     }
@@ -35,23 +40,18 @@ class SectionSlurper extends Slurper<PairOfSections> {
         super(path, fileName);
     }
 
-    public Stream<PairOfSections> build() {
-        return slurp(SectionSlurper::build);
-    }
-
-    protected static PairOfSections build(String line) {
-        String[] sections = StringUtils.split(line,",");
-        return new PairOfSections(parse(sections[0]),parse(sections[1]));
-    }
-
-    private static Section parse(String line) {
-        int[] values = Stream.of(StringUtils.split(line,"-"))
-                .mapToInt(NumberUtils::toInt).toArray();
-        return new Section(values[0],values[1]);
+    @Override
+    protected PairOfSections build(String line) {
+        return PairOfSections.parse(line);
     }
 }
 
 record PairOfSections(Section left,Section right) {
+
+    static PairOfSections parse(String line) {
+        String[] sections = StringUtils.split(line,",");
+        return new PairOfSections(Section.parse(sections[0]),Section.parse(sections[1]));
+    }
 
     boolean contains() {
         return left().contains(right()) || right().contains(left());

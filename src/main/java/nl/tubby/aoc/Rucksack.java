@@ -8,13 +8,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public record Rucksack(String compartment1, String compartment2) {
-
-    public static Rucksack parse(String line) {
+    static Rucksack parse(String line) {
         String firstHalf = StringUtils.substring(line,0,line.length()/2);
         String secondHalf = StringUtils.substring(line,line.length()/2);
         return new Rucksack(firstHalf,secondHalf);
     }
-
     String full() {
         return compartment1()+compartment2();
     }
@@ -58,9 +56,11 @@ class RucksackSlurper extends Slurper<Rucksack> {
         super(path, fileName);
     }
 
-    public Stream<Rucksack> slurp() {
-        return slurp(Rucksack::parse);
+    @Override
+    protected Rucksack build(String line) {
+        return Rucksack.parse(line);
     }
+
 }
 
 record ThreeElves(Rucksack[] sacks) {
@@ -81,24 +81,19 @@ record ThreeElves(Rucksack[] sacks) {
 }
 
 class ThreeElvesSlurper extends Slurper<ThreeElves> {
-
     private final List<Rucksack> rucksacks = new ArrayList<>();
     public ThreeElvesSlurper(String path, String fileName) {
         super(path, fileName);
     }
 
-    public Stream<ThreeElves> build() {
-        return stream()
-                .flatMap(this::parse);
-    }
-
-    private Stream<ThreeElves> parse(String line) {
+    @Override
+    protected ThreeElves build(String line) {
         this.rucksacks.add(Rucksack.parse(line));
         if(rucksacks.size()<3) {
-            return Stream.empty();
+            return null;
         }
         var threeElves = new ThreeElves(rucksacks.toArray(new Rucksack[3]));
         rucksacks.clear();
-        return Stream.of(threeElves);
+        return threeElves;
     }
 }

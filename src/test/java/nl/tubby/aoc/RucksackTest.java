@@ -70,7 +70,7 @@ public class RucksackTest {
     void buildThreeElves(String file, int expectedCount, int expectedPriority) {
         var slurper = new ThreeElvesSlurper("src/test/resources",file);
 
-        List<ThreeElves> groups = slurper.build().toList();
+        List<ThreeElves> groups = slurper.slurp().toList();
 
         assertEquals(expectedCount,groups.size());
         int totalPriority = groups.stream().mapToInt(ThreeElves::priority).sum();
