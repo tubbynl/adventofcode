@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 
@@ -13,9 +14,10 @@ public class ElfFactoryTest {
 
     @Test
     void build() {
-        ElfFactory elfFactory = new ElfFactory("src/test/resources", "puzzle-example-day1.txt");
+        Path path = Path.of("src/test/resources", "puzzle-example-day1.txt");
+        ElfFactory elfFactory = new ElfFactory();
 
-        List<Elf> elves = elfFactory.slurp().toList();
+        List<Elf> elves = elfFactory.slurp(path).toList();
 
         assertEquals(5,elves.size());
         Elf first = elves.get(0);
@@ -34,9 +36,9 @@ public class ElfFactoryTest {
             //"src/test/resources,aoc_2022_day01_large_input.txt,184028272" https://gathering.tweakers.net/forum/list_message/73652172#73652172
     })
     void findTheBest(String dir,String file,int expectedSum) {
-        ElfFactory elfFactory = new ElfFactory(dir,file);
+        ElfFactory elfFactory = new ElfFactory();
 
-        int best = elfFactory.slurp()
+        int best = elfFactory.slurp(Path.of(dir,file))
                 .mapToInt(Elf::sumCalories)
                 .max().orElse(0);
 
@@ -50,9 +52,9 @@ public class ElfFactoryTest {
             //"src/test/resources,aoc_2022_day01_large_input.txt,549010145"
     })
     void findTheTop3(String dir,String file,int sumTop3) {
-        ElfFactory elfFactory = new ElfFactory(dir,file);
+        ElfFactory elfFactory = new ElfFactory();
 
-        int top3sum = elfFactory.slurp()
+        int top3sum = elfFactory.slurp(Path.of(dir,file))
                 .map(Elf::sumCalories)
                 .sorted(Collections.reverseOrder())
                 .mapToInt(Integer::intValue)

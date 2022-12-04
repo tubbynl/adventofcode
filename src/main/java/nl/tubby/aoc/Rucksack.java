@@ -51,16 +51,9 @@ public record Rucksack(String compartment1, String compartment2) {
 }
 
 class RucksackSlurper extends Slurper<Rucksack> {
-
-    public RucksackSlurper(String path, String fileName) {
-        super(path, fileName);
+    public RucksackSlurper() {
+        super(Rucksack::parse);
     }
-
-    @Override
-    protected Rucksack build(String line) {
-        return Rucksack.parse(line);
-    }
-
 }
 
 record ThreeElves(Rucksack[] sacks) {
@@ -82,8 +75,8 @@ record ThreeElves(Rucksack[] sacks) {
 
 class ThreeElvesSlurper extends Slurper<ThreeElves> {
     private final List<Rucksack> rucksacks = new ArrayList<>();
-    public ThreeElvesSlurper(String path, String fileName) {
-        super(path, fileName);
+    public ThreeElvesSlurper() {
+        super(null);
     }
 
     @Override

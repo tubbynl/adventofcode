@@ -3,6 +3,7 @@ package nl.tubby.aoc;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.nio.file.Path;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -43,9 +44,11 @@ public class RucksackTest {
             "puzzle-input-day3.txt,300,7903"
     })
     void testForFile(String file,int expectedCount,int expectedSum) {
-        var slurper = new RucksackSlurper("src/test/resources",file);
+        var slurper = new RucksackSlurper();
 
-        List<Rucksack> rucksacks = slurper.slurp().toList();
+        List<Rucksack> rucksacks = slurper
+                .slurp(Path.of("src/test/resources",file))
+                .toList();
 
         assertEquals(expectedCount,rucksacks.size());
         assertEquals(expectedSum,rucksacks.stream().mapToInt(Rucksack::priority).sum());
@@ -68,9 +71,11 @@ public class RucksackTest {
             "puzzle-input-day3.txt,100,2548"
     })
     void buildThreeElves(String file, int expectedCount, int expectedPriority) {
-        var slurper = new ThreeElvesSlurper("src/test/resources",file);
+        var slurper = new ThreeElvesSlurper();
 
-        List<ThreeElves> groups = slurper.slurp().toList();
+        List<ThreeElves> groups = slurper
+                .slurp(Path.of("src/test/resources",file))
+                .toList();
 
         assertEquals(expectedCount,groups.size());
         int totalPriority = groups.stream().mapToInt(ThreeElves::priority).sum();

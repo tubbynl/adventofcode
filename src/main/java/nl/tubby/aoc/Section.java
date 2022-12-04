@@ -35,14 +35,8 @@ public record Section(int start, int end) {
 }
 
 class SectionSlurper extends Slurper<PairOfSections> {
-
-    public SectionSlurper(String path, String fileName) {
-        super(path, fileName);
-    }
-
-    @Override
-    protected PairOfSections build(String line) {
-        return PairOfSections.parse(line);
+    public SectionSlurper() {
+        super(PairOfSections::parse);
     }
 }
 
