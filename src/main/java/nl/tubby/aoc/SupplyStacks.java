@@ -19,11 +19,10 @@ record SupplyStack(List<Character> crates) {
 
 record MoveInstruction(int amount,int from,int to) {
     static MoveInstruction parse(String line) {
-        int[] ints = ContextParser.parseAsInts(line)
-                .toArray();
-        if(ints.length<3) {
+        if(!StringUtils.startsWith(line,"move ")) {
             return null;
         }
+        int[] ints = ContextParser.parseAsInts(line).toArray();
         return new MoveInstruction(ints[0],ints[1],ints[2]);
     }
 }
@@ -33,6 +32,7 @@ record Context(Ship ship,List<MoveInstruction> instructions) {
 }
 
 class ContextParser extends Slurper<Context> {
+    private static final String EOF = "----";
     static IntStream parseAsInts(String line) {
         return line==null?IntStream.empty():Stream.of(StringUtils.split(line,' '))
                 .map(StringUtils::trimToNull)
@@ -53,29 +53,28 @@ class ContextParser extends Slurper<Context> {
 
     @Override
     protected Stream<String> stream(Path path) {
-        return Stream.concat(super.stream(path),Stream.of(""));
+        return Stream.concat(super.stream(path),Stream.of(EOF));
     }
 
     @Override
     protected Context build(String line) {
-        if(stackCount==null) {
+        if(this.stackCount==null) {
             int optStackCount = parseStackCount(line);
             if(optStackCount>0) {
-                stackCount = optStackCount;
+                this.stackCount = optStackCount;
             } else {
                 this.stackLines.add(line);
             }
-            return null;
         }
         MoveInstruction move = MoveInstruction.parse(line);
         if(move!=null) {
             this.instructions.add(move);
-            return null;
-        } else if(this.instructions.isEmpty()) {
-            return null; // handle empty line before instructions
         }
-        // EOF
-        return new Context(Ship.build(this.stackLines),this.instructions);
+        if(EOF.equals(line)) {
+            var ship = Ship.build(this.stackLines);
+            return new Context(ship,this.instructions);
+        }
+        return null;
     }
 }
 
