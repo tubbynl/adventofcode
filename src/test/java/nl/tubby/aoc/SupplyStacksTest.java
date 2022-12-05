@@ -37,9 +37,9 @@ class SupplyStacksTest {
         var ship = Ship.build(3,lines);
 
         assertEquals(3,ship.stacks().size());
-        assertEquals("ZN", StringUtils.join(ship.stacks().get(0)));
-        assertEquals("MCD", StringUtils.join(ship.stacks().get(1)));
-        assertEquals("P", StringUtils.join(ship.stacks().get(2)));
+        assertEquals("ZN", ship.stacks().get(0).toString());
+        assertEquals("MCD", ship.stacks().get(1).toString());
+        assertEquals("P", ship.stacks().get(2).toString());
 
     }
 
@@ -59,14 +59,16 @@ class SupplyStacksTest {
 
     @ParameterizedTest
     @CsvSource({
-            "puzzle-input-day5.txt,4"
+            "puzzle-input-day5.txt,3,4"
     })
-    void parseInput(String file,int expectedInstructionCount) {
+    void parseInput(String file,int expectedStacks,int expectedInstructionCount) {
         var parser = new ContextParser();
 
         var context = parser.slurp(Path.of(file)).findFirst();
 
         assertTrue(context.isPresent());
+        assertEquals(expectedStacks,context.get().ship().stacks().size());
         assertEquals(expectedInstructionCount,context.get().instructions().size());
+
     }
 }

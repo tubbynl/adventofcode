@@ -5,16 +5,36 @@ import org.apache.commons.lang3.math.NumberUtils;
 
 import java.nio.file.Path;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 record Ship(List<SupplyStack> stacks) {
 
     static Ship build(int stackCount,List<String> lines) {
-        return new Ship(Collections.emptyList());
+        var reversed = new ArrayList<>(lines);
+        Collections.reverse(reversed);
+        var stacks = IntStream.range(1,stackCount+1)
+                .mapToObj(col -> SupplyStack.build(col,reversed))
+                .toList();
+        return new Ship(stacks);
     }
 }
 record SupplyStack(List<Character> crates) {
+    static SupplyStack build(final int col,List<String> lines) {
+        int colIndex = 1+((col-1)*4);
+        return new SupplyStack(lines.stream()
+                .map(line -> line.length()<colIndex?null:line.charAt(colIndex))
+                .filter(Objects::nonNull)
+                .filter(Character::isUpperCase)
+                .toList());
+    }
+
+    public String toString() {
+        return crates().stream()
+                .map(c -> c.toString())
+                .collect(Collectors.joining());
+    }
 }
 
 record MoveInstruction(int amount,int from,int to) {
