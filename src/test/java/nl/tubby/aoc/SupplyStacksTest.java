@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -73,7 +74,8 @@ class SupplyStacksTest {
 
     @ParameterizedTest
     @CsvSource({
-            "puzzle-example-day5.txt,CMZ"
+            "puzzle-example-day5.txt,CMZ",
+            "puzzle-input-day5.txt,TDCHVHJTG"
     })
     void apply(String file,String topCrates) {
         var context = new ContextParser()
@@ -81,9 +83,22 @@ class SupplyStacksTest {
                 .findFirst().get();
 
         // apply instructions
-        context.instructions().forEach(context.ship()::apply);
+        context.instructions().forEach(context.ship()::applyCrateMover9000);
 
 
         assertEquals(topCrates,context.ship().topCrates());
+    }
+
+    @Test
+    void move() {
+        var ship = new Ship(List.of(
+                new SupplyStack(new ArrayList<>(List.of('A','B','C'))),
+                new SupplyStack(new ArrayList<>(List.of('B')))
+        ));
+
+        ship.move(1,2,2);
+
+        assertEquals("A",ship.stacks().get(0).toString());
+        assertEquals("BBC",ship.stacks().get(1).toString());
     }
 }

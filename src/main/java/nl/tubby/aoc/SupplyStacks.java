@@ -20,19 +20,19 @@ record Ship(List<SupplyStack> stacks) {
         return new Ship(stacks);
     }
 
-    void apply(MoveInstruction instruction) {
+    void applyCrateMover9000(MoveInstruction instruction) {
         IntStream
                 .range(0,instruction.amount())
-                .forEach(i -> move(instruction));
+                .forEach(i -> move(instruction.from(),instruction.to(),1));
     }
 
     SupplyStack stack(int col) {
         return stacks().get(col-1);
     }
 
-    private void move(MoveInstruction instruction) {
-        var crate = stack(instruction.from()).pickup();
-        stack(instruction.to()).place(crate);
+    void move(int from, int to,int amount) {
+        var crate = stack(from).pickup(amount);
+        stack(to).place(crate);
     }
 
     public String topCrates() {
@@ -56,12 +56,16 @@ record SupplyStack(List<Character> crates) {
         return crates().get(crates().size()-1);
     }
 
-    Character pickup() {
-        return crates().remove(crates().size()-1);
+    List<Character> pickup(int amount) {
+        List<Character> result = IntStream.range(0,amount)
+                .mapToObj(i -> crates().remove(crates().size()-1))
+                .collect(Collectors.toList());
+        Collections.reverse(result);
+        return result;
     }
 
-    void place(Character crate) {
-        crates().add(crate);
+    void place(List<Character> crates) {
+        crates().addAll(crates);
     }
 
     public String toString() {
