@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 
 record Ship(List<SupplyStack> stacks) {
 
-    static Ship build(List<String> lines) {
+    static Ship build(int stackCount,List<String> lines) {
         return new Ship(Collections.emptyList());
     }
 }
@@ -71,7 +71,7 @@ class ContextParser extends Slurper<Context> {
             this.instructions.add(move);
         }
         if(EOF.equals(line)) {
-            var ship = Ship.build(this.stackLines);
+            var ship = Ship.build(this.stackCount,this.stackLines);
             return new Context(ship,this.instructions);
         }
         return null;

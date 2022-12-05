@@ -1,7 +1,11 @@
 package nl.tubby.aoc;
 
+import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,6 +24,23 @@ class SupplyStacksTest {
         assertEquals(amount, instruction.amount());
         assertEquals(from, instruction.from());
         assertEquals(to, instruction.to());
+    }
+
+    @Test
+    void parseShip() {
+        var lines = List.of(
+                "    [D]    ",
+                "[N] [C]    ",
+                "[Z] [M] [P]"
+        );
+
+        var ship = Ship.build(3,lines);
+
+        assertEquals(3,ship.stacks().size());
+        assertEquals("ZN", StringUtils.join(ship.stacks().get(0)));
+        assertEquals("MCD", StringUtils.join(ship.stacks().get(1)));
+        assertEquals("P", StringUtils.join(ship.stacks().get(2)));
+
     }
 
     @ParameterizedTest
