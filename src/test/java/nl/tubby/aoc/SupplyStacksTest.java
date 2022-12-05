@@ -62,13 +62,28 @@ class SupplyStacksTest {
             "puzzle-input-day5.txt,3,4"
     })
     void parseInput(String file,int expectedStacks,int expectedInstructionCount) {
-        var parser = new ContextParser();
-
-        var context = parser.slurp(Path.of(file)).findFirst();
+        var context = new ContextParser()
+                .slurp(Path.of(file))
+                .findFirst();
 
         assertTrue(context.isPresent());
         assertEquals(expectedStacks,context.get().ship().stacks().size());
         assertEquals(expectedInstructionCount,context.get().instructions().size());
+    }
 
+    @ParameterizedTest
+    @CsvSource({
+            "puzzle-input-day5.txt,CMZ"
+    })
+    void apply(String file,String topCrates) {
+        var context = new ContextParser()
+                .slurp(Path.of(file))
+                .findFirst().get();
+
+        // apply instructions
+        context.instructions().forEach(context.ship()::apply);
+
+
+        assertEquals(topCrates,context.ship().topCrates());
     }
 }

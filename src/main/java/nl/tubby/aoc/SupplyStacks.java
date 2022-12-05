@@ -19,6 +19,28 @@ record Ship(List<SupplyStack> stacks) {
                 .toList();
         return new Ship(stacks);
     }
+
+    void apply(MoveInstruction instruction) {
+        IntStream
+                .range(0,instruction.amount()+1)
+                .forEach(i -> move(instruction));
+    }
+
+    SupplyStack stack(int col) {
+        return stacks().get(col-1);
+    }
+
+    private void move(MoveInstruction instruction) {
+        var crate = stack(instruction.from()).pickup();
+        stack(instruction.to()).place(crate);
+    }
+
+    public String topCrates() {
+        return stacks().stream()
+                .map(SupplyStack::top)
+                .map(c -> c.toString())
+                .collect(Collectors.joining());
+    }
 }
 record SupplyStack(List<Character> crates) {
     static SupplyStack build(final int col,List<String> lines) {
@@ -27,7 +49,19 @@ record SupplyStack(List<Character> crates) {
                 .map(line -> line.length()<colIndex?null:line.charAt(colIndex))
                 .filter(Objects::nonNull)
                 .filter(Character::isUpperCase)
-                .toList());
+                .collect(Collectors.toList()));
+    }
+
+    Character top() {
+        return crates().get(crates().size()-1);
+    }
+
+    Character pickup() {
+        return crates().remove(crates().size()-1);
+    }
+
+    void place(Character crate) {
+        crates().add(crate);
     }
 
     public String toString() {
@@ -47,7 +81,6 @@ record MoveInstruction(int amount,int from,int to) {
     }
 }
 record Context(Ship ship,List<MoveInstruction> instructions) {
-
 
 }
 
