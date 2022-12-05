@@ -101,4 +101,21 @@ class SupplyStacksTest {
         assertEquals("A",ship.stacks().get(0).toString());
         assertEquals("BBC",ship.stacks().get(1).toString());
     }
+
+    @ParameterizedTest
+    @CsvSource({
+            "puzzle-example-day5.txt,MCD",
+            "puzzle-input-day5.txt,NGCMPJLHV"
+    })
+    void apply9001(String file,String topCrates) {
+        var context = new ContextParser()
+                .slurp(Path.of(file))
+                .findFirst().get();
+
+        // apply instructions
+        context.instructions().forEach(context.ship()::applyCrateMover9001);
+
+
+        assertEquals(topCrates,context.ship().topCrates());
+    }
 }

@@ -26,6 +26,10 @@ record Ship(List<SupplyStack> stacks) {
                 .forEach(i -> move(instruction.from(),instruction.to(),1));
     }
 
+    void applyCrateMover9001(MoveInstruction instruction) {
+        move(instruction.from(), instruction.to(), instruction.amount());
+    }
+
     SupplyStack stack(int col) {
         return stacks().get(col-1);
     }
