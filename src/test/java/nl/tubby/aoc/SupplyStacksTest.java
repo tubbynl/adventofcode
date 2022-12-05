@@ -24,14 +24,28 @@ class SupplyStacksTest {
 
     @ParameterizedTest
     @CsvSource({
-            "[D]        ,false",
-            "[N] [C]    ,false",
-            "[Z] [M] [P],false",
-            " 1   2   3 ,true",
-            "       ,false",
-            " move 1 from 2 to 1,false",
+            "[D]        ,0",
+            "[N] [C]    ,0",
+            "[Z] [M] [P],0",
+            " 1   2   3 ,3",
+            "       ,0",
+            " move 1 from 2 to 1,2",
     })
-    void isStackNrLine(String line,boolean result) {
-        assertEquals(result,Ship.isStackNrLine(line));
+    void isStackNrLine(String line,int expected) {
+        int parsed = ContextParser.parseStackCount(line);
+        assertEquals(expected,parsed);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "puzzle-input-day5.txt,4"
+    })
+    void parseInput(String file,int expectedInstructionCount) {
+        var parser = new ContextParser();
+
+        var context = parser.slurp(Path.of(file)).findFirst();
+
+        assertTrue(context.isPresent());
+        assertEquals(expectedInstructionCount,context.get().instructions().size());
     }
 }
