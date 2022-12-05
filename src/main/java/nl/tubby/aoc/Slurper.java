@@ -18,8 +18,7 @@ public class Slurper<T extends Object> {
         try {
             return Files.lines(path);
         } catch (IOException e) {
-            System.err.println("unable to stream "+path+": "+e.getMessage());
-            return Stream.empty();
+            throw new RuntimeException("unable to stream "+path,e);
         }
     }
 
