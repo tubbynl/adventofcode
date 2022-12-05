@@ -22,7 +22,7 @@ record Ship(List<SupplyStack> stacks) {
 
     void apply(MoveInstruction instruction) {
         IntStream
-                .range(0,instruction.amount()+1)
+                .range(0,instruction.amount())
                 .forEach(i -> move(instruction));
     }
 
