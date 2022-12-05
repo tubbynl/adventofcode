@@ -59,7 +59,7 @@ class SupplyStacksTest {
 
     @ParameterizedTest
     @CsvSource({
-            "puzzle-input-day5.txt,3,4"
+            "puzzle-example-day5.txt,3,4"
     })
     void parseInput(String file,int expectedStacks,int expectedInstructionCount) {
         var context = new ContextParser()
@@ -73,7 +73,7 @@ class SupplyStacksTest {
 
     @ParameterizedTest
     @CsvSource({
-            "puzzle-input-day5.txt,CMZ"
+            "puzzle-example-day5.txt,CMZ"
     })
     void apply(String file,String topCrates) {
         var context = new ContextParser()
