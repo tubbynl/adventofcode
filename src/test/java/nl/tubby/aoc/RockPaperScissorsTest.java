@@ -3,7 +3,6 @@ package nl.tubby.aoc;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.nio.file.Path;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -65,7 +64,7 @@ class RockPaperScissorsTest {
     })
     void tournament(String filename, int expectedScore) {
         var totalScore = new Slurper<>(RockPaperScissorsRound::build)
-                .slurp(Path.of("src/test/resources",filename))
+                .slurp(Path.of(filename))
                 .collect(Collectors.summingInt(RockPaperScissorsRound::calculateScore));
 
         assertEquals(expectedScore,totalScore);
@@ -78,7 +77,7 @@ class RockPaperScissorsTest {
     })
     void tournament2(String filename, int expectedScore) {
         var totalScore = new Slurper<>(RockPaperScissorsRound::build2)
-                .slurp(Path.of("src/test/resources",filename))
+                .slurp(Path.of(filename))
                 .collect(Collectors.summingInt(RockPaperScissorsRound::calculateScore));
 
         assertEquals(expectedScore,totalScore);

@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 
@@ -18,7 +17,7 @@ public class ElfFactoryTest {
     @Test
     void build() {
         List<Elf> elves = new ElfFactory()
-                .slurp(Path.of("src/test/resources", "puzzle-example-day1.txt"))
+                .slurp(Path.of("puzzle-example-day1.txt"))
                 .toList();
 
         assertEquals(5,elves.size());
@@ -33,13 +32,13 @@ public class ElfFactoryTest {
 
     @ParameterizedTest
     @CsvSource({
-            "src/test/resources,puzzle-example-day1.txt,24000",
-            "src/test/resources,puzzle-input-day1.txt,68442",// <-- solution part 1
-            //"src/test/resources,aoc_2022_day01_large_input.txt,184028272" //https://gathering.tweakers.net/forum/list_message/73652172#73652172
+            "puzzle-example-day1.txt,24000",
+            "puzzle-input-day1.txt,68442",// <-- solution part 1
+            //"aoc_2022_day01_large_input.txt,184028272" //https://gathering.tweakers.net/forum/list_message/73652172#73652172
     })
-    void findTheBest(String dir,String file,int expectedSum) {
+    void findTheBest(String file,int expectedSum) {
         int best = new ElfFactory()
-                .slurp(Path.of(dir,file))
+                .slurp(Path.of(file))
                 .mapToInt(Elf::sumCalories)
                 .max().orElse(0);
 
@@ -48,13 +47,13 @@ public class ElfFactoryTest {
 
     @ParameterizedTest
     @CsvSource({
-            "src/test/resources,puzzle-example-day1.txt,45000",
-            "src/test/resources,puzzle-input-day1.txt,204837",// <-- solution part 2
-            //"src/test/resources,aoc_2022_day01_large_input.txt,549010145"
+            "puzzle-example-day1.txt,45000",
+            "puzzle-input-day1.txt,204837",// <-- solution part 2
+            //"aoc_2022_day01_large_input.txt,549010145"
     })
-    void findTheTop3(String dir,String file,int sumTop3) {
+    void findTheTop3(String file,int sumTop3) {
         int top3sum = new ElfFactory()
-                .slurp(Path.of(dir,file))
+                .slurp(Path.of(file))
                 .map(Elf::sumCalories)
                 .sorted(Collections.reverseOrder())
                 .mapToInt(Integer::intValue)

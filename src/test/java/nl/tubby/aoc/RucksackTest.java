@@ -3,7 +3,6 @@ package nl.tubby.aoc;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.nio.file.Path;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -48,7 +47,7 @@ public class RucksackTest {
     })
     void testForFile(String file,int expectedCount,int expectedSum) {
         List<Rucksack> rucksacks = new Slurper<>(Rucksack::parse)
-                .slurp(Path.of("src/test/resources",file))
+                .slurp(Path.of(file))
                 .toList();
 
         assertEquals(expectedCount,rucksacks.size());
@@ -73,7 +72,7 @@ public class RucksackTest {
     })
     void buildThreeElves(String file, int expectedCount, int expectedPriority) {
         List<ThreeElves> groups = new ThreeElvesSlurper()
-                .slurp(Path.of("src/test/resources",file))
+                .slurp(Path.of(file))
                 .toList();
 
         assertEquals(expectedCount,groups.size());

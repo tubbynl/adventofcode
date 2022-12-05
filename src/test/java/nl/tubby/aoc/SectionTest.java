@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.nio.file.Path;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -17,7 +16,7 @@ class SectionTest {
     @Test
     void testBuild() {
         var result = new Slurper<>(PairOfSections::parse)
-                .slurp(Path.of("src/test/resources","puzzle-example-day4.txt"))
+                .slurp(Path.of("puzzle-example-day4.txt"))
                 .collect(Collectors.toList());
 
         assertEquals(6,result.size());
@@ -47,7 +46,7 @@ class SectionTest {
     })
     void testFindContainedPairs(String file,int expectedPairCount) {
         var count = new Slurper<>(PairOfSections::parse)
-                .slurp(Path.of("src/test/resources",file))
+                .slurp(Path.of(file))
                 .filter(PairOfSections::contains)
                 .count();
 
@@ -61,7 +60,7 @@ class SectionTest {
     })
     void testFindOverlappedPairs(String file,int expectedPairCount) {
         var count = new Slurper<>(PairOfSections::parse)
-                .slurp(Path.of("src/test/resources",file))
+                .slurp(Path.of(file))
                 .filter(PairOfSections::overlaps)
                 .count();
 
