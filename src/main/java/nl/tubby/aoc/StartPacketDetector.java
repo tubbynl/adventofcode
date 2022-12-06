@@ -4,16 +4,13 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.stream.IntStream;
 
-public class DataStream extends Slurper<Integer> {
+public class StartPacketDetector{
     private final int startPacketLength;
-
-    public DataStream(int startPacketLength) {
-        super(null);
+    public StartPacketDetector(int startPacketLength) {
         this.startPacketLength = startPacketLength;
     }
 
-    @Override
-    public Integer build(String line) {
+    public Integer detect(String line) {
         var result = IntStream.range(0,line.length()-this.startPacketLength)
                 .filter(i -> partialHasAllDifferentChars(i,line))
                 .findFirst()
@@ -22,7 +19,7 @@ public class DataStream extends Slurper<Integer> {
         return result+this.startPacketLength;
     }
 
-    boolean partialHasAllDifferentChars(int start,String line) {
+    private boolean partialHasAllDifferentChars(int start,String line) {
         String partial = StringUtils.substring(line,start,start+this.startPacketLength);
         return this.startPacketLength==partial.chars().distinct().count();
     }

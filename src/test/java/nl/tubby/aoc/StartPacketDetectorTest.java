@@ -3,9 +3,12 @@ package nl.tubby.aoc;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class DataStreamTest {
+/**
+ * Day 6
+ */
+class StartPacketDetectorTest {
 
     @ParameterizedTest
     @CsvSource({
@@ -16,9 +19,9 @@ class DataStreamTest {
             "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw,11"
     })
     void findFirst(String input,int expectedLocation) {
-        var location = new DataStream(4).build(input);
+        var detector = new StartPacketDetector(4);
 
-        assertEquals(expectedLocation,location);
+        assertEquals(expectedLocation,detector.detect(input));
     }
 
     @ParameterizedTest
@@ -30,9 +33,9 @@ class DataStreamTest {
             "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw,26"
     })
     void findFirst14(String input,int expectedLocation) {
-        var location = new DataStream(14).build(input);
+        var detector = new StartPacketDetector(14);
 
-        assertEquals(expectedLocation,location);
+        assertEquals(expectedLocation,detector.detect(input));
     }
 
     @ParameterizedTest
@@ -43,8 +46,9 @@ class DataStreamTest {
             "puzzle-input-day6.txt,14,3534" // <-- answer part 2
     })
     void findFirstFromFile(String file,int startPacketLength,int expectedLocation) {
-        var location = new DataStream(startPacketLength).first(Path.of(file));
+        var detector = new StartPacketDetector(startPacketLength);
+        var slurper = new Slurper<>(detector::detect);
 
-        assertEquals(expectedLocation,location);
+        assertEquals(expectedLocation,slurper.first(Path.of(file)));
     }
 }
