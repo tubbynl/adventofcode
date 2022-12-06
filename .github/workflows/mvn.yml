@@ -1,5 +1,5 @@
 ---
-name: mvn verify
+name: mvn test
 
 on: [push]
 
@@ -13,6 +13,6 @@ jobs:
         with:
           java-version: 17
           distribution: temurin
-      - run: mvn verify --batch-mode
-      - name: Save test results
+      - run: mvn test --batch-mode
+      - name: surefire report
         uses: scacap/action-surefire-report@v1
