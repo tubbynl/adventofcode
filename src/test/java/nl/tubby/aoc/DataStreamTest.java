@@ -20,4 +20,15 @@ class DataStreamTest {
 
         assertEquals(expectedLocation,location);
     }
+
+    @ParameterizedTest
+    @CsvSource({
+            "puzzle-example-day6.txt,7",
+            "puzzle-input-day6.txt,1093"
+    })
+    void findFirstFromFile(String file,int expectedLocation) {
+        var location = new DataStream(null).first(Path.of(file));
+
+        assertEquals(expectedLocation,location);
+    }
 }
