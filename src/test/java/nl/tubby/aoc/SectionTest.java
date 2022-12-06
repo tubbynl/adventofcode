@@ -46,9 +46,7 @@ class SectionTest {
     })
     void testFindContainedPairs(String file,int expectedPairCount) {
         var count = new Slurper<>(PairOfSections::parse)
-                .slurp(Path.of(file))
-                .filter(PairOfSections::contains)
-                .count();
+                .count(Path.of(file),PairOfSections::contains);
 
         assertEquals(expectedPairCount,count);
     }
@@ -60,9 +58,7 @@ class SectionTest {
     })
     void testFindOverlappedPairs(String file,int expectedPairCount) {
         var count = new Slurper<>(PairOfSections::parse)
-                .slurp(Path.of(file))
-                .filter(PairOfSections::overlaps)
-                .count();
+                .count(Path.of(file),PairOfSections::overlaps);
 
         assertEquals(expectedPairCount,count);
     }

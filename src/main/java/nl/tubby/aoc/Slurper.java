@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.ToIntFunction;
 import java.util.stream.Stream;
 
@@ -44,6 +45,12 @@ public class Slurper<T extends Object> {
         return slurp(path)
                 .mapToInt(function)
                 .sum();
+    }
+
+    public long count(Path path, Predicate<T> filter) {
+        return slurp(path)
+                .filter(filter)
+                .count();
     }
 
     public T first(Path path) {
