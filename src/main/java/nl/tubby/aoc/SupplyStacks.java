@@ -20,6 +20,11 @@ record Ship(List<SupplyStack> stacks) {
         return builder.build();
     }
 
+    static Ship slurp(Path path) {
+        var slurper = new Slurper<>(s->s, Optional.empty(), s -> s.contains("["));
+        return build(slurper.slurp(path));
+    }
+
     void applyCrateMover9000(MoveInstruction instruction) {
         IntStream
                 .range(0,instruction.amount())
@@ -136,9 +141,8 @@ record MoveInstruction(int amount,int from,int to) {
 }
 record Context(Ship ship,List<MoveInstruction> instructions) {
     static Context build(Path path) {
-        var slurper = new Slurper<>(s->s, Optional.empty(), s -> s.contains("["));
-        Ship ship = Ship.build(slurper.slurp(path));
-        var instructions = new Slurper<>(MoveInstruction::parse).list(path);
+        var ship = Ship.slurp(path);
+        var instructions = MoveInstruction.slurp(path);
         return new Context(ship,instructions);
     }
 }

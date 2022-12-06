@@ -46,28 +46,13 @@ class SupplyStacksTest {
         assertEquals("NDP",ship.topCrates());
 
     }
-/*
-    @ParameterizedTest
-    @CsvSource({
-            "[D]        ,0",
-            "[N] [C]    ,0",
-            "[Z] [M] [P],0",
-            " 1   2   3 ,3",
-            "       ,0",
-            " move 1 from 2 to 1,2",
-    })
-    void isStackNrLine(String line,int expected) {
-        int parsed = ContextParser.parseStackCount(line);
-        assertEquals(expected,parsed);
-    }
 
     @ParameterizedTest
     @CsvSource({
             "puzzle-example-day5.txt,3,4"
     })
     void parseInput(String file,int expectedStacks,int expectedInstructionCount) {
-        var context = new ContextParser()
-                .first(Path.of(file));
+        var context = Context.build(Path.of(file));
 
         assertNotNull(context);
         assertEquals(expectedStacks,context.ship().stacks().size());
@@ -80,8 +65,7 @@ class SupplyStacksTest {
             "puzzle-input-day5.txt,TDCHVHJTG"// <-- solution part 1
     })
     void apply(String file,String topCrates) {
-        var context = new ContextParser()
-                .first(Path.of(file));
+        var context = Context.build(Path.of(file));
 
         context.instructions().forEach(context.ship()::applyCrateMover9000);
 
@@ -105,14 +89,13 @@ class SupplyStacksTest {
     @CsvSource({
             "puzzle-example-day5.txt,MCD",
             "puzzle-input-day5.txt,NGCMPJLHV", // <-- solution part
-            "aoc_2022_day05_large_input-2.txt,NGCMPJLHV"
+            //"aoc_2022_day05_large_input-2.txt,NGCMPJLHV"
     })
     void apply9001(String file,String topCrates) {
-        var context = new ContextParser()
-                .first(Path.of(file));
+        var context = Context.build(Path.of(file));
 
         context.instructions().forEach(context.ship()::applyCrateMover9001);
 
         assertEquals(topCrates,context.ship().topCrates());
-    }*/
+    }
 }
