@@ -5,6 +5,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 
 import java.nio.file.Path;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -90,6 +91,9 @@ record SupplyStack(List<Character> crates) {
     }
 
     Character top() {
+        if(crates().isEmpty()) {
+            return Character.valueOf(' ');
+        }
         return crates().get(crates().size()-1);
     }
 
@@ -141,9 +145,9 @@ record MoveInstruction(int amount,int from,int to) {
 }
 record Context(Ship ship,List<MoveInstruction> instructions) {
     static Context build(Path path) {
-        var ship = Ship.slurp(path);
-        var instructions = MoveInstruction.slurp(path);
-        return new Context(ship,instructions);
+        var ship = CompletableFuture.supplyAsync(() -> Ship.slurp(path));
+        var instructions = CompletableFuture.supplyAsync(() -> MoveInstruction.slurp(path));
+        return new Context(ship.join(),instructions.join());
     }
 }
 
