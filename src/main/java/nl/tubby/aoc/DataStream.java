@@ -1,39 +1,29 @@
 package nl.tubby.aoc;
 
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.stream.IntStream;
 
 public class DataStream extends Slurper<Integer> {
     private final int startPacketLength;
-    int i=0;
-    List<String> currentChars = new ArrayList<>();
+
     public DataStream(int startPacketLength) {
         super(null);
         this.startPacketLength = startPacketLength;
     }
 
     @Override
-    protected Stream<String> stream(Path path) {
-        return super.stream(path).flatMap(DataStream::chars);
+    public Integer build(String line) {
+        var result = IntStream.range(0,line.length()-this.startPacketLength)
+                .filter(i -> partialHasAllDifferentChars(i,line))
+                .findFirst()
+                .getAsInt();
+        //because location of "detection" is at the end of the partial
+        return result+this.startPacketLength;
     }
 
-    protected static Stream<String> chars(String line) {
-        return line.chars().mapToObj(i -> String.valueOf((char)i));
-    }
-
-    @Override
-    public Integer build(String singleChar) {
-        i++;
-        this.currentChars.add(singleChar);
-        if(this.currentChars.size()>this.startPacketLength) {
-            this.currentChars.remove(0);
-        }
-        long countDifferentChars = this.currentChars.stream().distinct().count();
-        if(this.startPacketLength==countDifferentChars) {
-            return i;
-        }
-        return null;
+    boolean partialHasAllDifferentChars(int start,String line) {
+        String partial = StringUtils.substring(line,start,start+this.startPacketLength);
+        return this.startPacketLength==partial.chars().distinct().count();
     }
 }

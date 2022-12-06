@@ -3,8 +3,6 @@ package nl.tubby.aoc;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.util.stream.Stream;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class DataStreamTest {
@@ -18,7 +16,7 @@ class DataStreamTest {
             "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw,11"
     })
     void findFirst(String input,int expectedLocation) {
-        var location = new SingleLineDataStream(input,4).first(null);
+        var location = new DataStream(4).build(input);
 
         assertEquals(expectedLocation,location);
     }
@@ -32,7 +30,7 @@ class DataStreamTest {
             "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw,26"
     })
     void findFirst14(String input,int expectedLocation) {
-        var location = new SingleLineDataStream(input,14).first(null);
+        var location = new DataStream(14).build(input);
 
         assertEquals(expectedLocation,location);
     }
@@ -48,19 +46,5 @@ class DataStreamTest {
         var location = new DataStream(startPacketLength).first(Path.of(file));
 
         assertEquals(expectedLocation,location);
-    }
-}
-
-class SingleLineDataStream extends DataStream {
-    private final String line;
-
-    SingleLineDataStream(String line, int startPacketLength) {
-        super(startPacketLength);
-        this.line = line;
-    }
-
-    @Override
-    protected Stream<String> stream(java.nio.file.Path path) {
-        return chars(this.line);
     }
 }
