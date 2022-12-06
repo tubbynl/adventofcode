@@ -61,10 +61,10 @@ class ShipYard {
         while(this.stacks.size()<=stackCount) {
             this.stacks.add(new SupplyStack(new ArrayList<>()));
         }
-        return IntStream.range(1,stackCount+1)
-                .map(col -> charAt(col,lineOfCrates)
+        return IntStream.range(0,stackCount+1)
+                .map(col -> charAt(col+1,lineOfCrates)
                     .map(crate -> {
-                        this.stacks.get(col-1).push(crate);
+                        this.stacks.get(col).push(crate);
                         return 1;
                     }).orElse(0)).sum();
     }
@@ -81,7 +81,7 @@ class ShipYard {
 
 record SupplyStack(List<Character> crates) {
     void push(Character crate) {
-        this.crates.add(0,crate);
+        this.crates.add(crate);
     }
 
     Character top() {
@@ -103,7 +103,7 @@ record SupplyStack(List<Character> crates) {
     SupplyStack reverse() {
         List<Character> crates = new ArrayList<>(crates());
         Collections.reverse(crates);
-        return new SupplyStack(Collections.unmodifiableList(crates));
+        return new SupplyStack(crates);
     }
 
     public String toString() {
