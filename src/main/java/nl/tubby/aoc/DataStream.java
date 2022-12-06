@@ -24,13 +24,14 @@ public class DataStream extends Slurper<Integer> {
     }
 
     @Override
-    public Integer build(String line) {
+    public Integer build(String singleChar) {
         i++;
-        this.currentChars.add(line);
+        this.currentChars.add(singleChar);
         if(this.currentChars.size()>this.startPacketLength) {
             this.currentChars.remove(0);
         }
-        if(this.currentChars.stream().distinct().count()==this.startPacketLength) {
+        long countDifferentChars = this.currentChars.stream().distinct().count();
+        if(this.startPacketLength==countDifferentChars) {
             return i;
         }
         return null;
