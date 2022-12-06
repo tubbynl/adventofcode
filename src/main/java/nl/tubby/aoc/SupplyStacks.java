@@ -58,7 +58,7 @@ class ShipYard {
 
     Integer add(String lineOfCrates) {
         int stackCount = Math.round(lineOfCrates.length()/4);
-        while(this.stacks.size()<stackCount) {
+        while(this.stacks.size()<=stackCount) {
             this.stacks.add(new SupplyStack(new ArrayList<>()));
         }
         return IntStream.range(1,stackCount+1)
