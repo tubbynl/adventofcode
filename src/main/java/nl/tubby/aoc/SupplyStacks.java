@@ -3,11 +3,7 @@ package nl.tubby.aoc;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -112,12 +108,7 @@ class ContextParser extends Slurper<Context> {
     private Integer stackCount = null;
 
     public ContextParser() {
-        super(null);
-    }
-
-    @Override
-    protected Stream<String> stream(Path path) {
-        return Stream.concat(super.stream(path),Stream.of(EOF));
+        super(null, Optional.of(EOF));
     }
 
     @Override

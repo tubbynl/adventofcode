@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.ToIntFunction;
@@ -11,14 +12,20 @@ import java.util.stream.Stream;
 
 public class Slurper<T extends Object> {
     private final Function<String,T> parser;
+    private final Optional<String> eof;
 
-    public Slurper(Function<String, T> parser) {
+    public Slurper(Function<String, T> parser, Optional<String> eof) {
         this.parser = parser;
+        this.eof = eof;
     }
 
-    protected Stream<String> stream(Path path) {
+    public Slurper(Function<String, T> parser) {
+        this(parser,Optional.empty());
+    }
+
+    private Stream<String> stream(Path path) {
         try {
-            return Files.lines(path);
+            return Stream.concat(Files.lines(path),this.eof.stream());
         } catch (IOException e) {
             throw new RuntimeException("unable to stream "+path,e);
         }

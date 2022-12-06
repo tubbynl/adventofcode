@@ -3,21 +3,14 @@ package nl.tubby.aoc;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
-import java.nio.file.Path;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 public class ElfFactory extends Slurper<Elf> {
     private int currentElfNr = 1;
     private int currentElfCalories = 0;
 
     public ElfFactory() {
-        super(null);
-    }
-
-    @Override
-    protected Stream<String> stream(Path path) {
-        return Stream.concat(super.stream(path),Stream.of(""));
+        super(null, Optional.of(""));
     }
 
     @Override
