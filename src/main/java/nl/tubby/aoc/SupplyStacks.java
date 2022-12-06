@@ -99,6 +99,7 @@ record SupplyStack(List<Character> crates) {
 
     List<Character> pickup(int amount) {
         List<Character> result = IntStream.range(0,amount)
+                // TODO: performance penalty is here, perhaps use Arrays.copy to create sublist(s)
                 .mapToObj(i -> crates().remove(crates().size()-1))
                 .collect(Collectors.toList());
         Collections.reverse(result);

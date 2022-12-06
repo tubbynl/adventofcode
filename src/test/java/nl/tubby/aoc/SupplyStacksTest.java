@@ -88,7 +88,7 @@ class SupplyStacksTest {
     @ParameterizedTest
     @CsvSource({
             "puzzle-example-day5.txt,MCD",
-            "puzzle-input-day5.txt,NGCMPJLHV", // <-- solution part
+            "puzzle-input-day5.txt,NGCMPJLHV", // <-- solution part 2
             //"aoc_2022_day05_large_input-2.txt,NGCMPJLHV"
     })
     void apply9001(String file,String topCrates) {
@@ -100,7 +100,7 @@ class SupplyStacksTest {
             context.ship().applyCrateMover9001(context.instructions().get(i));
             if(i%100==0) {
                 long duration = System.currentTimeMillis()-start;
-                System.err.println(i+" of "+count+" avg 1k:"+duration/1000+"s");
+                //System.err.println(i+" of "+count+" avg 1k:"+duration/1000+"s");
             }
         }
 
