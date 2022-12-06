@@ -94,7 +94,15 @@ class SupplyStacksTest {
     void apply9001(String file,String topCrates) {
         var context = Context.build(Path.of(file));
 
-        context.instructions().forEach(context.ship()::applyCrateMover9001);
+        int count = context.instructions().size();
+        long start = System.currentTimeMillis();
+        for(int i=0;i<count;i++) {
+            context.ship().applyCrateMover9001(context.instructions().get(i));
+            if(i%100==0) {
+                long duration = System.currentTimeMillis()-start;
+                System.err.println(i+" of "+count+" avg 1k:"+duration/1000+"s");
+            }
+        }
 
         assertEquals(topCrates,context.ship().topCrates());
     }
