@@ -15,7 +15,7 @@ public class Slurper<T extends Object> {
 
     private final Function<String,T> parser;
     private final Predicate<T> filter;
-    private final Optional<String> eof;
+    private final Optional<String> eof; // if we need an extra line at the end of the file to correctly wrap up parsing
 
     public Slurper(Function<String, T> parser, Optional<String> eof, Predicate<T>... filters) {
         this.parser = parser;

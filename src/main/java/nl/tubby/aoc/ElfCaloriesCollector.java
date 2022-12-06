@@ -5,15 +5,10 @@ import org.apache.commons.lang3.math.NumberUtils;
 
 import java.util.Optional;
 
-public class ElfFactory extends Slurper<Integer> {
+public class ElfCaloriesCollector {
     private int currentElfCalories = 0;
 
-    public ElfFactory() {
-        super(null, Optional.of(""));
-    }
-
-    @Override
-    protected Integer build(String foodStr) {
+    protected Integer collectOrParse(String foodStr) {
         Optional<Integer> calories = parseCalories(foodStr);
         if(calories.isPresent()) {
             this.currentElfCalories+=calories.get();
