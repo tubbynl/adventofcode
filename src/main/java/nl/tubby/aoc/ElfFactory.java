@@ -5,8 +5,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 
 import java.util.Optional;
 
-public class ElfFactory extends Slurper<Elf> {
-    private int currentElfNr = 1;
+public class ElfFactory extends Slurper<Integer> {
     private int currentElfCalories = 0;
 
     public ElfFactory() {
@@ -14,15 +13,15 @@ public class ElfFactory extends Slurper<Elf> {
     }
 
     @Override
-    protected Elf build(String foodStr) {
+    protected Integer build(String foodStr) {
         Optional<Integer> calories = parseCalories(foodStr);
         if(calories.isPresent()) {
             this.currentElfCalories+=calories.get();
             return null;
         }
-        Elf elf = new Elf(currentElfNr++,this.currentElfCalories);
+        var result = Integer.valueOf(this.currentElfCalories);
         this.currentElfCalories = 0;
-        return elf;
+        return result;
     }
 
     private Optional<Integer> parseCalories(String food) {
@@ -30,7 +29,4 @@ public class ElfFactory extends Slurper<Elf> {
                 .map(StringUtils::trimToNull)
                 .map(NumberUtils::createInteger);
     }
-}
-
-record Elf(int nr,int sumCalories){
 }
