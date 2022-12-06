@@ -2,7 +2,7 @@
 
 https://adventofcode.com/
 
-| Day | Code                                                                               | Code                                                                       |
+| Day | Test                                                                               | Code                                                                       |
 |-----|------------------------------------------------------------------------------------|----------------------------------------------------------------------------|
 | 1   | [ElfFactoryTest](src/test/java/nl/tubby/aoc/ElfFactoryTest.java)                   | [ElfFactory](src/main/java/nl/tubby/aoc/ElfFactory.java)                   |
 | 2   | [RockPaperScissorsTest](src/test/java/nl/tubby/aoc/RockPaperScissorsTest.java)     | [RockPaperScissors](src/main/java/nl/tubby/aoc/RockPaperScissors.java)     |
