@@ -117,7 +117,7 @@ record SupplyStack(List<Character> crates) {
 
     public String toString() {
         return crates().stream()
-                .map(c -> c.toString())
+                .map(Object::toString)
                 .collect(Collectors.joining());
     }
 }
