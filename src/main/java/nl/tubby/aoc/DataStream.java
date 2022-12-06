@@ -6,26 +6,20 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class DataStream extends Slurper<Integer> {
-
-    private final String singleLine;
     private final int startPacketLength;
     int i=0;
     List<String> currentChars = new ArrayList<>();
-    public DataStream(String singleLine, int startPacketLength) {
+    public DataStream(int startPacketLength) {
         super(null);
         this.startPacketLength = startPacketLength;
-        this.singleLine = singleLine;
     }
 
     @Override
     protected Stream<String> stream(Path path) {
-        if(this.singleLine!=null) {
-            return chars(this.singleLine);
-        }
         return super.stream(path).flatMap(DataStream::chars);
     }
 
-    private static Stream<String> chars(String line) {
+    protected static Stream<String> chars(String line) {
         return line.chars().mapToObj(i -> String.valueOf((char)i));
     }
 
