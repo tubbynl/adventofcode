@@ -17,7 +17,7 @@ class SectionTest {
     void testBuild() {
         var result = new Slurper<>(PairOfSections::parse)
                 .slurp(Path.of("puzzle-example-day4.txt"))
-                .collect(Collectors.toList());
+                .toList();
 
         assertEquals(6,result.size());
 

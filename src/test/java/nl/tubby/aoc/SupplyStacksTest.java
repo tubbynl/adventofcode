@@ -1,6 +1,5 @@
 package nl.tubby.aoc;
 
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -41,6 +40,7 @@ class SupplyStacksTest {
         assertEquals("ZN", ship.stacks().get(0).toString());
         assertEquals("MCD", ship.stacks().get(1).toString());
         assertEquals("P", ship.stacks().get(2).toString());
+        assertEquals("NDP",ship.topCrates());
 
     }
 
@@ -64,12 +64,11 @@ class SupplyStacksTest {
     })
     void parseInput(String file,int expectedStacks,int expectedInstructionCount) {
         var context = new ContextParser()
-                .slurp(Path.of(file))
-                .findFirst();
+                .first(Path.of(file));
 
-        assertTrue(context.isPresent());
-        assertEquals(expectedStacks,context.get().ship().stacks().size());
-        assertEquals(expectedInstructionCount,context.get().instructions().size());
+        assertNotNull(context);
+        assertEquals(expectedStacks,context.ship().stacks().size());
+        assertEquals(expectedInstructionCount,context.instructions().size());
     }
 
     @ParameterizedTest
@@ -79,12 +78,9 @@ class SupplyStacksTest {
     })
     void apply(String file,String topCrates) {
         var context = new ContextParser()
-                .slurp(Path.of(file))
-                .findFirst().get();
+                .first(Path.of(file));
 
-        // apply instructions
         context.instructions().forEach(context.ship()::applyCrateMover9000);
-
 
         assertEquals(topCrates,context.ship().topCrates());
     }
@@ -109,12 +105,9 @@ class SupplyStacksTest {
     })
     void apply9001(String file,String topCrates) {
         var context = new ContextParser()
-                .slurp(Path.of(file))
-                .findFirst().get();
+                .first(Path.of(file));
 
-        // apply instructions
         context.instructions().forEach(context.ship()::applyCrateMover9001);
-
 
         assertEquals(topCrates,context.ship().topCrates());
     }

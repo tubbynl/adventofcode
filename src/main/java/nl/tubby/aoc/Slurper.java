@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -30,5 +31,9 @@ public class Slurper<T extends Object> {
         return stream(path)
                 .map(this::build)
                 .filter(Objects::nonNull);
+    }
+
+    public T first(Path path) {
+        return slurp(path).findFirst().orElse(null);
     }
 }
