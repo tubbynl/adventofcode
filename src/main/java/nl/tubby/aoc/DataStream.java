@@ -1,30 +1,42 @@
 package nl.tubby.aoc;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class DataStream extends Slurper<Integer> {
 
+    private final String singleLine;
     int i=0;
-    public DataStream() {
+    List<String> currentChars = new ArrayList<>();
+    public DataStream(String singleLine) {
         super(null);
+        this.singleLine = singleLine;
     }
 
     @Override
     protected Stream<String> stream(Path path) {
+        if(this.singleLine!=null) {
+            return chars(this.singleLine);
+        }
         return super.stream(path).flatMap(DataStream::chars);
     }
 
     private static Stream<String> chars(String line) {
-        return line.chars().mapToObj(String::valueOf);
+        return line.chars().mapToObj(i -> String.valueOf((char)i));
     }
 
     @Override
     public Integer build(String line) {
-        if("p".equals(line)) {
+        i++;
+        this.currentChars.add(line);
+        if(this.currentChars.size()>4) {
+            this.currentChars.remove(0);
+        }
+        if(this.currentChars.stream().distinct().count()==4) {
             return i;
         }
-        i++;
         return null;
     }
 }

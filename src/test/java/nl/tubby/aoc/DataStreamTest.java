@@ -7,13 +7,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DataStreamTest {
 
-
     @ParameterizedTest
     @CsvSource({
-            "puzzle-example-day6.txt,12"
+            "mjqjpqmgbljsphdztnvjfqwrcgsmlb,7",
+            "bvwbjplbgvbhsrlpgdmjqwftvncz,5",
+            "nppdvjthqldpwncqszvftbrmjlhg,6",
+            "nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg,10",
+            "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw,11"
     })
-    void testFinding(String file,int expectedLocation) {
-        var location = new DataStream().first(Path.of(file));
+    void findFirst(String input,int expectedLocation) {
+        var location = new DataStream(input).first(null);
 
         assertEquals(expectedLocation,location);
     }
