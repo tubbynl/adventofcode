@@ -12,18 +12,11 @@ import java.util.stream.Stream;
 
 record Ship(List<SupplyStack> stacks) {
 
-    static Ship build(Stream<String> lines) {
-        var builder = new ShipYard();
-        lines
-                .map(builder::add)
-                .mapToInt(Integer::intValue)
-                .sum();
-        return builder.build();
-    }
-
     static Ship slurp(Path path) {
-        var slurper = new Slurper<>(s->s, Optional.empty(), s -> s.contains("["));
-        return build(slurper.slurp(path));
+        var builder = new ShipYard();
+        var slurper = new Slurper<>(s->s.contains("[")?builder.add(s):null);
+        slurper.sum(path,Integer::intValue);
+        return builder.build();
     }
 
     void applyCrateMover9000(MoveInstruction instruction) {

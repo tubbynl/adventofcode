@@ -36,8 +36,9 @@ class SupplyStacksTest {
                 "[N] [C]    ",
                 "[Z] [M] [P]"
         );
-
-        var ship = Ship.build(lines.stream());
+        var builder = new ShipYard();
+        lines.stream().map(builder::add).mapToInt(Integer::intValue).sum();
+        var ship = builder.build();
 
         assertEquals(3,ship.stacks().size());
         assertEquals("ZN", ship.stacks().get(0).toString());
