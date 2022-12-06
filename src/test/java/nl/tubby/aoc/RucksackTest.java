@@ -42,16 +42,14 @@ public class RucksackTest {
 
     @ParameterizedTest
     @CsvSource({
-            "puzzle-example-day3.txt,6,157",
-            "puzzle-input-day3.txt,300,7903"// <-- solution part 1
+            "puzzle-example-day3.txt,157",
+            "puzzle-input-day3.txt,7903"// <-- solution part 1
     })
-    void testForFile(String file,int expectedCount,int expectedSum) {
-        List<Rucksack> rucksacks = new Slurper<>(Rucksack::parse)
-                .slurp(Path.of(file))
-                .toList();
+    void testForFile(String file,int expectedSum) {
+        int sum = new Slurper<>(Rucksack::parse)
+                .sum(Path.of(file),Rucksack::priority);
 
-        assertEquals(expectedCount,rucksacks.size());
-        assertEquals(expectedSum,rucksacks.stream().mapToInt(Rucksack::priority).sum());
+        assertEquals(expectedSum,sum);
     }
 
     @ParameterizedTest
@@ -67,16 +65,13 @@ public class RucksackTest {
 
     @ParameterizedTest
     @CsvSource({
-            "puzzle-example-day3.txt,2,70",
-            "puzzle-input-day3.txt,100,2548"// <-- solution part 2
+            "puzzle-example-day3.txt,70",
+            "puzzle-input-day3.txt,2548"// <-- solution part 2
     })
-    void buildThreeElves(String file, int expectedCount, int expectedPriority) {
-        List<ThreeElves> groups = new ThreeElvesSlurper()
-                .slurp(Path.of(file))
-                .toList();
+    void buildThreeElves(String file, int expectedPriority) {
+        int sumPriority = new ThreeElvesSlurper()
+                .sum(Path.of(file),ThreeElves::priority);
 
-        assertEquals(expectedCount,groups.size());
-        int totalPriority = groups.stream().mapToInt(ThreeElves::priority).sum();
-        assertEquals(expectedPriority,totalPriority);
+        assertEquals(expectedPriority,sumPriority);
     }
 }

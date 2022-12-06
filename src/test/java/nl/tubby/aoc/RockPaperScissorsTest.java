@@ -64,8 +64,7 @@ class RockPaperScissorsTest {
     })
     void tournament(String filename, int expectedScore) {
         var totalScore = new Slurper<>(RockPaperScissorsRound::build)
-                .slurp(Path.of(filename))
-                .collect(Collectors.summingInt(RockPaperScissorsRound::calculateScore));
+                .sum(Path.of(filename),RockPaperScissorsRound::calculateScore);
 
         assertEquals(expectedScore,totalScore);
     }
@@ -77,8 +76,7 @@ class RockPaperScissorsTest {
     })
     void tournament2(String filename, int expectedScore) {
         var totalScore = new Slurper<>(RockPaperScissorsRound::build2)
-                .slurp(Path.of(filename))
-                .collect(Collectors.summingInt(RockPaperScissorsRound::calculateScore));
+                .sum(Path.of(filename),RockPaperScissorsRound::calculateScore);
 
         assertEquals(expectedScore,totalScore);
     }

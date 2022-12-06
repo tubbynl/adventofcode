@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.ToIntFunction;
 import java.util.stream.Stream;
 
 public class Slurper<T extends Object> {
@@ -31,6 +32,18 @@ public class Slurper<T extends Object> {
         return stream(path)
                 .map(this::build)
                 .filter(Objects::nonNull);
+    }
+
+    public int max(Path path,ToIntFunction<T> function) {
+        return slurp(path)
+                .mapToInt(function)
+                .max().orElse(0);
+    }
+
+    public int sum(Path path,ToIntFunction<T> function) {
+        return slurp(path)
+                .mapToInt(function)
+                .sum();
     }
 
     public T first(Path path) {

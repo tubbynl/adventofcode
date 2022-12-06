@@ -38,9 +38,7 @@ public class ElfFactoryTest {
     })
     void findTheBest(String file,int expectedSum) {
         int best = new ElfFactory()
-                .slurp(Path.of(file))
-                .mapToInt(Elf::sumCalories)
-                .max().orElse(0);
+                .max(Path.of(file),Elf::sumCalories);
 
         assertEquals(expectedSum,best);
     }
