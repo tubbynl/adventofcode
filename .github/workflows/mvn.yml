@@ -3,10 +3,8 @@ name: mvn test
 
 on:
   push:
-    paths:
-    - .github/workflows/mvn.yml
-    - src
-    - pom.xml
+    paths-ignore:
+    - '*.md'
 
 jobs:
   verify:
