@@ -3,7 +3,6 @@ package nl.tubby.aoc;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -44,7 +43,7 @@ public class Slurper<T extends Object> {
     public Stream<T> slurp(Path path) {
         return stream(path)
                 .map(this::build)
-                .filter(Objects::nonNull);
+                .filter(this.filter);
     }
 
     public int max(Path path,ToIntFunction<T> function) {
@@ -59,13 +58,16 @@ public class Slurper<T extends Object> {
                 .sum();
     }
 
-    public long count(Path path, Predicate<T> filter) {
+    public long count(Path path) {
         return slurp(path)
-                .filter(filter)
                 .count();
     }
 
     public T first(Path path) {
         return slurp(path).findFirst().orElse(null);
+    }
+
+    public List<T> list(Path path) {
+        return slurp(path).toList();
     }
 }

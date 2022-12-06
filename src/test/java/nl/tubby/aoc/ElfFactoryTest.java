@@ -17,8 +17,7 @@ public class ElfFactoryTest {
     @Test
     void build() {
         List<Elf> elves = new ElfFactory()
-                .slurp(Path.of("puzzle-example-day1.txt"))
-                .toList();
+                .list(Path.of("puzzle-example-day1.txt"));
 
         assertEquals(5,elves.size());
         Elf first = elves.get(0);
