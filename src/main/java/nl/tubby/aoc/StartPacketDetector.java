@@ -4,12 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.stream.IntStream;
 
-public class StartPacketDetector{
-    private final int startPacketLength;
-    public StartPacketDetector(int startPacketLength) {
-        this.startPacketLength = startPacketLength;
-    }
-
+record StartPacketDetector(int startPacketLength) {
     public Integer detect(String line) {
         var result = IntStream.range(0,line.length()-this.startPacketLength)
                 .filter(i -> partialHasAllDifferentChars(i,line))
