@@ -3,6 +3,8 @@ package nl.tubby.aoc;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
@@ -11,12 +13,16 @@ import java.util.function.ToIntFunction;
 import java.util.stream.Stream;
 
 public class Slurper<T extends Object> {
+
     private final Function<String,T> parser;
+    private final Predicate<T> filter;
     private final Optional<String> eof;
 
-    public Slurper(Function<String, T> parser, Optional<String> eof) {
+    public Slurper(Function<String, T> parser, Optional<String> eof, Predicate<T>... filters) {
         this.parser = parser;
         this.eof = eof;
+        this.filter = Stream.concat(Stream.of(Objects::nonNull),Stream.of(filters))
+                .reduce(Predicate::and).get();
     }
 
     public Slurper(Function<String, T> parser) {

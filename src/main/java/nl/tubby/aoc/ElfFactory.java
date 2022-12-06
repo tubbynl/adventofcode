@@ -3,6 +3,7 @@ package nl.tubby.aoc;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
+import java.util.Collections;
 import java.util.Optional;
 
 public class ElfFactory extends Slurper<Elf> {
