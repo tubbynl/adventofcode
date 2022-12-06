@@ -8,10 +8,12 @@ import java.util.stream.Stream;
 public class DataStream extends Slurper<Integer> {
 
     private final String singleLine;
+    private final int startPacketLength;
     int i=0;
     List<String> currentChars = new ArrayList<>();
-    public DataStream(String singleLine) {
+    public DataStream(String singleLine, int startPacketLength) {
         super(null);
+        this.startPacketLength = startPacketLength;
         this.singleLine = singleLine;
     }
 
@@ -31,10 +33,10 @@ public class DataStream extends Slurper<Integer> {
     public Integer build(String line) {
         i++;
         this.currentChars.add(line);
-        if(this.currentChars.size()>4) {
+        if(this.currentChars.size()>this.startPacketLength) {
             this.currentChars.remove(0);
         }
-        if(this.currentChars.stream().distinct().count()==4) {
+        if(this.currentChars.stream().distinct().count()==this.startPacketLength) {
             return i;
         }
         return null;

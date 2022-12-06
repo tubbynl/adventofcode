@@ -16,7 +16,7 @@ class DataStreamTest {
             "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw,11"
     })
     void findFirst(String input,int expectedLocation) {
-        var location = new DataStream(input).first(null);
+        var location = new DataStream(input,4).first(null);
 
         assertEquals(expectedLocation,location);
     }
@@ -27,7 +27,7 @@ class DataStreamTest {
             "puzzle-input-day6.txt,1093" // <-- answer part 1
     })
     void findFirstFromFile(String file,int expectedLocation) {
-        var location = new DataStream(null).first(Path.of(file));
+        var location = new DataStream(null,4).first(Path.of(file));
 
         assertEquals(expectedLocation,location);
     }
