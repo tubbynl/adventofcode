@@ -40,7 +40,7 @@ class DataStreamTest {
             "puzzle-example-day6.txt,4,7",
             "puzzle-input-day6.txt,4,1093", // <-- answer part 1
             "puzzle-example-day6.txt,14,19",
-            "puzzle-input-day6.txt,14,1093" // <-- answer part 2
+            "puzzle-input-day6.txt,14,3534" // <-- answer part 2
     })
     void findFirstFromFile(String file,int startPacketLength,int expectedLocation) {
         var location = new DataStream(null,startPacketLength).first(Path.of(file));
