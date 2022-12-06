@@ -101,7 +101,8 @@ class SupplyStacksTest {
     @ParameterizedTest
     @CsvSource({
             "puzzle-example-day5.txt,MCD",
-            "puzzle-input-day5.txt,NGCMPJLHV" // <-- solution part 2
+            "puzzle-input-day5.txt,NGCMPJLHV", // <-- solution part
+            "aoc_2022_day05_large_input-2.txt,NGCMPJLHV"
     })
     void apply9001(String file,String topCrates) {
         var context = new ContextParser()
