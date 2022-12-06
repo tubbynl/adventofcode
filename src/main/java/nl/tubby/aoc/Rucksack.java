@@ -67,14 +67,10 @@ record ThreeElves(Rucksack[] sacks) {
     }
 }
 
-class ThreeElvesSlurper extends Slurper<ThreeElves> {
+class ThreeElvesCollector {
     private final List<Rucksack> rucksacks = new ArrayList<>();
-    public ThreeElvesSlurper() {
-        super(null);
-    }
 
-    @Override
-    protected ThreeElves build(String line) {
+    ThreeElves collectRucksacks(String line) {
         this.rucksacks.add(Rucksack.parse(line));
         if(rucksacks.size()<3) {
             return null;

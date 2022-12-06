@@ -46,8 +46,9 @@ public class RucksackTest {
             "puzzle-input-day3.txt,7903"// <-- solution part 1
     })
     void testForFile(String file,int expectedSum) {
-        int sum = new Slurper<>(Rucksack::parse)
-                .sum(Path.of(file),Rucksack::priority);
+        var slurper = new Slurper<>(Rucksack::parse);
+
+        int sum = slurper.sum(Path.of(file),Rucksack::priority);
 
         assertEquals(expectedSum,sum);
     }
@@ -69,8 +70,9 @@ public class RucksackTest {
             "puzzle-input-day3.txt,2548"// <-- solution part 2
     })
     void buildThreeElves(String file, int expectedPriority) {
-        int sumPriority = new ThreeElvesSlurper()
-                .sum(Path.of(file),ThreeElves::priority);
+        var slurper = new Slurper<>(new ThreeElvesCollector()::collectRucksacks);
+
+        int sumPriority = slurper.sum(Path.of(file),ThreeElves::priority);
 
         assertEquals(expectedPriority,sumPriority);
     }
