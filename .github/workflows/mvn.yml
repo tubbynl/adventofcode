@@ -1,7 +1,12 @@
 ---
 name: mvn test
 
-on: [push]
+on:
+  push:
+    paths:
+    - .github/workflows/mvn.yml
+    - src
+    - pom.xml
 
 jobs:
   verify:
