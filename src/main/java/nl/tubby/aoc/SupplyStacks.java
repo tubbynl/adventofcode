@@ -3,6 +3,7 @@ package nl.tubby.aoc;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
+import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -10,13 +11,13 @@ import java.util.stream.Stream;
 
 record Ship(List<SupplyStack> stacks) {
 
-    static Ship build(int stackCount,List<String> lines) {
-        var reversed = new ArrayList<>(lines);
-        Collections.reverse(reversed);
-        var stacks = IntStream.range(1,stackCount+1)
-                .mapToObj(col -> SupplyStack.build(col,reversed))
-                .toList();
-        return new Ship(stacks);
+    static Ship build(Stream<String> lines) {
+        var builder = new ShipYard();
+        lines
+                .map(builder::add)
+                .mapToInt(Integer::intValue)
+                .sum();
+        return builder.build();
     }
 
     void applyCrateMover9000(MoveInstruction instruction) {
@@ -45,14 +46,42 @@ record Ship(List<SupplyStack> stacks) {
                 .collect(Collectors.joining());
     }
 }
-record SupplyStack(List<Character> crates) {
-    static SupplyStack build(final int col,List<String> lines) {
+
+class ShipYard {
+    private final List<SupplyStack> stacks = new ArrayList<>();
+
+    Ship build() {
+        return new Ship(stacks.stream()
+                .map(SupplyStack::reverse)
+                .toList());
+    }
+
+    Integer add(String lineOfCrates) {
+        int stackCount = Math.round(lineOfCrates.length()/4);
+        while(this.stacks.size()<stackCount) {
+            this.stacks.add(new SupplyStack(new ArrayList<>()));
+        }
+        return IntStream.range(1,stackCount+1)
+                .map(col -> charAt(col,lineOfCrates)
+                    .map(crate -> {
+                        this.stacks.get(col-1).push(crate);
+                        return 1;
+                    }).orElse(0)).sum();
+    }
+
+    private static Optional<Character> charAt(int col,String line) {
         int colIndex = 1+((col-1)*4);
-        return new SupplyStack(lines.stream()
-                .map(line -> line.length()<colIndex?null:line.charAt(colIndex))
+        return Optional.ofNullable(line)
+                .filter(l -> l.length()>colIndex)
+                .map(l -> line.charAt(colIndex))
                 .filter(Objects::nonNull)
-                .filter(Character::isUpperCase)
-                .collect(Collectors.toList()));
+                .filter(Character::isUpperCase);
+    }
+}
+
+record SupplyStack(List<Character> crates) {
+    void push(Character crate) {
+        this.crates.add(0,crate);
     }
 
     Character top() {
@@ -71,6 +100,12 @@ record SupplyStack(List<Character> crates) {
         crates().addAll(crates);
     }
 
+    SupplyStack reverse() {
+        List<Character> crates = new ArrayList<>(crates());
+        Collections.reverse(crates);
+        return new SupplyStack(Collections.unmodifiableList(crates));
+    }
+
     public String toString() {
         return crates().stream()
                 .map(c -> c.toString())
@@ -83,16 +118,10 @@ record MoveInstruction(int amount,int from,int to) {
         if(!StringUtils.startsWith(line,"move ")) {
             return null;
         }
-        int[] ints = ContextParser.parseAsInts(line).toArray();
+        int[] ints = parseAsInts(line).toArray();
         return new MoveInstruction(ints[0],ints[1],ints[2]);
     }
-}
-record Context(Ship ship,List<MoveInstruction> instructions) {
 
-}
-
-class ContextParser extends Slurper<Context> {
-    private static final String EOF = "----";
     static IntStream parseAsInts(String line) {
         return line==null?IntStream.empty():Stream.of(StringUtils.split(line,' '))
                 .map(StringUtils::trimToNull)
@@ -100,36 +129,17 @@ class ContextParser extends Slurper<Context> {
                 .mapToInt(NumberUtils::toInt);
     }
 
-    static int parseStackCount(String line) {
-        return parseAsInts(line).max().orElse(0);
+    static List<MoveInstruction> slurp(final Path path) {
+        var slurper = new Slurper<>(MoveInstruction::parse);
+        return slurper.list(path);
     }
-    private List<String> stackLines = new ArrayList<>();
-    private List<MoveInstruction> instructions = new ArrayList<>();
-    private Integer stackCount = null;
-
-    public ContextParser() {
-        super(null, Optional.of(EOF));
-    }
-
-    @Override
-    protected Context build(String line) {
-        if(this.stackCount==null) {
-            int optStackCount = parseStackCount(line);
-            if(optStackCount>0) {
-                this.stackCount = optStackCount;
-            } else {
-                this.stackLines.add(line);
-            }
-        }
-        MoveInstruction move = MoveInstruction.parse(line);
-        if(move!=null) {
-            this.instructions.add(move);
-        }
-        if(EOF.equals(line)) {
-            var ship = Ship.build(this.stackCount,this.stackLines);
-            return new Context(ship,this.instructions);
-        }
-        return null;
+}
+record Context(Ship ship,List<MoveInstruction> instructions) {
+    static Context build(Path path) {
+        var slurper = new Slurper<>(s->s, Optional.empty(), s -> s.contains("["));
+        Ship ship = Ship.build(slurper.slurp(path));
+        var instructions = new Slurper<>(MoveInstruction::parse).list(path);
+        return new Context(ship,instructions);
     }
 }
 
