@@ -50,7 +50,7 @@ public class CliDirectoryParser {
     private Boolean parseFile(String dirOrFile) {
         String[] elements = StringUtils.split(dirOrFile," ",2);
         if(NumberUtils.isDigits(elements[0])) {
-            this.currentFolder.addFile(elements[1],NumberUtils.toInt(elements[0]));
+            this.currentFolder.addFile(NumberUtils.toInt(elements[0]));
         } else if("dir".equals(elements[0])) {
             this.currentFolder.addDir(elements[1]);
         } else {
@@ -59,16 +59,16 @@ public class CliDirectoryParser {
         return true;
     }
 }
-
-class File {
+class Dir {
     private final Dir parent;
     private final String name;
-    private final Integer size;
+    private int size;
+    private final SortedMap<String,Dir> files = new TreeMap<>();
 
-    public File(Dir parent,String name, Integer size) {
+
+    public Dir(Dir parent,String name) {
         this.parent = parent;
         this.name = name;
-        this.size = size;
     }
 
     public Dir getParent() {
@@ -79,29 +79,14 @@ class File {
         return name;
     }
 
-    public Integer getSize() {
-        return size;
-    }
-
-    @Override
-    public String toString() {
-        return getName();
-    }
-}
-class Dir extends File {
-    final SortedMap<String,File> files = new TreeMap<>();
-
-    public Dir(Dir parent,String name) {
-        super(parent,name, null);
-    }
-
-    private Stream<File> stream() {
+    private Stream<Dir> stream() {
         return this.files.values().stream();
     }
 
-    <F extends File> F get(String name) {
-        return (F)this.files.get(name);
+    Dir get(String name) {
+        return this.files.get(name);
     }
+
     Dir addDir(String name) {
         if(!this.files.containsKey(name)) {
             this.files.put(name,new Dir(this,name));
@@ -109,28 +94,22 @@ class Dir extends File {
         return get(name);
     }
 
-    File addFile(String name, Integer size) {
-        if(!this.files.containsKey(name)) {
-            this.files.put(name,new File(this,name, size));
-        }
-        return get(name);
+    void addFile(Integer size) {
+        this.size+=size;
     }
 
-    @Override
-    public Integer getSize() {
-        return stream().mapToInt(File::getSize).sum();
+    public int getSize() {
+        return this.size+stream().mapToInt(Dir::getSize).sum();
     }
 
     @Override
     public String toString() {
         String me = super.toString();
-        return getParent()!=null?getParent().toString()+"/"+me:me;
+        return this.parent!=null?this.parent+"/"+me:me;
     }
 
     Stream<Dir> dirs() {
         return Stream.concat(Stream.of(this),stream()
-                .filter(Dir.class::isInstance)
-                .map(Dir.class::cast)
                 .flatMap(Dir::dirs));
     }
 }

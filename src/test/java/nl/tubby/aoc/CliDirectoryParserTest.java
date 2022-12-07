@@ -10,12 +10,12 @@ class CliDirectoryParserTest {
     @ParameterizedTest
     @CsvSource({
             "puzzle-example-day7.txt,4,48381165",
-            "puzzle-input-day7.txt,10,41412830"
+            "puzzle-input-day7.txt,173,41412830"
     })
-    void parse(String file,int expectedRootCount,int expectedSize) {
+    void parse(String file,int expectedDirCount,int expectedSize) {
         var root = CliDirectoryParser.parse(Path.of(file));
 
-        assertEquals(expectedRootCount,root.files.size());
+        assertEquals(expectedDirCount,root.dirs().count());
         assertEquals(expectedSize,root.getSize());
     }
 
