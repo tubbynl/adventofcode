@@ -11,29 +11,28 @@ class CliDirectoryParserTest {
 
     @ParameterizedTest
     @CsvSource({
-            "puzzle-example-day7.txt,23,4"
+            "puzzle-example-day7.txt,4,48381165"
     })
-    void parse(String file,int expectedParseCount,int expectedRootCount) {
-        var parser = new CliDirectoryParser();
-        var slurper = new Slurper<>(parser::parse, Optional.empty(),Boolean::booleanValue);
+    void parse(String file,int expectedRootCount,int expectedSize) {
+        var root = CliDirectoryParser.parse(Path.of(file));
 
-        long parsed = slurper.count(Path.of(file));
-        var root = parser.root;
-
-        assertEquals(expectedParseCount,parsed);
         assertEquals(expectedRootCount,root.files.size());
+        assertEquals(expectedSize,root.getSize());
     }
 
     @ParameterizedTest
     @CsvSource({
-            "puzzle-example-day7.txt,48381165"
+            "puzzle-example-day7.txt,95437"
     })
-    void getSize(String file,int expectedSize) {
-        var parser = new CliDirectoryParser();
-        var slurper = new Slurper<>(parser::parse);
+    void assignment1(String file,int expectedResult) {
+        var root = CliDirectoryParser.parse(Path.of(file));
 
-        slurper.count(Path.of(file));
+        var result = root.dirs()
+                .map(Dir::getSize)
+                .mapToInt(Integer::intValue)
+                .filter(size -> size<=100000)
+                .sum();
 
-        assertEquals(expectedSize,parser.root.getSize());
+        assertEquals(expectedResult,result);
     }
 }

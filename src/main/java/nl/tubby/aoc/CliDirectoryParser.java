@@ -3,14 +3,23 @@ package nl.tubby.aoc;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
+import java.nio.file.Path;
 import java.util.Objects;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.stream.Stream;
 
 public class CliDirectoryParser {
 
     final Dir root = new Dir(null, "");
     Dir currentFolder;
+
+    static Dir parse(Path path) {
+        var parser = new CliDirectoryParser();
+        var slurper = new Slurper<>(parser::parse);
+        slurper.count(path);
+        return parser.root;
+    }
 
     Boolean parse(String line) {
         if(StringUtils.startsWith(line,"$ ")) {
@@ -86,6 +95,10 @@ class Dir extends File {
         super(parent,name, null);
     }
 
+    private Stream<File> stream() {
+        return this.files.values().stream();
+    }
+
     <F extends File> F get(String name) {
         return (F)this.files.get(name);
     }
@@ -105,12 +118,19 @@ class Dir extends File {
 
     @Override
     public Integer getSize() {
-        return this.files.values().stream().mapToInt(File::getSize).sum();
+        return stream().mapToInt(File::getSize).sum();
     }
 
     @Override
     public String toString() {
         String me = super.toString();
         return getParent()!=null?getParent().toString()+"/"+me:me;
+    }
+
+    Stream<Dir> dirs() {
+        return Stream.concat(Stream.of(this),stream()
+                .filter(Dir.class::isInstance)
+                .map(Dir.class::cast)
+                .flatMap(Dir::dirs));
     }
 }
