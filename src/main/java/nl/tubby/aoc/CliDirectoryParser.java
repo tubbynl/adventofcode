@@ -23,12 +23,13 @@ public class CliDirectoryParser {
 
     Boolean parse(String line) {
         if(StringUtils.startsWith(line,"$ ")) {
-            return parseCommand(StringUtils.substringAfter(line,"$ "));
+            parseCommand(StringUtils.substringAfter(line,"$ "));
         }
-        return parseFile(line);
+        parseFile(line);
+        return true;
     }
 
-    private Boolean parseCommand(String instruction) {
+    private void parseCommand(String instruction) {
         String[] commandAndArgs = StringUtils.split(instruction," ",2);
         String command = StringUtils.substringBefore(instruction," ");
         String args = commandAndArgs.length>1?commandAndArgs[1]:null;
@@ -40,23 +41,16 @@ public class CliDirectoryParser {
             } else {
                 this.currentFolder = Objects.requireNonNull(this.currentFolder.get(args),args+" not found in "+this.currentFolder);
             }
-            return true;
-        } else if("ls".equals(command)) {
-            return true;
         }
-        return false;
     }
 
-    private Boolean parseFile(String dirOrFile) {
+    private void parseFile(String dirOrFile) {
         String[] elements = StringUtils.split(dirOrFile," ",2);
         if(NumberUtils.isDigits(elements[0])) {
             this.currentFolder.addFile(NumberUtils.toInt(elements[0]));
         } else if("dir".equals(elements[0])) {
             this.currentFolder.addDir(elements[1]);
-        } else {
-            return false;
         }
-        return true;
     }
 }
 class Dir {
@@ -87,11 +81,10 @@ class Dir {
         return this.files.get(name);
     }
 
-    Dir addDir(String name) {
+    void addDir(String name) {
         if(!this.files.containsKey(name)) {
             this.files.put(name,new Dir(this,name));
         }
-        return get(name);
     }
 
     void addFile(Integer size) {
