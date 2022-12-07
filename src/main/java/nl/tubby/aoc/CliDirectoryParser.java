@@ -1,15 +1,14 @@
 package nl.tubby.aoc;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
-
 import java.nio.file.Path;
 import java.util.Objects;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public class CliDirectoryParser {
+    private static final Pattern SPACE = Pattern.compile("\s");
 
     final Dir root = new Dir(null, "");
     Dir currentFolder;
@@ -22,7 +21,7 @@ public class CliDirectoryParser {
     }
 
     Boolean parse(String line) {
-        String[] splitted = StringUtils.split(line," ",3);
+        String[] splitted = SPACE.split(line,3);
         if("$".equals(splitted[0])) {
             parseCommand(splitted[1],splitted.length>2?splitted[2]:null);
         } else {
@@ -44,10 +43,10 @@ public class CliDirectoryParser {
     }
 
     private void parseFile(String sizeOrDir,String name) {
-        if(NumberUtils.isDigits(sizeOrDir)) {
-            this.currentFolder.addFile(NumberUtils.toInt(sizeOrDir));
-        } else if("dir".equals(sizeOrDir)) {
+        if("dir".equals(sizeOrDir)) {
             this.currentFolder.addDir(name);
+        } else {
+            this.currentFolder.addFile(Integer.parseInt(sizeOrDir));
         }
     }
 }
@@ -85,7 +84,7 @@ class Dir {
         }
     }
 
-    void addFile(Integer size) {
+    void addFile(int size) {
         this.size+=size;
     }
 
