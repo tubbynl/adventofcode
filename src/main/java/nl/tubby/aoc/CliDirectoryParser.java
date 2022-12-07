@@ -22,17 +22,16 @@ public class CliDirectoryParser {
     }
 
     Boolean parse(String line) {
-        if(StringUtils.startsWith(line,"$ ")) {
-            parseCommand(StringUtils.substringAfter(line,"$ "));
+        String[] splitted = StringUtils.split(line," ",3);
+        if("$".equals(splitted[0])) {
+            parseCommand(splitted[1],splitted.length>2?splitted[2]:null);
+        } else {
+            parseFile(splitted[0],splitted[1]);
         }
-        parseFile(line);
         return true;
     }
 
-    private void parseCommand(String instruction) {
-        String[] commandAndArgs = StringUtils.split(instruction," ",2);
-        String command = StringUtils.substringBefore(instruction," ");
-        String args = commandAndArgs.length>1?commandAndArgs[1]:null;
+    private void parseCommand(String command,String args) {
         if("cd".equals(command)) {
             if("/".equals(args)) {
                 this.currentFolder = this.root;
@@ -44,12 +43,11 @@ public class CliDirectoryParser {
         }
     }
 
-    private void parseFile(String dirOrFile) {
-        String[] elements = StringUtils.split(dirOrFile," ",2);
-        if(NumberUtils.isDigits(elements[0])) {
-            this.currentFolder.addFile(NumberUtils.toInt(elements[0]));
-        } else if("dir".equals(elements[0])) {
-            this.currentFolder.addDir(elements[1]);
+    private void parseFile(String sizeOrDir,String name) {
+        if(NumberUtils.isDigits(sizeOrDir)) {
+            this.currentFolder.addFile(NumberUtils.toInt(sizeOrDir));
+        } else if("dir".equals(sizeOrDir)) {
+            this.currentFolder.addDir(name);
         }
     }
 }
