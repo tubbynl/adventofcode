@@ -3,8 +3,6 @@ package nl.tubby.aoc;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class CliDirectoryParserTest {
@@ -36,5 +34,25 @@ class CliDirectoryParserTest {
                 .sum();
 
         assertEquals(expectedResult,result);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "puzzle-example-day7.txt,70000000,30000000,24933642",
+            "puzzle-input-day7.txt,70000000,30000000,1498966"
+    })
+    void assignment2(String file,int totalDiskSpace, int requiredDiskSpace,int sizeOfDirToDelete) {
+
+        var root = CliDirectoryParser.parse(Path.of(file));
+        var spaceAvailable = totalDiskSpace-root.getSize();
+        var extraSpaceRequired = requiredDiskSpace-spaceAvailable;
+
+        var result = root.dirs()
+                .mapToInt(Dir::getSize)
+                .sorted()
+                .filter(i -> i>=extraSpaceRequired)
+                .findFirst().getAsInt();
+
+        assertEquals(sizeOfDirToDelete,result);
     }
 }
