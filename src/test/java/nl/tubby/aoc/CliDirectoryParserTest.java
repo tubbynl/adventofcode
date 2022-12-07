@@ -11,7 +11,8 @@ class CliDirectoryParserTest {
 
     @ParameterizedTest
     @CsvSource({
-            "puzzle-example-day7.txt,4,48381165"
+            "puzzle-example-day7.txt,4,48381165",
+            "puzzle-input-day7.txt,10,41412830"
     })
     void parse(String file,int expectedRootCount,int expectedSize) {
         var root = CliDirectoryParser.parse(Path.of(file));
@@ -22,7 +23,8 @@ class CliDirectoryParserTest {
 
     @ParameterizedTest
     @CsvSource({
-            "puzzle-example-day7.txt,95437"
+            "puzzle-example-day7.txt,95437",
+            "puzzle-input-day7.txt,1749646"
     })
     void assignment1(String file,int expectedResult) {
         var root = CliDirectoryParser.parse(Path.of(file));
