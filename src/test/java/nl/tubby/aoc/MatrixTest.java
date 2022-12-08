@@ -36,7 +36,8 @@ class MatrixTest {
 
     @ParameterizedTest
     @CsvSource({
-            "puzzle-example-day8.txt,21"
+            "puzzle-example-day8.txt,22", // 22 because of the extra visible from botom
+            "puzzle-input-day8.txt,1703" // <-- solution part 1
     })
     void assignment1(String file,int expectedCount) {
         var matrix = Matrix.slurp(Path.of(file));

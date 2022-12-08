@@ -3,10 +3,8 @@ package nl.tubby.aoc;
 import java.awt.*;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 record Matrix(List<List<Integer>> values) {
