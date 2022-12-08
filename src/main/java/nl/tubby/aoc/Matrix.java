@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 record Matrix(List<List<Integer>> values) {
@@ -100,13 +101,9 @@ record Matrix(List<List<Integer>> values) {
 
     Stream<Coordinates> stream() {
         var size = size();
-        List<Coordinates> coords = new ArrayList<>();
-        for(int row=0;row<size.height;row++) {
-            for(int col=0;col<size.width;col++) {
-                coords.add(new Coordinates(row,col));
-            }
-        }
-        return coords.stream();
+        return IntStream.range(0,size.height)
+                .boxed()
+                .flatMap(row -> IntStream.range(0,size.width).mapToObj(col -> new Coordinates(row,col)));
     }
 
     long countVisibleTrees() {
