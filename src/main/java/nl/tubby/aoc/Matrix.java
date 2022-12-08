@@ -1,8 +1,6 @@
 package nl.tubby.aoc;
 
-import org.apache.commons.lang3.tuple.Pair;
-
-import java.awt.*;
+import java.awt.Dimension;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,28 +8,19 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-record Matrix(List<List<Integer>> values) {
-
-    Matrix() {
-        this(new ArrayList<>());
-    }
+record Matrix(List<List<Integer>> values, int width,int height) {
 
     static Matrix slurp(Path path) {
-        var matrix = new Matrix();
-        var slurper = new Slurper<>(matrix::add);
-        slurper.slurp(path).count();
-        return matrix;
+        var slurper = new Slurper<>(Matrix::parse);
+        var matrix = slurper.slurp(path).toList();
+        return new Matrix(matrix,matrix.get(0).size(),matrix.size());
     }
 
-    Boolean add(String line) {
-        return add(line.chars()
+    static List<Integer> parse(String line) {
+        return line.chars()
                 .filter(Character::isDigit)
                 .mapToObj(Character::getNumericValue)
-                .toList());
-    }
-    Boolean add(List<Integer> row) {
-        this.values().add(row);
-        return Boolean.TRUE;
+                .toList();
     }
 
     int value(Coordinates coords) {
@@ -53,12 +42,6 @@ record Matrix(List<List<Integer>> values) {
         return values().stream().map(row -> getAt(row,coords.col()));
     }
 
-    Dimension size() {
-        return new Dimension(
-                this.values.get(0).size(),
-                this.values.size());
-    }
-
     List<Integer> toMyLeft(Coordinates coords) {
         return row(coords).collect(Collectors.toList()).subList(0,coords.col());
     }
@@ -69,12 +52,12 @@ record Matrix(List<List<Integer>> values) {
 
     List<Integer> toMyRight(Coordinates coords) {
         List<Integer> myRow = row(coords).collect(Collectors.toList());
-        return myRow.subList(coords.col()+1,myRow.size());
+        return myRow.subList(coords.col()+1,width);
     }
 
     List<Integer> toMyBottom(Coordinates coords) {
         List<Integer> myCol = col(coords).collect(Collectors.toList());
-        return myCol.subList(coords.row()+1,myCol.size());
+        return myCol.subList(coords.row()+1,height);
     }
 
     boolean isVisible(Coordinates coords) {
@@ -100,10 +83,9 @@ record Matrix(List<List<Integer>> values) {
     }
 
     Stream<Coordinates> stream() {
-        var size = size();
-        return IntStream.range(0,size.height)
+        return IntStream.range(0,height)
                 .boxed()
-                .flatMap(row -> IntStream.range(0,size.width).mapToObj(col -> new Coordinates(row,col)));
+                .flatMap(row -> IntStream.range(0,width).mapToObj(col -> new Coordinates(row,col)));
     }
 
     long countVisibleTrees() {
