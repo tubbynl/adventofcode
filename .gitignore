@@ -11,5 +11,4 @@ buildNumber.properties
 .mvn/wrapper/maven-wrapper.jar
 /.idea
 *.iml
-/src/test/resources/aoc_2022_day01_large_input.txt
-/src/test/resources/aoc_2022_day05_large_input-2.txt
+src/test/resources/aoc_2022_day*.txt

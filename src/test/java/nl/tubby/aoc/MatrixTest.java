@@ -47,7 +47,8 @@ class MatrixTest {
     @ParameterizedTest
     @CsvSource({
             "puzzle-example-day8.txt,22", // 22 because of the extra visible from botom
-            "puzzle-input-day8.txt,1703" // <-- solution part 1
+            "puzzle-input-day8.txt,1703", // <-- solution part 1
+            //"aoc_2022_day08_sparse.txt,27476" // <-- tweakers https://gathering.tweakers.net/forum/list_message/73727974#73727974
     })
     void assignment1(String file,int expectedCount) {
         var matrix = Matrix.slurp(Path.of(file));
@@ -58,7 +59,8 @@ class MatrixTest {
     @ParameterizedTest
     @CsvSource({
             "puzzle-example-day8.txt,8", // 22 because of the extra visible from botom
-            "puzzle-input-day8.txt,496650" // <-- solution part 2
+            "puzzle-input-day8.txt,496650", // <-- solution part 2
+            //"aoc_2022_day08_sparse.txt,2132894400" // <-- tweakers https://gathering.tweakers.net/forum/list_message/73727974#73727974
     })
     void assignment2(String file,int expectedHighestScenicScore) {
         var matrix = Matrix.slurp(Path.of(file));
