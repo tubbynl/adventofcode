@@ -5,7 +5,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.List;
-import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,15 +12,13 @@ class MatrixTest {
 
     @Test
     void rowAndColum() {
-        Matrix matrix = new Matrix();
-        matrix.add(List.of(1,2,3));
-        matrix.add(List.of(3,1,2));
-        matrix.add(List.of(2,3,1));
+        var matrix = new Matrix();
+        var slurper = new Slurper<>(matrix::add);
+        slurper.slurp(Path.of("puzzle-example-day8.txt")).count();
 
-        IntStream.of(0,1,2).forEach(i -> {
-            assertEquals(3,matrix.col(i).max().getAsInt());
-            assertEquals(3,matrix.row(i).max().getAsInt());
-        });
+        assertEquals(List.of(3,0,3,7,3),matrix.row(0).boxed().toList());
+        assertEquals(List.of(3,5,3,5,3),matrix.col(2).boxed().toList());
+        assertEquals(4,matrix.value(3,3));
     }
 
     @ParameterizedTest
