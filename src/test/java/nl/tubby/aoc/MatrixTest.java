@@ -54,4 +54,17 @@ class MatrixTest {
 
         assertEquals(expectedCount,matrix.countVisibleTrees());
     }
+
+    @ParameterizedTest
+    @CsvSource({
+            "puzzle-example-day8.txt,8", // 22 because of the extra visible from botom
+            "puzzle-input-day8.txt,496650" // <-- solution part 2
+    })
+    void assignment2(String file,int expectedHighestScenicScore) {
+        var matrix = Matrix.slurp(Path.of(file));
+
+        var highestScenicScore = matrix.stream().mapToInt(matrix::scenicScore).max().getAsInt();
+
+        assertEquals(expectedHighestScenicScore,highestScenicScore);
+    }
 }
