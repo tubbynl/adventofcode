@@ -13,9 +13,9 @@ class MatrixTest {
 
     @Test
     void rowAndColum() {
-        assertEquals(List.of(3,0,3,7,3),sut.row(0).toList());
-        assertEquals(List.of(3,5,3,5,3),sut.col(2).toList());
-        assertEquals(4,sut.value(3,3));
+        assertEquals(List.of(3,0,3,7,3),sut.row(new Coordinates(0,2)).toList());
+        assertEquals(List.of(3,5,3,5,3),sut.col(new Coordinates(0,2)).toList());
+        assertEquals(4,sut.value(new Coordinates(3,3)));
     }
 
     @ParameterizedTest
@@ -30,8 +30,8 @@ class MatrixTest {
             "3,1,0,the bottom row 3 is not visible",
             "3,3,4,the bottom row 4 is visible from the buttom",
     })
-    void isVisible(int row,int col,int expectedVisibility,String message) {
-        assertEquals(expectedVisibility,sut.isVisible(row,col),message);
+    void visibleFrom(int row,int col,int expectedVisibility,String message) {
+        assertEquals(expectedVisibility,sut.visibleFrom(new Coordinates(row,col)),message);
     }
 
     @ParameterizedTest

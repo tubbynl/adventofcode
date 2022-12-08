@@ -1,5 +1,7 @@
 package nl.tubby.aoc;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import java.awt.*;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -31,58 +33,61 @@ record Matrix(List<List<Integer>> values) {
         return Boolean.TRUE;
     }
 
-    int value(int row,int col) {
-        if(values().size()<=row) {
+    int value(Coordinates coords) {
+        if(values().size()<=coords.row()) {
             return 0;
         }
-        return getAt(values().get(row),col);
+        return getAt(values().get(coords.row()),coords.col());
     }
 
     static Integer getAt(List<Integer> list,int index) {
         return list.size()<=index?0:list.get(index);
     }
 
-    Stream<Integer> row(int row) {
-        return values().size()<=row? Stream.empty():values().get(row).stream();
+    Stream<Integer> row(Coordinates coords) {
+        return values().size()<=coords.row()? Stream.empty():values().get(coords.row()).stream();
     }
 
-    Stream<Integer> col(int col) {
-        return values().stream().map(row -> getAt(row,col));
+    Stream<Integer> col(Coordinates coords) {
+        return values().stream().map(row -> getAt(row,coords.col()));
     }
 
     Dimension size() {
         return new Dimension(
-                Long.valueOf(row(0).count()).intValue(),
-                Long.valueOf(col(0).count()).intValue());
+                this.values.get(0).size(),
+                this.values.size());
     }
 
-    List<Integer> toMyLeft(int row,int col) {
-        return row(row).collect(Collectors.toList()).subList(0,col);
+    List<Integer> toMyLeft(Coordinates coords) {
+        return row(coords).collect(Collectors.toList()).subList(0,coords.col());
     }
 
-    List<Integer> toMyTop(int row,int col) {
-        return col(col).collect(Collectors.toList()).subList(0,row);
+    List<Integer> toMyTop(Coordinates coords) {
+        return col(coords).collect(Collectors.toList()).subList(0,coords.row());
     }
 
-    List<Integer> toMyRight(int row,int col) {
-        List<Integer> myRow = row(row).collect(Collectors.toList());
-        return myRow.subList(col+1,myRow.size());
+    List<Integer> toMyRight(Coordinates coords) {
+        List<Integer> myRow = row(coords).collect(Collectors.toList());
+        return myRow.subList(coords.col()+1,myRow.size());
     }
 
-    List<Integer> toMyBottom(int row,int col) {
-        List<Integer> myCol = col(col).collect(Collectors.toList());
-        return myCol.subList(row+1,myCol.size());
+    List<Integer> toMyBottom(Coordinates coords) {
+        List<Integer> myCol = col(coords).collect(Collectors.toList());
+        return myCol.subList(coords.row()+1,myCol.size());
     }
 
-    int isVisible(int row,int col) {
-        int myValue = value(row,col);
-        if(!containsGte(toMyLeft(row,col),myValue)) {
+    boolean isVisible(Coordinates coords) {
+        return visibleFrom(coords)>0;
+    }
+    int visibleFrom(Coordinates coords) {
+        int myValue = value(coords);
+        if(!containsGte(toMyLeft(coords),myValue)) {
             return 1;// visible from left
-        } else if(!containsGte(toMyTop(row,col),myValue)) {
+        } else if(!containsGte(toMyTop(coords),myValue)) {
             return 2;// visible from top
-        } else if(!containsGte(toMyRight(row,col),myValue)) {
+        } else if(!containsGte(toMyRight(coords),myValue)) {
             return 3;// visible from right
-        } else if(!containsGte(toMyBottom(row,col),myValue)) {
+        } else if(!containsGte(toMyBottom(coords),myValue)) {
             return 4;// visible from bottom
         }
         return 0;
@@ -93,16 +98,22 @@ record Matrix(List<List<Integer>> values) {
         return list.stream().filter(v -> v>=min).findFirst().isPresent();
     }
 
-    int countVisibleTrees() {
+    Stream<Coordinates> stream() {
         var size = size();
-        int count = 0;
+        List<Coordinates> coords = new ArrayList<>();
         for(int row=0;row<size.height;row++) {
             for(int col=0;col<size.width;col++) {
-                if(isVisible(row,col)>0) {
-                    count++;
-                }
+                coords.add(new Coordinates(row,col));
             }
         }
-        return count;
+        return coords.stream();
+    }
+
+    long countVisibleTrees() {
+        return stream()
+                .filter(this::isVisible)
+                .count();
     }
 }
+
+record Coordinates(int row,int col) {}
