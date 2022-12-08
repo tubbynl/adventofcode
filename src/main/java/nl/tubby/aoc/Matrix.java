@@ -62,7 +62,7 @@ record Matrix(List<List<Integer>> values) {
         int myValue = value(row,col);
         List<Integer> myRow = row(row).collect(Collectors.toList());
         List<Integer> myCol = col(col).collect(Collectors.toList());
-        System.err.println(row+","+col+"["+myValue+"] myRow"+myRow+" myCol"+myCol);
+        //System.err.println(row+","+col+"["+myValue+"] myRow"+myRow+" myCol"+myCol);
         if(!containsGte(myRow.subList(0,col),myValue)) {
             return 1;// visible from left
         } else if(!containsGte(myCol.subList(0,row),myValue)) {
@@ -76,9 +76,8 @@ record Matrix(List<List<Integer>> values) {
     }
 
     static boolean containsGte(List<Integer> list,Integer min) {
-        boolean result = list.stream().filter(v -> v>=min).findFirst().isPresent();
-        System.err.println(list+" has >="+min+"? "+result);
-        return result;
+        //System.err.println(list+" has >="+min);
+        return list.stream().filter(v -> v>=min).findFirst().isPresent();
     }
 
     int countVisibleTrees() {
