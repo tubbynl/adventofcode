@@ -3,7 +3,9 @@ package nl.tubby.aoc;
 import java.awt.*;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -56,14 +58,24 @@ record Matrix(List<List<Integer>> values) {
                 Long.valueOf(col(0).count()).intValue());
     }
 
-    boolean isVisible(int row,int col) {
+    int isVisible(int row,int col) {
         int myValue = value(row,col);
-        List<Integer> myRow = row(row).toList();
-        List<Integer> myCol = col(col).toList();
-        if(IntStream.range(0,col).map(myRow::get).filter(v -> v>=myValue).findFirst().isPresent()) {
-            return false;
+        List<Integer> myRow = row(row).collect(Collectors.toList());
+        List<Integer> myCol = col(col).collect(Collectors.toList());
+        System.err.println(row+","+col+"["+myValue+"] myRow"+myRow+" myCol"+myCol);
+        if(!IntStream.range(0,col).map(myRow::get).filter(v -> v>=myValue).findFirst().isPresent()) {
+            return 1;// visible from left
+        } else if(!IntStream.range(0,row).map(myCol::get).filter(v -> v>=myValue).findFirst().isPresent()) {
+            return 2;// visible from top
         }
-        return true;
+        Collections.reverse(myRow);
+        Collections.reverse(myCol);
+        if(!IntStream.range(myRow.size()-1,col).map(myRow::get).filter(v -> v>=myValue).findFirst().isPresent()) {
+            return 3;// visible from right
+        } else if(!IntStream.range(myCol.size()-1,row).map(myCol::get).filter(v -> v>=myValue).findFirst().isPresent()) {
+            return 4;// visible from bottom
+        }
+        return 0;
     }
 
     int countVisibleTrees() {
@@ -71,7 +83,7 @@ record Matrix(List<List<Integer>> values) {
         int count = 0;
         for(int row=0;row<size.height;row++) {
             for(int col=0;col<size.width;col++) {
-                if(isVisible(row,col)) {
+                if(isVisible(row,col)>0) {
                     count++;
                 }
             }
