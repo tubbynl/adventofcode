@@ -9,8 +9,16 @@ record Matrix(List<List<Integer>> values) {
     Matrix() {
         this(new ArrayList<>());
     }
-    void addRow(Integer... row) {
-        this.values().add(List.of(row));
+
+    Boolean add(String line) {
+        return add(line.chars()
+                .filter(Character::isDigit)
+                .mapToObj(Character::getNumericValue)
+                .toList());
+    }
+    Boolean add(List<Integer> row) {
+        this.values().add(row);
+        return Boolean.TRUE;
     }
 
     int value(int row,int col) {
