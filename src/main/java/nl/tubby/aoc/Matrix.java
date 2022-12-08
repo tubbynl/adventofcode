@@ -1,13 +1,23 @@
 package nl.tubby.aoc;
 
+import java.awt.*;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 record Matrix(List<List<Integer>> values) {
 
     Matrix() {
         this(new ArrayList<>());
+    }
+
+    static Matrix slurp(Path path) {
+        var matrix = new Matrix();
+        var slurper = new Slurper<>(matrix::add);
+        slurper.slurp(path).count();
+        return matrix;
     }
 
     Boolean add(String line) {
@@ -28,15 +38,44 @@ record Matrix(List<List<Integer>> values) {
         return getAt(values().get(row),col);
     }
 
-    static int getAt(List<Integer> list,int index) {
+    static Integer getAt(List<Integer> list,int index) {
         return list.size()<=index?0:list.get(index);
     }
 
-    IntStream row(int row) {
-        return values().size()<=row?IntStream.empty():values().get(row).stream().mapToInt(Integer::intValue);
+    Stream<Integer> row(int row) {
+        return values().size()<=row? Stream.empty():values().get(row).stream();
     }
 
-    IntStream col(int col) {
-        return values().stream().mapToInt(row -> getAt(row,col));
+    Stream<Integer> col(int col) {
+        return values().stream().map(row -> getAt(row,col));
+    }
+
+    Dimension size() {
+        return new Dimension(
+                Long.valueOf(row(0).count()).intValue(),
+                Long.valueOf(col(0).count()).intValue());
+    }
+
+    boolean isVisible(int row,int col) {
+        int myValue = value(row,col);
+        List<Integer> myRow = row(row).toList();
+        List<Integer> myCol = col(col).toList();
+        if(IntStream.range(0,col).map(myRow::get).filter(v -> v>=myValue).findFirst().isPresent()) {
+            return false;
+        }
+        return true;
+    }
+
+    int countVisibleTrees() {
+        var size = size();
+        int count = 0;
+        for(int row=0;row<size.height;row++) {
+            for(int col=0;col<size.width;col++) {
+                if(isVisible(row,col)) {
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 }
