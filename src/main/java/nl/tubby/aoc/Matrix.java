@@ -56,18 +56,33 @@ record Matrix(List<List<Integer>> values) {
                 Long.valueOf(col(0).count()).intValue());
     }
 
+    List<Integer> toMyLeft(int row,int col) {
+        return row(row).collect(Collectors.toList()).subList(0,col);
+    }
+
+    List<Integer> toMyTop(int row,int col) {
+        return col(col).collect(Collectors.toList()).subList(0,row);
+    }
+
+    List<Integer> toMyRight(int row,int col) {
+        List<Integer> myRow = row(row).collect(Collectors.toList());
+        return myRow.subList(col+1,myRow.size());
+    }
+
+    List<Integer> toMyBottom(int row,int col) {
+        List<Integer> myCol = col(col).collect(Collectors.toList());
+        return myCol.subList(row+1,myCol.size());
+    }
+
     int isVisible(int row,int col) {
         int myValue = value(row,col);
-        List<Integer> myRow = row(row).collect(Collectors.toList());
-        List<Integer> myCol = col(col).collect(Collectors.toList());
-        //System.err.println(row+","+col+"["+myValue+"] myRow"+myRow+" myCol"+myCol);
-        if(!containsGte(myRow.subList(0,col),myValue)) {
+        if(!containsGte(toMyLeft(row,col),myValue)) {
             return 1;// visible from left
-        } else if(!containsGte(myCol.subList(0,row),myValue)) {
+        } else if(!containsGte(toMyTop(row,col),myValue)) {
             return 2;// visible from top
-        } else if(!containsGte(myRow.subList(col+1,myRow.size()),myValue)) {
+        } else if(!containsGte(toMyRight(row,col),myValue)) {
             return 3;// visible from right
-        } else if(!containsGte(myCol.subList(row+1,myCol.size()),myValue)) {
+        } else if(!containsGte(toMyBottom(row,col),myValue)) {
             return 4;// visible from bottom
         }
         return 0;
