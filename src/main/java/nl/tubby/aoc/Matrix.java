@@ -13,4 +13,22 @@ record Matrix(List<List<Integer>> values) {
         this.values().add(List.of(row));
     }
 
+    int value(int row,int col) {
+        if(values().size()<=row) {
+            return 0;
+        }
+        return getAt(values().get(row),col);
+    }
+
+    static int getAt(List<Integer> list,int index) {
+        return list.size()<=index?0:list.get(index);
+    }
+
+    IntStream row(int row) {
+        return values().size()<=row?IntStream.empty():values().get(row).stream().mapToInt(Integer::intValue);
+    }
+
+    IntStream col(int col) {
+        return values().stream().mapToInt(row -> getAt(row,col));
+    }
 }
