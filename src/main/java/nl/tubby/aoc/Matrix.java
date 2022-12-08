@@ -63,19 +63,22 @@ record Matrix(List<List<Integer>> values) {
         List<Integer> myRow = row(row).collect(Collectors.toList());
         List<Integer> myCol = col(col).collect(Collectors.toList());
         System.err.println(row+","+col+"["+myValue+"] myRow"+myRow+" myCol"+myCol);
-        if(!IntStream.range(0,col).map(myRow::get).filter(v -> v>=myValue).findFirst().isPresent()) {
+        if(!containsGte(myRow.subList(0,col),myValue)) {
             return 1;// visible from left
-        } else if(!IntStream.range(0,row).map(myCol::get).filter(v -> v>=myValue).findFirst().isPresent()) {
+        } else if(!containsGte(myCol.subList(0,row),myValue)) {
             return 2;// visible from top
-        }
-        if(!IntStream.range(0,myRow.size()-col)
-                .map(i -> myRow.get(myRow.size()-i-1)).filter(v -> v>=myValue).findFirst().isPresent()) {
+        } else if(!containsGte(myRow.subList(col+1,myRow.size()),myValue)) {
             return 3;// visible from right
-        } else if(!IntStream.range(0,myCol.size()-row)
-                .map(i -> myCol.get(myCol.size()-i-1)).filter(v -> v>=myValue).findFirst().isPresent()) {
+        } else if(!containsGte(myCol.subList(row+1,myCol.size()),myValue)) {
             return 4;// visible from bottom
         }
         return 0;
+    }
+
+    static boolean containsGte(List<Integer> list,Integer min) {
+        boolean result = list.stream().filter(v -> v>=min).findFirst().isPresent();
+        System.err.println(list+" has >="+min+"? "+result);
+        return result;
     }
 
     int countVisibleTrees() {

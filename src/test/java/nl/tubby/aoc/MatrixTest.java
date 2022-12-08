@@ -22,8 +22,8 @@ class MatrixTest {
     @CsvSource({
             "1,1,1,the top-left 5 is visible from the left",
             "1,2,2,the top-middle 5 is visible from the top",
-            "1,3,0,the the top-right 1 is not visible",
-            "2,1,3,the the left-middle 5 is visible from the right",
+            "1,3,0,the top-right 1 is not visible",
+            "2,1,3,the left-middle 5 is visible from the right",
             "2,2,0,the center 3 is not visible",
             "2,3,3,right-middle 3 is visible from the right",
             "3,2,1,the bottom row, the middle 5 is visible",
