@@ -28,7 +28,7 @@ class MatrixTest {
             "2,3,3,right-middle 3 is visible from the right",
             "3,2,1,the bottom row, the middle 5 is visible",
             "3,1,0,the bottom row 3 is not visible",
-            "3,3,0,the bottom row 4 is not visible",
+            "3,3,4,the bottom row 4 is visible from the buttom",
     })
     void isVisible(int row,int col,int expectedVisibility,String message) {
         assertEquals(expectedVisibility,sut.isVisible(row,col),message);
