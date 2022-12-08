@@ -68,11 +68,11 @@ record Matrix(List<List<Integer>> values) {
         } else if(!IntStream.range(0,row).map(myCol::get).filter(v -> v>=myValue).findFirst().isPresent()) {
             return 2;// visible from top
         }
-        Collections.reverse(myRow);
-        Collections.reverse(myCol);
-        if(!IntStream.range(myRow.size()-1,col).map(myRow::get).filter(v -> v>=myValue).findFirst().isPresent()) {
+        if(!IntStream.range(0,myRow.size()-col)
+                .map(i -> myRow.get(myRow.size()-i-1)).filter(v -> v>=myValue).findFirst().isPresent()) {
             return 3;// visible from right
-        } else if(!IntStream.range(myCol.size()-1,row).map(myCol::get).filter(v -> v>=myValue).findFirst().isPresent()) {
+        } else if(!IntStream.range(0,myCol.size()-row)
+                .map(i -> myCol.get(myCol.size()-i-1)).filter(v -> v>=myValue).findFirst().isPresent()) {
             return 4;// visible from bottom
         }
         return 0;
