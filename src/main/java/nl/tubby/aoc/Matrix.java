@@ -3,6 +3,7 @@ package nl.tubby.aoc;
 import java.awt.Dimension;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -43,11 +44,15 @@ record Matrix(List<List<Integer>> values, int width,int height) {
     }
 
     List<Integer> toMyLeft(Coordinates coords) {
-        return row(coords).collect(Collectors.toList()).subList(0,coords.col());
+        List<Integer> result =  row(coords).collect(Collectors.toList()).subList(0,coords.col());
+        Collections.reverse(result);
+        return result;
     }
 
     List<Integer> toMyTop(Coordinates coords) {
-        return col(coords).collect(Collectors.toList()).subList(0,coords.row());
+        List<Integer> result = col(coords).collect(Collectors.toList()).subList(0,coords.row());
+        Collections.reverse(result);
+        return result;
     }
 
     List<Integer> toMyRight(Coordinates coords) {
@@ -92,6 +97,23 @@ record Matrix(List<List<Integer>> values, int width,int height) {
         return stream()
                 .filter(this::isVisible)
                 .count();
+    }
+
+    int scenicScore(List<Integer> list,Integer myTreeHeight) {
+        for(int i=0;i< list.size();i++) {
+            if(list.get(i)>=myTreeHeight) {
+                return i+1;
+            }
+        }
+        return list.size();
+    }
+
+    int scenicScore(Coordinates coords) {
+        var myTreeHeight = value(coords);
+        return scenicScore(toMyLeft(coords),myTreeHeight)
+                * scenicScore(toMyTop(coords),myTreeHeight)
+                * scenicScore(toMyRight(coords),myTreeHeight)
+                * scenicScore(toMyBottom(coords),myTreeHeight);
     }
 }
 

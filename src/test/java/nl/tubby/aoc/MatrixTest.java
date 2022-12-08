@@ -18,6 +18,16 @@ class MatrixTest {
         assertEquals(4,sut.value(new Coordinates(3,3)));
     }
 
+    @Test
+    void toMy() {
+        Coordinates middle = new Coordinates(2,2);
+
+        assertEquals(List.of(5,6),sut.toMyLeft(middle));
+        assertEquals(List.of(5,3),sut.toMyTop(middle));
+        assertEquals(List.of(3,2),sut.toMyRight(middle));
+        assertEquals(List.of(5,3),sut.toMyBottom(middle));
+    }
+
     @ParameterizedTest
     @CsvSource({
             "1,1,1,the top-left 5 is visible from the left",
