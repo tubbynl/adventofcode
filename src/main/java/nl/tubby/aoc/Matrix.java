@@ -126,4 +126,10 @@ record Coordinates(int row,int col) {
                 .mapToInt(NumberUtils::toInt).toArray();
         return new Coordinates(splitted[0],splitted[1]);
     }
+
+    int distance(Coordinates other) {
+        return Math.max(
+                Math.abs(row-other.row),
+                Math.abs(col-other.col));
+    }
 }
