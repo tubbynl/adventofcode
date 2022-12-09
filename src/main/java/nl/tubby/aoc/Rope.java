@@ -17,10 +17,11 @@ class Rope {
         this.tail = start;
     }
 
-    Coordinates move(String line) {
+    List<Coordinates> move(String line) {
         var newCoords = moveHead(line);
-        this.tail = newCoords.size()<=1?this.tail:newCoords.get(newCoords.size()-2);
-        return this.tail;
+        var newCoordsTail = newCoords.stream().filter(headCoords -> headCoords.distance(this.tail)>1).toList();
+        this.tail = newCoordsTail.isEmpty()?this.tail:newCoordsTail.get(newCoordsTail.size()-1);
+        return newCoordsTail;
     }
 
     List<Coordinates> moveHead(String line) {
@@ -33,7 +34,7 @@ class Rope {
     static long countTailPositions(Path path) {
         var rope = new Rope(new Coordinates(0,0));
         var slurper = new Slurper<>(rope::move);
-        var tailPositions = Stream.concat(Stream.of(rope.tail),slurper.slurp(path));
+        var tailPositions = Stream.concat(Stream.of(rope.tail),slurper.slurp(path).flatMap(List::stream));
         return tailPositions.distinct().count();
     }
 }
