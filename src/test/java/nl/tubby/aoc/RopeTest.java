@@ -17,13 +17,13 @@ class RopeTest {
             "0.0,R 5,5.0",
             "0.0,D 3,0.3"
     })
-    void move(String start, String line,String end) {
+    void moveHead(String start, String line,String end) {
         var rope = new Rope(Coordinates.parse(start));
         var move = Direction.parse(line);
 
         var touched  = rope.move(line).toList();
 
         assertEquals(move.getRight()+1,touched.size());
-        assertEquals(Coordinates.parse(end),rope.current());
+        assertEquals(Coordinates.parse(end),rope.head());
     }
 }

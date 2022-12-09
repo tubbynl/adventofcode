@@ -5,25 +5,24 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 class Rope {
-    private Coordinates current;
+    private Coordinates head;
 
     public Rope(Coordinates start) {
-        this.current = start;
+        this.head = start;
     }
 
     Stream<Coordinates> move(String line) {
         var move = Direction.parse(line);
-        var newCoords = move.getLeft().move(this.current,move.getRight());
-        this.current = newCoords.isEmpty()?this.current:newCoords.get(newCoords.size()-1);
-        return Stream.concat(Stream.of(this.current),newCoords.stream());
+        var newCoords = move.getLeft().move(this.head,move.getRight());
+        this.head = newCoords.isEmpty()?this.head:newCoords.get(newCoords.size()-1);
+        return Stream.concat(Stream.of(this.head),newCoords.stream());
     }
 
-    Coordinates current() {
-        return this.current;
+    Coordinates head() {
+        return this.head;
     }
 }
 
