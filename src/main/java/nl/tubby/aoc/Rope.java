@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -16,11 +17,24 @@ class Rope {
         this.tail = start;
     }
 
-    Stream<Coordinates> move(String line) {
+    Coordinates move(String line) {
+        var newCoords = moveHead(line);
+        this.tail = newCoords.size()<=1?this.tail:newCoords.get(newCoords.size()-2);
+        return this.tail;
+    }
+
+    List<Coordinates> moveHead(String line) {
         var move = Direction.parse(line);
         var newCoords = move.getLeft().move(this.head,move.getRight());
         this.head = newCoords.isEmpty()?this.head:newCoords.get(newCoords.size()-1);
-        return Stream.concat(Stream.of(this.head),newCoords.stream());
+        return newCoords;
+    }
+
+    static long countTailPositions(Path path) {
+        var rope = new Rope(new Coordinates(0,0));
+        var slurper = new Slurper<>(rope::move);
+        var tailPositions = Stream.concat(Stream.of(rope.tail),slurper.slurp(path));
+        return tailPositions.distinct().count();
     }
 }
 
