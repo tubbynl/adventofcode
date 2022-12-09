@@ -1,6 +1,5 @@
 package nl.tubby.aoc;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -24,6 +23,6 @@ class RopeTest {
         var touched  = rope.move(line).toList();
 
         assertEquals(move.getRight()+1,touched.size());
-        assertEquals(Coordinates.parse(end),rope.head());
+        assertEquals(Coordinates.parse(end),rope.head);
     }
 }

@@ -8,10 +8,12 @@ import java.util.*;
 import java.util.stream.Stream;
 
 class Rope {
-    private Coordinates head;
+    Coordinates head;
+    Coordinates tail;
 
     public Rope(Coordinates start) {
         this.head = start;
+        this.tail = start;
     }
 
     Stream<Coordinates> move(String line) {
@@ -19,10 +21,6 @@ class Rope {
         var newCoords = move.getLeft().move(this.head,move.getRight());
         this.head = newCoords.isEmpty()?this.head:newCoords.get(newCoords.size()-1);
         return Stream.concat(Stream.of(this.head),newCoords.stream());
-    }
-
-    Coordinates head() {
-        return this.head;
     }
 }
 
