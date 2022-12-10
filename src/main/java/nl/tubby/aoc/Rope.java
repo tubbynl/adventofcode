@@ -20,10 +20,10 @@ class Rope {
     Stream<Coordinates> move(String line) {
         return Stream.of(Movement.parse(line))
                 .flatMap(this::moveHead)
-                .peek(head -> System.err.print("H:"+head+" "))
-                .map(this.tail::moveTail)
-                .peek(tail -> System.err.println("T:"+tail))
-                .peek(tail -> this.tail = tail);
+                .peek(head -> System.err.print("H:"+this.head+" "))
+                .map(c -> this.tail.moveTail(this.head))
+                .peek(tail -> this.tail = tail)
+                .peek(tail -> System.err.println("T:"+this.tail));
     }
 
     Stream<Coordinates> moveHead(Movement move) {
@@ -68,6 +68,11 @@ enum Direction {
         }
         return result.stream();
     }
+
+    @Override
+    public String toString() {
+        return name().substring(0,1).toUpperCase();
+    }
 }
 
 record Movement(Direction direction,int steps) {
@@ -78,7 +83,12 @@ record Movement(Direction direction,int steps) {
     }
 
     Stream<Coordinates> apply(Coordinates start) {
-        System.err.println(this+" on s"+start);
+        System.err.println(this+" on H:"+start);
         return this.direction.move(start, this.steps);
+    }
+
+    @Override
+    public String toString() {
+        return "== " + direction+ " "+steps +" ==";
     }
 }

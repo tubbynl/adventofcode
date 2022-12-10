@@ -128,27 +128,27 @@ record Coordinates(int row,int col) {
     }
 
     Coordinates moveTail(Coordinates head) {
-        int rowDistance = row-head.row;
-        int colDistance = col-head.col;
-        System.err.print("rowDistance "+rowDistance+" colDistance "+colDistance+" ");
+        int rowDistance = head.row-row;
+        int colDistance = head.col-col;
+        System.err.print("distance "+rowDistance+"."+colDistance+" ");
         // if distance not larger than 1 we dont need to move tail
         if(!IntStream.of(rowDistance,colDistance)
                 .map(Math::abs)
                 .filter(i->i>1).findFirst().isPresent()) {
             return this;
         }
-        int colStep = colDistance>0?1:-1;
-        int rowStep = rowDistance>0?1:-1;
-        if(colDistance>rowDistance) {
-            colStep=0;
-        } else if(rowDistance>colDistance) {
+        int colStep = colDistance>0?-1:1;
+        int rowStep = rowDistance>0?-1:1;
+        if(Math.abs(colDistance)>Math.abs(rowDistance)) {
             rowStep=0;
+        } else if(Math.abs(rowDistance)>Math.abs(colDistance)) {
+            colStep=0;
         }
         return head.at(rowStep,colStep);
     }
 
     Coordinates at(int stepRow,int stepCol) {
-        System.err.print("at "+stepRow+" "+stepCol+" " );
+        System.err.print("steps "+stepRow+" "+stepCol+" to " );
         return new Coordinates(row()+stepRow,col()+stepCol);
     }
 
