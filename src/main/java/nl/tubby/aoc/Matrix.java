@@ -127,6 +127,26 @@ record Coordinates(int row,int col) {
         return new Coordinates(splitted[0],splitted[1]);
     }
 
+    Coordinates moveTail(Coordinates head) {
+        int distance = head.distance(this);
+        System.err.print("distance "+distance+" " );
+        if(distance<=1) {
+            return this;
+        }
+        int stepRow = 0;
+        int stepCol = 0;
+        if(sameRow(head)) {
+            stepCol = head.col()>col()?-1:1;
+        } else if(sameCol(head)) {
+            stepRow = head.row()>row()?-1:1;
+        } else {
+            stepCol = head.col()>col()?-1:1;
+            stepRow = head.row()>row()?-1:1;
+        }
+        System.err.print("steps "+stepRow+" "+stepCol+" " );
+        return new Coordinates(head.row()+stepRow,head.col()+stepCol);
+    }
+
     int distance(Coordinates other) {
         return Math.max(
                 Math.abs(row-other.row),

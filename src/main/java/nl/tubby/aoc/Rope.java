@@ -21,27 +21,9 @@ class Rope {
         return Stream.of(Movement.parse(line))
                 .flatMap(this::moveHead)
                 .peek(head -> System.err.print("H:"+head+" "))
-                .flatMap(head -> moveTail(head,this.tail))
+                .map(this.tail::moveTail)
                 .peek(tail -> System.err.println("T:"+tail))
                 .peek(tail -> this.tail = tail);
-    }
-
-    static Stream<Coordinates> moveTail(Coordinates head, Coordinates currentTail) {
-        if(head.distance(currentTail)<=1) {
-            return Stream.of(currentTail);
-        }
-        int stepRow = 0;
-        int stepCol = 0;
-        if(currentTail.sameRow(head)) {
-            stepCol = head.col()>currentTail.col()?-1:1;
-        } else if(currentTail.sameCol(head)) {
-            stepRow = head.row()>currentTail.row()?-1:1;
-        } else {
-            stepCol = head.col()>currentTail.col()?-1:1;
-            stepRow = head.row()>currentTail.row()?-1:1;
-        }
-        Coordinates tail = new Coordinates(head.row()+stepRow,head.col()+stepCol);
-        return Stream.of(tail);
     }
 
     Stream<Coordinates> moveHead(Movement move) {
