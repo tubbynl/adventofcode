@@ -69,18 +69,4 @@ class MatrixTest {
 
         assertEquals(expectedHighestScenicScore,highestScenicScore);
     }
-
-    @ParameterizedTest
-    @CsvSource({
-            "0.0,1.0,1",
-            "1.1,0.0,1",
-            "0.0,0.0,0",
-            "5.1,1.0,4"
-    })
-    void distance(String start,String end,int distance) {
-        var startCoords = Coordinates.parse(start);
-        var endCoords = Coordinates.parse(end);
-
-        assertEquals(distance,startCoords.distance(endCoords));
-    }
 }

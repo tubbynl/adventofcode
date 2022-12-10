@@ -128,37 +128,28 @@ record Coordinates(int row,int col) {
     }
 
     Coordinates moveTail(Coordinates head) {
-        int distance = head.distance(this);
-        System.err.print("distance "+distance+" " );
-        if(distance<=1) {
+        int rowDistance = row-head.row;
+        int colDistance = col-head.col;
+        System.err.print("rowDistance "+rowDistance+" colDistance "+colDistance+" ");
+        // if distance not larger than 1 we dont need to move tail
+        if(!IntStream.of(rowDistance,colDistance)
+                .map(Math::abs)
+                .filter(i->i>1).findFirst().isPresent()) {
             return this;
         }
-        int stepRow = 0;
-        int stepCol = 0;
-        if(sameRow(head)) {
-            stepCol = head.col()>col()?-1:1;
-        } else if(sameCol(head)) {
-            stepRow = head.row()>row()?-1:1;
-        } else {
-            stepCol = head.col()>col()?-1:1;
-            stepRow = head.row()>row()?-1:1;
+        int colStep = colDistance>0?1:-1;
+        int rowStep = rowDistance>0?1:-1;
+        if(colDistance>rowDistance) {
+            colStep=0;
+        } else if(rowDistance>colDistance) {
+            rowStep=0;
         }
-        System.err.print("steps "+stepRow+" "+stepCol+" " );
-        return new Coordinates(head.row()+stepRow,head.col()+stepCol);
+        return head.at(rowStep,colStep);
     }
 
-    int distance(Coordinates other) {
-        return Math.max(
-                Math.abs(row-other.row),
-                Math.abs(col-other.col));
-    }
-
-    boolean sameRow(Coordinates other) {
-        return this.row==other.row;
-    }
-
-    boolean sameCol(Coordinates other) {
-        return this.col==other.col;
+    Coordinates at(int stepRow,int stepCol) {
+        System.err.print("at "+stepRow+" "+stepCol+" " );
+        return new Coordinates(row()+stepRow,col()+stepCol);
     }
 
     @Override
