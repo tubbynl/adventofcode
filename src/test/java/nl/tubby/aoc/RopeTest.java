@@ -32,7 +32,7 @@ class RopeTest {
             "puzzle-input-day9.txt,6197"
     })
     void assignment1(String file, long expectedTailLocations) {
-        var start = Coordinates.parse("5.0");
+        var start = Coordinates.parse("0.4");
         var result = Rope.countTailPositions(start,Path.of(file),1);
 
         assertEquals(expectedTailLocations, result);
@@ -40,11 +40,12 @@ class RopeTest {
 
     @ParameterizedTest
     @CsvSource({
-            "puzzle-example-day9-2.txt,36",
-            "puzzle-input-day9.txt,6197"
+            "puzzle-example-day9.txt,0.4,1",
+            "puzzle-example-day9-2.txt,11.15,36",
+            "puzzle-input-day9.txt,11.15,6197"
     })
-    void assignment2(String file, long expectedTailLocations) {
-        var start = Coordinates.parse("15.11");
+    void assignment2(String file, String startStr,long expectedTailLocations) {
+        var start = Coordinates.parse(startStr);
         var result = Rope.countTailPositions(start,Path.of(file),9);
 
         assertEquals(expectedTailLocations, result);
