@@ -28,7 +28,8 @@ class RopeTest {
 
     @ParameterizedTest
     @CsvSource({
-            "puzzle-example-day9.txt,13"
+            "puzzle-example-day9.txt,13",
+            "puzzle-input-day9.txt,6197"
     })
     void assignment1(String file, long expectedTailLocations) {
         var start = Coordinates.parse("0.5");
