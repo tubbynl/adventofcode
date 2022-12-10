@@ -130,7 +130,7 @@ record Coordinates(int row,int col) {
     Coordinates moveTail(Coordinates head) {
         int rowDistance = head.row-row;
         int colDistance = head.col-col;
-        System.err.print("distance "+rowDistance+"."+colDistance+" ");
+        //System.err.print("distance "+rowDistance+"."+colDistance+" ");
         // if distance not larger than 1 we dont need to move tail
         if(!IntStream.of(rowDistance,colDistance)
                 .map(Math::abs)
@@ -148,7 +148,7 @@ record Coordinates(int row,int col) {
     }
 
     Coordinates at(int stepRow,int stepCol) {
-        System.err.print("steps "+stepRow+" "+stepCol+" to " );
+        //System.err.print("steps "+stepRow+" "+stepCol+" to " );
         return new Coordinates(row()+stepRow,col()+stepCol);
     }
 
