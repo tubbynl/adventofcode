@@ -9,10 +9,12 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 class Rope {
+    final int length;
     Coordinates head;
     Coordinates tail;
 
-    public Rope(Coordinates start) {
+    public Rope(int length,Coordinates start) {
+        this.length = length;
         this.head = start;
         this.tail = start;
     }
@@ -21,7 +23,7 @@ class Rope {
         return Stream.of(Movement.parse(line))
                 .flatMap(this::moveHead)
                 //.peek(head -> System.err.print("H:"+this.head+" "))
-                .map(c -> this.tail.moveTail(this.head))
+                .map(c -> this.tail.moveTail(this.head,this.length))
                 .peek(tail -> this.tail = tail);
                 //.peek(tail -> System.err.println("T:"+this.tail));
     }
@@ -31,9 +33,13 @@ class Rope {
                 .peek(pos -> this.head=pos);
     }
 
-    static long countTailPositions(Coordinates start,Path path) {
-        var slurper = new Slurper<>(new Rope(start)::move);
-        return slurper.slurp(path).flatMap(Function.identity()).distinct().count();
+    static long countTailPositions(Coordinates start,Path path, int length) {
+        var rope = new Rope(length,start);
+        return new Slurper<>(rope::move)
+                .slurp(path)
+                .flatMap(Function.identity())
+                .distinct()
+                .count();
     }
 }
 

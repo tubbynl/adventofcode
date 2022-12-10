@@ -127,7 +127,7 @@ record Coordinates(int row,int col) {
         return new Coordinates(splitted[0],splitted[1]);
     }
 
-    Coordinates moveTail(Coordinates head) {
+    Coordinates moveTail(Coordinates head,int length) {
         int rowDistance = head.row-row;
         int colDistance = head.col-col;
         //System.err.print("distance "+rowDistance+"."+colDistance+" ");

@@ -17,7 +17,7 @@ class RopeTest {
             "0.0,D 3,0.3"
     })
     void moveHead(String start, String line, String end) {
-        var rope = new Rope(Coordinates.parse(start));
+        var rope = new Rope(1,Coordinates.parse(start));
         var move = Movement.parse(line);
 
         var touched = rope.moveHead(move).toList();
@@ -32,8 +32,8 @@ class RopeTest {
             "puzzle-input-day9.txt,6197"
     })
     void assignment1(String file, long expectedTailLocations) {
-        var start = Coordinates.parse("0.5");
-        var result = Rope.countTailPositions(start,Path.of(file));
+        var start = Coordinates.parse("5.0");
+        var result = Rope.countTailPositions(start,Path.of(file),1);
 
         assertEquals(expectedTailLocations, result);
     }
