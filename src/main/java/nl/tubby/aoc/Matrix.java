@@ -132,4 +132,12 @@ record Coordinates(int row,int col) {
                 Math.abs(row-other.row),
                 Math.abs(col-other.col));
     }
+
+    boolean sameRow(Coordinates other) {
+        return this.row==other.row;
+    }
+
+    boolean sameCol(Coordinates other) {
+        return this.col==other.col;
+    }
 }

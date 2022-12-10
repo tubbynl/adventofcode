@@ -6,6 +6,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.nio.file.Path;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 class Rope {
@@ -17,25 +18,42 @@ class Rope {
         this.tail = start;
     }
 
-    List<Coordinates> move(String line) {
-        var newCoords = moveHead(line);
-        var newCoordsTail = newCoords.stream().filter(headCoords -> headCoords.distance(this.tail)>1).toList();
-        this.tail = newCoordsTail.isEmpty()?this.tail:newCoordsTail.get(newCoordsTail.size()-1);
-        return newCoordsTail;
+    Stream<Coordinates> move(String line) {
+        return moveHead(line)
+                .peek(head -> System.err.println("head: "+head))
+                .flatMap(head -> moveTail(head,this.tail))
+                .peek(tail -> System.err.println("tail: "+tail))
+                .peek(tail -> this.tail = tail);
     }
 
-    List<Coordinates> moveHead(String line) {
+    static Stream<Coordinates> moveTail(Coordinates head, Coordinates currentTail) {
+        if(head.distance(currentTail)<=1) {
+            return Stream.of(currentTail);
+        }
+        int stepRow = 0;
+        int stepCol = 0;
+        if(currentTail.sameRow(head)) {
+            stepCol = head.col()>currentTail.col()?-1:1;
+        } else if(currentTail.sameCol(head)) {
+            stepRow = head.row()>currentTail.row()?-1:1;
+        } else {
+            stepCol = head.col()>currentTail.col()?-1:1;
+            stepRow = head.row()>currentTail.row()?-1:1;
+        }
+        Coordinates tail = new Coordinates(head.row()+stepRow,head.col()+stepCol);
+        return Stream.of(tail);
+    }
+
+    Stream<Coordinates> moveHead(String line) {
         var move = Direction.parse(line);
-        var newCoords = move.getLeft().move(this.head,move.getRight());
-        this.head = newCoords.isEmpty()?this.head:newCoords.get(newCoords.size()-1);
-        return newCoords;
+        return move.getLeft()
+                .move(this.head,move.getRight())
+                .peek(pos -> this.head=pos);
     }
 
-    static long countTailPositions(Path path) {
-        var rope = new Rope(new Coordinates(0,0));
-        var slurper = new Slurper<>(rope::move);
-        var tailPositions = Stream.concat(Stream.of(rope.tail),slurper.slurp(path).flatMap(List::stream));
-        return tailPositions.distinct().count();
+    static long countTailPositions(Coordinates start,Path path) {
+        var slurper = new Slurper<>(new Rope(start)::move);
+        return slurper.slurp(path).flatMap(Function.identity()).distinct().count();
     }
 }
 
@@ -62,9 +80,9 @@ enum Direction {
         }
     }
 
-    List<Coordinates> move(Coordinates start,int steps) {
+    Stream<Coordinates> move(Coordinates start,int steps) {
         if (steps <= 0) {
-            return Collections.emptyList();
+            return Stream.empty();
         }
         Coordinates current = start;
         List<Coordinates> result = new ArrayList<>();
@@ -73,6 +91,6 @@ enum Direction {
             result.add(next);
             current = next;
         }
-        return result;
+        return result.stream();
     }
 }
