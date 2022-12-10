@@ -2,12 +2,12 @@ package nl.tubby.aoc;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -121,6 +121,8 @@ record Matrix(List<List<Integer>> values, int width,int height) {
 }
 
 record Coordinates(int row,int col) {
+    static final Logger log = LoggerFactory.getLogger(Coordinates.class);
+
     static Coordinates parse(String value) {
         int[] splitted = Stream.of(StringUtils.split(value,"-,.",2))
                 .mapToInt(NumberUtils::toInt).toArray();
@@ -130,7 +132,7 @@ record Coordinates(int row,int col) {
     Coordinates moveTail(Coordinates head,int length) {
         int rowDistance = head.row-row;
         int colDistance = head.col-col;
-        //System.err.print("distance "+rowDistance+"."+colDistance+" ");
+        log.info("H:{} T:{} distance {}.{}",head,this,rowDistance,colDistance);
         // if distance not larger than 1 we dont need to move tail
         if(!IntStream.of(rowDistance,colDistance)
                 .map(Math::abs)
@@ -144,11 +146,12 @@ record Coordinates(int row,int col) {
         } else if(Math.abs(rowDistance)>Math.abs(colDistance)) {
             colStep=0;
         }
-        return head.at(rowStep,colStep);
+        Coordinates newCoords = head.at(rowStep,colStep);
+        log.info("moving Tail with {}.{} to T:{}",rowStep,colStep,newCoords);
+        return newCoords;
     }
 
     Coordinates at(int stepRow,int stepCol) {
-        //System.err.print("steps "+stepRow+" "+stepCol+" to " );
         return new Coordinates(row()+stepRow,col()+stepCol);
     }
 

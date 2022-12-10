@@ -2,6 +2,8 @@ package nl.tubby.aoc;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
 import java.util.*;
@@ -9,6 +11,7 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 class Rope {
+    static final Logger log = LoggerFactory.getLogger(Rope.class);
     final int length;
     Coordinates head;
     Coordinates tail;
@@ -22,10 +25,9 @@ class Rope {
     Stream<Coordinates> move(String line) {
         return Stream.of(Movement.parse(line))
                 .flatMap(this::moveHead)
-                //.peek(head -> System.err.print("H:"+this.head+" "))
+                .peek(head -> log.info("H:{}",this.head))
                 .map(c -> this.tail.moveTail(this.head,this.length))
                 .peek(tail -> this.tail = tail);
-                //.peek(tail -> System.err.println("T:"+this.tail));
     }
 
     Stream<Coordinates> moveHead(Movement move) {
@@ -89,7 +91,7 @@ record Movement(Direction direction,int steps) {
     }
 
     Stream<Coordinates> apply(Coordinates start) {
-        //System.err.println(this+" on H:"+start);
+        Rope.log.info("{} on H:{}",this,start);
         return this.direction.move(start, this.steps);
     }
 
