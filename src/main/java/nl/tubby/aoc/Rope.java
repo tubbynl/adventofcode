@@ -2,7 +2,6 @@ package nl.tubby.aoc;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.commons.lang3.tuple.Pair;
 
 import java.nio.file.Path;
 import java.util.*;
@@ -19,10 +18,11 @@ class Rope {
     }
 
     Stream<Coordinates> move(String line) {
-        return moveHead(line)
-                .peek(head -> System.err.println("head: "+head))
+        return Stream.of(Movement.parse(line))
+                .flatMap(this::moveHead)
+                .peek(head -> System.err.print("H:"+head+" "))
                 .flatMap(head -> moveTail(head,this.tail))
-                .peek(tail -> System.err.println("tail: "+tail))
+                .peek(tail -> System.err.println("T:"+tail))
                 .peek(tail -> this.tail = tail);
     }
 
@@ -44,10 +44,8 @@ class Rope {
         return Stream.of(tail);
     }
 
-    Stream<Coordinates> moveHead(String line) {
-        var move = Direction.parse(line);
-        return move.getLeft()
-                .move(this.head,move.getRight())
+    Stream<Coordinates> moveHead(Movement move) {
+        return move.apply(this.head)
                 .peek(pos -> this.head=pos);
     }
 
@@ -64,11 +62,6 @@ enum Direction {
     down;
 
     static final Map<Character,Direction> VALUES = Map.of('L',left,'U',up,'R',right,'D',down);
-    static Pair<Direction,Integer> parse(String line) {
-        var direction = VALUES.get(line.charAt(0));
-        int steps = NumberUtils.toInt(StringUtils.substringAfter(line," "));
-        return Pair.of(direction,steps);
-    }
 
     Coordinates step(Coordinates current) {
         switch(this) {
@@ -92,5 +85,18 @@ enum Direction {
             current = next;
         }
         return result.stream();
+    }
+}
+
+record Movement(Direction direction,int steps) {
+    static Movement parse(String line) {
+        var direction = Direction.VALUES.get(line.charAt(0));
+        int steps = NumberUtils.toInt(StringUtils.substringAfter(line," "));
+        return new Movement(direction,steps);
+    }
+
+    Stream<Coordinates> apply(Coordinates start) {
+        System.err.println(this+" on s"+start);
+        return this.direction.move(start, this.steps);
     }
 }

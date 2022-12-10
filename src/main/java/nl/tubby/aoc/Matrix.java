@@ -140,4 +140,9 @@ record Coordinates(int row,int col) {
     boolean sameCol(Coordinates other) {
         return this.col==other.col;
     }
+
+    @Override
+    public String toString() {
+        return row+"."+ col;
+    }
 }
