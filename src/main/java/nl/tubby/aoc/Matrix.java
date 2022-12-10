@@ -134,11 +134,11 @@ record Coordinates(int row,int col) {
         // if distance not larger than 1 we dont need to move tail
         if(!IntStream.of(rowDistance,colDistance)
                 .map(Math::abs)
-                .filter(i->i>1).findFirst().isPresent()) {
+                .filter(i->i>length).findFirst().isPresent()) {
             return this;
         }
-        int colStep = colDistance>0?-1:1;
-        int rowStep = rowDistance>0?-1:1;
+        int colStep = colDistance>0?-1*length:length;
+        int rowStep = rowDistance>0?-1*length:length;
         if(Math.abs(colDistance)>Math.abs(rowDistance)) {
             rowStep=0;
         } else if(Math.abs(rowDistance)>Math.abs(colDistance)) {
