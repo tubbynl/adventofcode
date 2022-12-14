@@ -2,18 +2,31 @@ package nl.tubby.aoc;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ClockCircuitTest {
 
     @ParameterizedTest
-    @CsvSource({
-            "puzzle-example-day10.txt,-1",
-    })
-    void assignment1(String file,int expectedCount) {
-        var circuit = ClockCircuit.slurp(Path.of(file));
+    @ValueSource(ints = {20,60,100,140,180,220,260})
+    void shouldMultiplyByX(int cycle) {
+        assertTrue(ClockCircuit.shouldMultiplyByX(cycle));
+    }
 
-        assertEquals(expectedCount,circuit.x());
+    @ParameterizedTest
+    @ValueSource(ints = {1,2,19,21,40,41,59,61})
+    void shouldNotMultiplyByX(int cycle) {
+        assertFalse(ClockCircuit.shouldMultiplyByX(cycle));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "puzzle-example-day10.txt,0",
+            "puzzle-example-day10-2.txt,13140",})
+    void assignment1(String file,int expectedCount) {
+        var sum = ClockCircuit.slurp(Path.of(file));
+
+        assertEquals(expectedCount,sum);
     }
 }
