@@ -1,6 +1,7 @@
 package nl.tubby.aoc;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Fibonacci extends ArrayList<Integer> {
     public Fibonacci() {
@@ -9,9 +10,20 @@ public class Fibonacci extends ArrayList<Integer> {
         add(1);
     }
 
+    Integer getLast() {
+        return get(size()-1);
+    }
+
+    Integer getSecondLast() {
+        return get(size()-2);
+    }
+
+    Integer sumLastTwo() {
+        return getSecondLast()+getLast();
+    }
+
     Integer next() {
-        int index = size();
-        int nextValue = get(index-1)+get(index-2);
+        int nextValue = sumLastTwo();
         add(nextValue);
         return nextValue;
     }
