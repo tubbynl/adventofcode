@@ -1,29 +1,29 @@
 package nl.tubby.aoc;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.List;
 
-public class Fibonacci extends ArrayList<Integer> {
+public class Fibonacci extends ArrayList<BigInteger> {
     public Fibonacci() {
         super();
-        add(0);
-        add(1);
+        add(BigInteger.ZERO);
+        add(BigInteger.ONE);
     }
 
-    Integer getLast() {
+    BigInteger getLast() {
         return get(size()-1);
     }
 
-    Integer getSecondLast() {
+    BigInteger getSecondLast() {
         return get(size()-2);
     }
 
-    Integer sumLastTwo() {
-        return getSecondLast()+getLast();
+    BigInteger sumLastTwo() {
+        return getSecondLast().add(getLast());
     }
 
-    Integer next() {
-        int nextValue = sumLastTwo();
+    BigInteger next() {
+        BigInteger nextValue = sumLastTwo();
         add(nextValue);
         return nextValue;
     }
