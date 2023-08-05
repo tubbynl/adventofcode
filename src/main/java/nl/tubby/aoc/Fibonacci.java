@@ -27,4 +27,17 @@ public class Fibonacci extends ArrayList<BigInteger> {
         add(nextValue);
         return nextValue;
     }
+
+    /**
+     * increment this fibonacci sequence to desired size
+     *
+     * @param size
+     * @return
+     */
+    BigInteger next(int size) {
+        while(size()<size) {
+            next();
+        }
+        return getLast();
+    }
 }
