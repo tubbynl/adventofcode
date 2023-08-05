@@ -6,6 +6,9 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * day 10
+ */
 class ClockCircuitTest {
 
     @ParameterizedTest

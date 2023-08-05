@@ -8,6 +8,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * day 8
+ */
 class MatrixTest {
     Matrix sut = Matrix.slurp(Path.of("puzzle-example-day8.txt"));
 
