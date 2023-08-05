@@ -1,4 +1,4 @@
-package nl.tubby.aoc;
+package nl.tubby.ct;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

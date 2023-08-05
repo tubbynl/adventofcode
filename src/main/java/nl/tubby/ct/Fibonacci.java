@@ -1,4 +1,4 @@
-package nl.tubby.aoc;
+package nl.tubby.ct;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
