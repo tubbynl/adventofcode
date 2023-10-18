@@ -23,7 +23,7 @@ public class AbelDeWegHalers {
         }
     }
 
-    int poppetjes = 7;
+    private int poppetjes = 7;
     private final Random random = new Random();
     private final Action[] possibleActions = Action.values();
 
@@ -37,7 +37,7 @@ public class AbelDeWegHalers {
         } else {
             this.poppetjes += action.add;
         }
-        return poppetjes<=0;
+        return this.poppetjes<=0;
     }
 
     /**

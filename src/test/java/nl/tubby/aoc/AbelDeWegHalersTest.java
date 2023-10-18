@@ -16,9 +16,11 @@ class AbelDeWegHalersTest {
                 .parallel()
                 .mapToObj(i -> new AbelDeWegHalers())
                 .mapToInt(AbelDeWegHalers::runUntilWon)
-                .average();
+                .average()
+                .getAsDouble();
 
-        assertTrue(result.getAsDouble()>0);
-        //assertEquals(OptionalDouble.of(13.37),result);
+        assertTrue(result>10);
+        // range in 65~66ish
+        //assertEquals(13.37,result);
     }
 }
