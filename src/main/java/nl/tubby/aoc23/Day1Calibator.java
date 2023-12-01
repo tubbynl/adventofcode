@@ -1,6 +1,5 @@
 package nl.tubby.aoc23;
 
-import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
@@ -50,34 +49,21 @@ public class Day1Calibator {
     }
 
     private static Integer parse(String input, Map<String,Integer> matches) {
-        var first = extractFirstMatch(input,matches);
-        var last = extractLastMatch(input,matches);
+        var first = substringStream(input,s -> s.substring(1))
+                .flatMap(s -> findEntry(matches, e -> s.startsWith(e.getKey())))
+                .findAny().orElse(0);
+        var last = substringStream(input,s -> s.substring(0,s.length()-1))
+                .flatMap(s -> findEntry(matches, e -> s.endsWith(e.getKey())))
+                .findAny().orElse(0);
         return (first*10)+last;
     }
 
-    private static int extractFirstMatch(String input, Map<String,Integer> matches) {
-        return substringStream(input,s -> s.substring(1))
-                .map(s -> findEntry(matches, e -> s.startsWith(e.getKey())))
-                .flatMap(Optional::stream)
-                .findFirst()
-                .orElse(0);
-    }
-
-    private static Optional<Integer> findEntry(Map<String,Integer> matches, Predicate<Map.Entry<String,Integer>> filter) {
+    private static Stream<Integer> findEntry(Map<String,Integer> matches, Predicate<Map.Entry<String,Integer>> filter) {
         return matches
                 .entrySet()
                 .stream()
                 .filter(filter)
-                .findAny()
                 .map(Map.Entry::getValue);
-    }
-
-    private static int extractLastMatch(String input, Map<String,Integer> matches) {
-        return substringStream(input,s -> s.substring(0,s.length()-1))
-                .map(s -> findEntry(matches, e -> s.endsWith(e.getKey())))
-                .flatMap(Optional::stream)
-                .findFirst()
-                .orElse(0);
     }
 
     static Stream<String> substringStream(final String input, UnaryOperator<String> substringify) {

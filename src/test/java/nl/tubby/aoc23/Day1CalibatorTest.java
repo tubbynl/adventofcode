@@ -7,8 +7,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.List;
-import java.util.function.UnaryOperator;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -58,10 +56,10 @@ class Day1CalibatorTest {
 
     @Test
     void testSubstringStream() {
-        UnaryOperator<String> forwards = s -> s.substring(1);
-        assertEquals(List.of("tubby","ubby","bby","by","y"),Day1Calibator.substringStream("tubby",forwards).toList());
+        var forwards = Day1Calibator.substringStream("tubby",s -> s.substring(1)).toList();
+        assertEquals(List.of("tubby","ubby","bby","by","y"),forwards);
 
-        UnaryOperator<String> backwards = s -> s.substring(0,s.length()-1);
-        assertEquals(List.of("tubby","tubb","tub","tu","t"),Day1Calibator.substringStream("tubby",backwards).toList());
+        var backwards = Day1Calibator.substringStream("tubby",s -> s.substring(0,s.length()-1)).toList();
+        assertEquals(List.of("tubby","tubb","tub","tu","t"),backwards);
     }
 }
