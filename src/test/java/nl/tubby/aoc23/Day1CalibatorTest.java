@@ -14,8 +14,19 @@ class Day1CalibatorTest {
             "aoc-2023-day1-example.txt,142",
             "aoc-2023-day1-input.txt,54968"// <-- solution part 1
     })
-    void extractSum(String file,int expectedCalibrationSum) {
+    void parseAndSum(String file,int expectedCalibrationSum) {
         var slurper = new Slurper<>(Day1Calibator::parse);
+
+        assertEquals(expectedCalibrationSum,slurper.sum(Path.of(file),Integer::intValue));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "aoc-2023-day1-example.txt,142",
+            "aoc-2023-day1-input.txt,54094"// <-- solution part 2
+    })
+    void parseLettersAndSum(String file,int expectedCalibrationSum) {
+        var slurper = new Slurper<>(Day1Calibator::parseLetters);
 
         assertEquals(expectedCalibrationSum,slurper.sum(Path.of(file),Integer::intValue));
     }
@@ -25,10 +36,17 @@ class Day1CalibatorTest {
             "1abc2,12",
             "pqr3stu8vwx,38",
             "a1b2c3d4e5f,15",
-            "treb7uchet,77"
+            "treb7uchet,77",
+            "two1nine,29",
+            "eightwothree,83",
+            "abcone2threexyz,13",
+            "xtwone3four,24",
+            "4nineeightseven2,42",
+            "zoneight234,14",
+            "7pqrstsixteen,76"
     })
-    void extract(String input,int expectedCalibration) {
+    void parseLetters(String input,int expectedCalibration) {
 
-        assertEquals(expectedCalibration,Day1Calibator.parse(input));
+        assertEquals(expectedCalibration,Day1Calibator.parseLetters(input));
     }
 }
