@@ -1,4 +1,4 @@
-package nl.tubby.aoc;
+package nl.tubby.aoc22;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;

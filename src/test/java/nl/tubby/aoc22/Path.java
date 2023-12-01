@@ -1,4 +1,4 @@
-package nl.tubby.aoc;
+package nl.tubby.aoc22;
 
 public class Path {
     private static final java.nio.file.Path TEST_RESOURCES = java.nio.file.Path.of("src/test/resources");

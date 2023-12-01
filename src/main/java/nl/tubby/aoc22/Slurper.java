@@ -1,4 +1,4 @@
-package nl.tubby.aoc;
+package nl.tubby.aoc22;
 
 import java.io.IOException;
 import java.nio.file.Files;

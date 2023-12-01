@@ -1,4 +1,4 @@
-package nl.tubby.aoc;
+package nl.tubby.aoc22;
 
 import java.nio.file.Path;
 import java.util.Objects;
