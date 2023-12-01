@@ -1,4 +1,4 @@
-package nl.tubby.aoc;
+package nl.tubby.abel;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -7,15 +7,15 @@ import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AbelDeWegHalersTest {
+class DeWegHalersTest {
 
     @ParameterizedTest
     @ValueSource(ints = {50,1000,10_000,100_000,1_000_000})
     void runUntilWon(int runs) {
         var result = IntStream.range(0,runs)
                 .parallel()
-                .mapToObj(i -> new AbelDeWegHalers())
-                .mapToInt(AbelDeWegHalers::runUntilWon)
+                .mapToObj(i -> new DeWegHalers())
+                .mapToInt(DeWegHalers::runUntilWon)
                 .average()
                 .getAsDouble();
 

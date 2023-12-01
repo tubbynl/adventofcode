@@ -1,11 +1,11 @@
-package nl.tubby.aoc;
+package nl.tubby.abel;
 
 import java.util.Random;
 
 /**
  * Abel game "de weghalers"
  */
-public class AbelDeWegHalers {
+public class DeWegHalers {
     enum Action{
         ONE(1,null), // 1 er bij
         TWO(-2,null), // 2 er af
