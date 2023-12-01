@@ -132,7 +132,7 @@ record Coordinates(int row,int col) {
     Coordinates moveTail(Coordinates head,int length) {
         int rowDistance = head.row-row;
         int colDistance = head.col-col;
-        log.info("H:{} T:{} distance {}.{}",head,this,rowDistance,colDistance);
+        log.debug("H:{} T:{} distance {}.{}",head,this,rowDistance,colDistance);
         // if distance not larger than 1 we dont need to move tail
         if(!IntStream.of(rowDistance,colDistance)
                 .map(Math::abs)
@@ -147,7 +147,7 @@ record Coordinates(int row,int col) {
             colStep=0;
         }
         Coordinates newCoords = head.at(rowStep,colStep);
-        log.info("moving Tail with {}.{} to T:{}",rowStep,colStep,newCoords);
+        log.debug("moving Tail with {}.{} to T:{}",rowStep,colStep,newCoords);
         return newCoords;
     }
 

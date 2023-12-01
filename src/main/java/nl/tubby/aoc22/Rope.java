@@ -25,7 +25,7 @@ class Rope {
     Stream<Coordinates> move(String line) {
         return Stream.of(Movement.parse(line))
                 .flatMap(this::moveHead)
-                .peek(head -> log.info("H:{}",this.head))
+                .peek(head -> log.debug("H:{}",this.head))
                 .map(c -> this.tail.moveTail(this.head,this.length))
                 .peek(tail -> this.tail = tail);
     }
@@ -91,7 +91,7 @@ record Movement(Direction direction,int steps) {
     }
 
     Stream<Coordinates> apply(Coordinates start) {
-        Rope.log.info("{} on H:{}",this,start);
+        Rope.log.debug("{} on H:{}",this,start);
         return this.direction.move(start, this.steps);
     }
 
