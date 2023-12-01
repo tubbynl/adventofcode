@@ -43,7 +43,8 @@ class Day1CalibatorTest {
             "xtwone3four,24",
             "4nineeightseven2,42",
             "zoneight234,14",
-            "7pqrstsixteen,76"
+            "7pqrstsixteen,76",
+            "seventhree2pqrstsi2twone,71"
     })
     void parseLetters(String input,int expectedCalibration) {
 
