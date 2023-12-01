@@ -12,7 +12,7 @@ class Day1CalibatorTest {
     @ParameterizedTest
     @CsvSource({
             "aoc-2023-day1-example.txt,142",
-            "puzzle-input-day4.txt,511"// <-- solution part 1
+            "aoc-2023-day1-input.txt,54968"// <-- solution part 1
     })
     void extractSum(String file,int expectedCalibrationSum) {
         var slurper = new Slurper<>(Day1Calibator::parse);
