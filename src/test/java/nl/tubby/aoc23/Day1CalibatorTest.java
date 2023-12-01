@@ -2,8 +2,12 @@ package nl.tubby.aoc23;
 
 import nl.tubby.aoc22.Path;
 import nl.tubby.aoc22.Slurper;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -49,5 +53,11 @@ class Day1CalibatorTest {
     void parseLetters(String input,int expectedCalibration) {
 
         assertEquals(expectedCalibration,Day1Calibator.parseLetters(input));
+    }
+
+    @Test
+    void testSubstringStream() {
+        assertEquals(List.of("tubby","ubby","bby","by","y"),Day1Calibator.substringStream("tubby",false).toList());
+        assertEquals(List.of("tubby","tubb","tub","tu","t"),Day1Calibator.substringStream("tubby",true).toList());
     }
 }
