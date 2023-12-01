@@ -16,7 +16,7 @@ public class ElfCaloriesCollectorTest {
 
     @Test
     void build() {
-        var slurper = new Slurper<>(new ElfCaloriesCollector()::collectOrParse, Optional.of(""));
+        var slurper = new Slurper<>(new ElfCaloriesCollector()::collectOrParse);
         var elves = slurper.list(Path.of("puzzle-example-day1.txt"));
 
         assertEquals(5,elves.size());
@@ -31,7 +31,7 @@ public class ElfCaloriesCollectorTest {
             //"aoc_2022_day01_large_input.txt,184028272" //https://gathering.tweakers.net/forum/list_message/73652172#73652172
     })
     void findTheBest(String file,int expectedSum) {
-        var slurper = new Slurper<>(new ElfCaloriesCollector()::collectOrParse, Optional.of(""));
+        var slurper = new Slurper<>(new ElfCaloriesCollector()::collectOrParse);
         int best = slurper.max(Path.of(file),Integer::intValue);
 
         assertEquals(expectedSum,best);
@@ -44,7 +44,7 @@ public class ElfCaloriesCollectorTest {
             //"aoc_2022_day01_large_input.txt,549010145"
     })
     void findTheTop3(String file,int sumTop3) {
-        var slurper = new Slurper<>(new ElfCaloriesCollector()::collectOrParse, Optional.of(""));
+        var slurper = new Slurper<>(new ElfCaloriesCollector()::collectOrParse);
         int top3sum = slurper.slurp(Path.of(file))
                 .sorted(Collections.reverseOrder())
                 .mapToInt(Integer::intValue)

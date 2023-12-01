@@ -44,7 +44,7 @@ class SectionTest {
             "puzzle-input-day4.txt,511"// <-- solution part 1
     })
     void testFindContainedPairs(String file,int expectedPairCount) {
-        var slurper = new Slurper<>(PairOfSections::parse, Optional.empty(),PairOfSections::contains);
+        var slurper = new Slurper<>(PairOfSections::parse, PairOfSections::contains);
 
         assertEquals(expectedPairCount,slurper.count(Path.of(file)));
     }
@@ -55,7 +55,7 @@ class SectionTest {
             "puzzle-input-day4.txt,821"// <-- solution part 2
     })
     void testFindOverlappedPairs(String file,int expectedPairCount) {
-        var slurper = new Slurper<>(PairOfSections::parse, Optional.empty(),PairOfSections::overlaps);
+        var slurper = new Slurper<>(PairOfSections::parse, PairOfSections::overlaps);
 
         assertEquals(expectedPairCount,slurper.count(Path.of(file)));
     }
