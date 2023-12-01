@@ -1,6 +1,7 @@
 package nl.tubby.aoc23;
 
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 import java.util.Collections;
@@ -55,37 +56,31 @@ public class Day1Calibator {
     }
 
     private static int extractFirstMatch(String input, Map<String,Integer> matches) {
-        return substringStream(input,false)
-                .map(s -> startsWithValue(s,matches))
+        return substringStream(input,s -> s.substring(1))
+                .map(s -> findEntry(matches, e -> s.startsWith(e.getKey())))
                 .flatMap(Optional::stream)
                 .findFirst()
                 .orElse(0);
     }
 
-    private static Optional<Integer> startsWithValue(String input, Map<String,Integer> matches) {
-        for (var entry:matches.entrySet()) {
-            if(input.startsWith(entry.getKey())) {
-                return Optional.of(entry.getValue());
-            }
-        }
-        return Optional.empty();
+    private static Optional<Integer> findEntry(Map<String,Integer> matches, Predicate<Map.Entry<String,Integer>> filter) {
+        return matches
+                .entrySet()
+                .stream()
+                .filter(filter)
+                .findAny()
+                .map(Map.Entry::getValue);
     }
 
     private static int extractLastMatch(String input, Map<String,Integer> matches) {
-        var current = input;
-        while(!current.isEmpty()) {
-            for (var entry:matches.entrySet()) {
-                if(current.endsWith(entry.getKey())) {
-                    return entry.getValue();
-                }
-            }
-            current = current.substring(0,current.length()-1);
-        }
-        return 0;
+        return substringStream(input,s -> s.substring(0,s.length()-1))
+                .map(s -> findEntry(matches, e -> s.endsWith(e.getKey())))
+                .flatMap(Optional::stream)
+                .findFirst()
+                .orElse(0);
     }
 
-    static Stream<String> substringStream(final String input, boolean backwards) {
-        UnaryOperator<String> substringify = backwards? s -> s.substring(0,s.length()-1): s -> s.substring(1);
+    static Stream<String> substringStream(final String input, UnaryOperator<String> substringify) {
         return Stream.iterate(input, s -> !s.isEmpty(), substringify);
     }
 }
