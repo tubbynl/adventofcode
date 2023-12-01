@@ -5,12 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Day1Calibator {
-
-    static Integer parse(String input) {
-        return parse(input,DIGITS);
-    }
-
-    static final Map<String,Integer> DIGITS = Map.of(
+    private  static final Map<String,Integer> DIGITS = Map.of(
             "1",1,
             "2",2,
             "3",3,
@@ -23,7 +18,7 @@ public class Day1Calibator {
             "0",0
     );
 
-    static final Map<String,Integer> ALL;
+    private static final Map<String,Integer> ALL;
 
     static {
         var combined = new HashMap<>(DIGITS);
@@ -42,17 +37,21 @@ public class Day1Calibator {
         ALL = Collections.unmodifiableMap(combined);
     }
 
+    static Integer parseDigits(String input) {
+        return parse(input,DIGITS);
+    }
+
     static Integer parseLetters(String input) {
         return parse(input,ALL);
     }
 
-    static Integer parse(String input, Map<String,Integer> matches) {
+    private static Integer parse(String input, Map<String,Integer> matches) {
         var first = extractFirstMatch(input,matches);
         var last = extractLastMatch(input,matches);
         return (first*10)+last;
     }
 
-    static int extractFirstMatch(String input, Map<String,Integer> matches) {
+    private static int extractFirstMatch(String input, Map<String,Integer> matches) {
         var current = input;
         while(!current.isEmpty()) {
             for (var entry:matches.entrySet()) {
@@ -62,10 +61,10 @@ public class Day1Calibator {
             }
             current = current.substring(1);
         }
-        throw new IllegalArgumentException("no matches found");
+        return 0;
     }
 
-    static int extractLastMatch(String input, Map<String,Integer> matches) {
+    private static int extractLastMatch(String input, Map<String,Integer> matches) {
         var current = input;
         while(!current.isEmpty()) {
             for (var entry:matches.entrySet()) {
@@ -75,6 +74,6 @@ public class Day1Calibator {
             }
             current = current.substring(0,current.length()-1);
         }
-        throw new IllegalArgumentException("no matches found");
+        return 0;
     }
 }

@@ -15,7 +15,7 @@ class Day1CalibatorTest {
             "aoc-2023-day1-input.txt,54968"// <-- solution part 1
     })
     void parseAndSum(String file,int expectedCalibrationSum) {
-        var slurper = new Slurper<>(Day1Calibator::parse);
+        var slurper = new Slurper<>(Day1Calibator::parseDigits);
 
         assertEquals(expectedCalibrationSum,slurper.sum(Path.of(file),Integer::intValue));
     }
