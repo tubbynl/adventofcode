@@ -18,7 +18,9 @@ class Day2KubeGameTest {
             "Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green|5|7|5|3|true",
             "Game 41: 7 red, 10 green; 10 red, 6 green; 9 red, 7 green, 1 blue; 3 red, 1 blue|41|29|23|2",
             "Game 82: 5 blue, 3 red, 3 green; 5 red; 2 red, 3 green, 8 blue|82|10|6|13",
-            "Game 65: 7 red, 7 blue; 3 blue, 1 red, 1 green; 3 red, 8 blue|65|11|1|18"
+            "Game 65: 7 red, 7 blue; 3 blue, 1 red, 1 green; 3 red, 8 blue|65|11|1|18",
+            "Game 85: 3 green, 2 red; 5 green, 4 blue; 5 green, 8 red, 3 blue|85|10|13|7",
+            "Game 67: 1 red; 2 blue, 2 green, 1 red; 6 green, 1 blue|67|2|8|3"
     },delimiterString = "|")
     void parseGame(String rawString,int id,int red, int green,int blue) {
         var game = Day2KubeGame.Game.parse(rawString);
@@ -58,7 +60,7 @@ class Day2KubeGameTest {
         // only 12 red cubes, 13 green cubes, and 14 blue cubes
         var gamesPossible = games.stream()
                 .filter(Day2KubeGame.Game::isPossible)
-                .toList();
+                .toList();//10,18,27,67,82,85
 
         assertEquals(sumIds,gamesPossible.stream()
                 .mapToInt(Day2KubeGame.Game::id)
