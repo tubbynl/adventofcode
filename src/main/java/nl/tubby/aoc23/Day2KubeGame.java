@@ -8,15 +8,18 @@ import java.util.stream.Stream;
 public class Day2KubeGame {
 
 
-    record Game(int id, List<KubeCount> kubes) {
+    record Game(int id, int red, int green, int blue) {
         static Game parse(String rawValue) {
             var splitted = StringUtils.split(rawValue,":",2);
             int id = Integer.parseInt(StringUtils.substringAfter(splitted[0]," "));
-            var counts = Stream.of(StringUtils.split(splitted[1],","))
+            var counts = Stream.of(StringUtils.split(splitted[1],",;"))
                     .map(StringUtils::trim)
                     .map(KubeCount::parse)
                     .toList();
-            return new Game(id,counts);
+            int red = counts.stream().filter(c -> "red".equals(c.color())).mapToInt(KubeCount::amount).sum();
+            int green = counts.stream().filter(c -> "green".equals(c.color())).mapToInt(KubeCount::amount).sum();
+            int blue = counts.stream().filter(c -> "blue".equals(c.color())).mapToInt(KubeCount::amount).sum();
+            return new Game(id,red,green,blue);
         }
     }
 
