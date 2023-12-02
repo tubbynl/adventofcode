@@ -22,8 +22,8 @@ public class Day2KubeGame {
             return new Game(id,red,green,blue);
         }
 
-        boolean isPossible(int red,int green,int blue) {
-            return red()<=red && green()<=green && blue()<=blue;
+        boolean isPossible() {
+            return red()<=12 && green()<=13 && blue()<=14;
         }
     }
 
