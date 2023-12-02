@@ -27,7 +27,8 @@ class Day2KubeGameTest {
 
     @ParameterizedTest
     @CsvSource({
-            "aoc-2023-day2-example.txt,5,8"
+            "aoc-2023-day2-example.txt,5,8",
+            "aoc-2023-day2-input.txt,100,289"// not the right answer yet (sum of ids is too low; check for parsing errors in full set)
     })
     void parse(String file,int expectedSize, int sumIds) {
         var slurper = new Slurper<>(Day2KubeGame.Game::parse);
