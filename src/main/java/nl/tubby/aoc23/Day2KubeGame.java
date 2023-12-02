@@ -21,6 +21,10 @@ public class Day2KubeGame {
             int blue = counts.stream().filter(c -> "blue".equals(c.color())).mapToInt(KubeCount::amount).sum();
             return new Game(id,red,green,blue);
         }
+
+        boolean isPossible(int red,int green,int blue) {
+            return red()<=red && green()<=green && blue()<=blue;
+        }
     }
 
     record KubeCount(int amount, String color) {
