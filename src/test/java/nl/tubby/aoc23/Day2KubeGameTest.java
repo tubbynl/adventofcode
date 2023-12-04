@@ -44,7 +44,9 @@ class Day2KubeGameTest {
             "Game 82: 5 blue, 3 red, 3 green; 5 red; 2 red, 3 green, 8 blue|7|29",
             "Game 65: 7 red, 7 blue; 3 blue, 1 red, 1 green; 3 red, 8 blue|7|30",
             "Game 85: 3 green, 2 red; 5 green, 4 blue; 5 green, 8 red, 3 blue|7|30",
-            "Game 67: 1 red; 2 blue, 2 green, 1 red; 6 green, 1 blue|6|13"
+            "Game 67: 1 red; 2 blue, 2 green, 1 red; 6 green, 1 blue|6|13",
+            "Game 18: 8 green, 1 red, 2 blue; 4 green, 4 red, 1 blue; 6 blue, 2 red|8|28",
+            "Game 19: 3 green, 9 blue; 4 blue, 10 red; 6 red, 3 green, 3 blue; 6 red, 4 green, 9 blue|10|57"
     },delimiterString = "|")
     void parseKubeCount(String rawString,int expectedSize, int expectedSum) {
         var counts = Day2KubeGame.KubeCount.parse(rawString).toList();
