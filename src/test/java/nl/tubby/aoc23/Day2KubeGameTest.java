@@ -54,8 +54,7 @@ class Day2KubeGameTest {
 
         var map = Day2KubeGame.KubeCount.parse(rawString).collect(Day2KubeGame.Game.KUBE_COUNT_MAP_COLLECTOR);
         assertEquals(Set.of("red","green","blue"),map.keySet());
-
-
+        assertEquals(expectedSum,map.values().stream().mapToInt(Integer::intValue).sum());
     }
 
     @ParameterizedTest
