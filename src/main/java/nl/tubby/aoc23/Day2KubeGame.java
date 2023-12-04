@@ -2,30 +2,19 @@ package nl.tubby.aoc23;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.regex.Pattern;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Day2KubeGame {
 
 
     record Game(int id, int red, int green, int blue) {
-        static final Collector<KubeCount, ?, Map<String, Integer>> KUBE_COUNT_MAP_COLLECTOR = Collectors.groupingBy(KubeCount::color, Collectors.summingInt(KubeCount::amount));
-
         static Game parse(String rawValue) {
 
             int id = Integer.parseInt(StringUtils.substringAfter(StringUtils.substringBefore(rawValue,":")," "));
-            var result = KubeCount.parse(rawValue)
-                    .collect(KUBE_COUNT_MAP_COLLECTOR);
-            if(result.size()!=3) {
-                throw new RuntimeException("invalid color count: "+result.keySet());
-            }
-            int red = result.get("red");
-            int green = result.get("green");
-            int blue = result.get("blue");
+            int red = KubeCount.parse(rawValue).filter(c -> "red".equals(c.color())).mapToInt(KubeCount::amount).max().orElse(0);
+            int green = KubeCount.parse(rawValue).filter(c -> "green".equals(c.color())).mapToInt(KubeCount::amount).max().orElse(0);
+            int blue = KubeCount.parse(rawValue).filter(c -> "blue".equals(c.color())).mapToInt(KubeCount::amount).max().orElse(0);
             return new Game(id,red,green,blue);
         }
 
