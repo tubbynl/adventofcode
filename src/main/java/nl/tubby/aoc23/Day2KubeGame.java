@@ -10,7 +10,6 @@ public class Day2KubeGame {
 
     record Game(int id, int red, int green, int blue) {
         static Game parse(String rawValue) {
-
             int id = Integer.parseInt(StringUtils.substringAfter(StringUtils.substringBefore(rawValue,":")," "));
             int red = KubeCount.parse(rawValue).filter(c -> "red".equals(c.color())).mapToInt(KubeCount::amount).max().orElse(0);
             int green = KubeCount.parse(rawValue).filter(c -> "green".equals(c.color())).mapToInt(KubeCount::amount).max().orElse(0);
@@ -20,6 +19,10 @@ public class Day2KubeGame {
 
         boolean isPossible() {
             return red()<=12 && green()<=13 && blue()<=14;
+        }
+
+        int power() {
+            return red()*green()*blue();
         }
     }
 
