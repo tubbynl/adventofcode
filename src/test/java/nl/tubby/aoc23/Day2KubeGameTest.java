@@ -107,7 +107,7 @@ class Day2KubeGameTest {
     @ParameterizedTest
     @CsvSource({
             "aoc-2023-day2-example.txt,2286",
-            "aoc-2023-day2-input.txt,3059"// answer part 1
+            "aoc-2023-day2-input.txt,65371"// answer part 2
     })
     void resultForPuzzle2(String file, int sumPower) {
         var slurper = new Slurper<>(Day2KubeGame.Game::parse);
