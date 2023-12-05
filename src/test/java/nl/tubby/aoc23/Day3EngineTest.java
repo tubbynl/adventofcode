@@ -92,7 +92,7 @@ class Day3EngineTest {
     @ParameterizedTest
     @CsvSource({
             "aoc-2023-day3-example.txt,467835",
-            "aoc-2023-day3-input.txt,7085887"
+            "aoc-2023-day3-input.txt,75741499"
     })
     void puzzlePart2(String file,int partsSum) {
         var slurper = new Slurper<>(Day3Engine.EngineScematicRow::parseStars);
