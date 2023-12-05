@@ -2,10 +2,9 @@ package nl.tubby.aoc23;
 
 import nl.tubby.aoc22.Path;
 import nl.tubby.aoc22.Slurper;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,6 +21,16 @@ class Day4ScratchCardTest {
     @ParameterizedTest
     void parseScore(String card,int score) {
         assertEquals(score,Day4ScratchCard.parseScore(card));
+    }
+
+    @Test
+    void getPoints() {
+        assertEquals(0,Day4ScratchCard.getPoints(0));
+        assertEquals(1,Day4ScratchCard.getPoints(1));
+        assertEquals(2,Day4ScratchCard.getPoints(2));
+        assertEquals(4,Day4ScratchCard.getPoints(3));
+        assertEquals(8,Day4ScratchCard.getPoints(4));
+        assertEquals(16,Day4ScratchCard.getPoints(5));
     }
 
     @ParameterizedTest

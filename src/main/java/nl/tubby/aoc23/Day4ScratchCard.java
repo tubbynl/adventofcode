@@ -2,7 +2,6 @@ package nl.tubby.aoc23;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -10,10 +9,12 @@ public class Day4ScratchCard {
 
     static Integer parseScore(String input) {
         var splitted = StringUtils.split(input,"|:");
-        var winning = split(splitted[1]);
-        var myNumbers = split(splitted[2]);
+        var winning = split(splitted[1]).collect(Collectors.toUnmodifiableSet());
+        var wins = split(splitted[2]).filter(winning::contains).count();
+        return getPoints(wins);
+    }
 
-        var wins = myNumbers.stream().filter(winning::contains).count();
+    static int getPoints(long wins) {
         int points = 0;
         if(wins>0) {
             points = 1;
@@ -24,10 +25,9 @@ public class Day4ScratchCard {
         return points;
     }
 
-    static Set<Integer> split(String raw) {
+    static Stream<Integer> split(String raw) {
         return Stream.of(StringUtils.split(raw))
                 .map(StringUtils::trimToEmpty)
-                .map(Integer::parseInt)
-                .collect(Collectors.toUnmodifiableSet());
+                .map(Integer::parseInt);
     }
 }
