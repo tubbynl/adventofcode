@@ -1,7 +1,11 @@
 package nl.tubby.aoc23;
 
+import nl.tubby.aoc22.Path;
+import nl.tubby.aoc22.Slurper;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,5 +22,18 @@ class Day4ScratchCardTest {
     @ParameterizedTest
     void parseScore(String card,int score) {
         assertEquals(score,Day4ScratchCard.parseScore(card));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "aoc-2023-day4-example.txt,13",
+            "aoc-2023-day4-input.txt,21568"
+    })
+    void puzzlePart1(String file,int points) {
+        var slurper = new Slurper<>(Day4ScratchCard::parseScore);
+
+        var sumPoints = slurper.sum(Path.of(file),Integer::intValue);
+
+        assertEquals(points,sumPoints);
     }
 }
