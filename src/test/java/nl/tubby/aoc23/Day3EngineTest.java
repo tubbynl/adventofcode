@@ -9,6 +9,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -25,7 +26,7 @@ class Day3EngineTest {
     })
     @ParameterizedTest
     void parseRow(String row,int partCount,int firstPartIndex,int expectedMinPartNr,int symbolCount) {
-        var sut = Day3Engine.EngineScematicRow.parse(row);
+        var sut = Day3Engine.EngineScematicRow.parseSymbols(row);
 
         assertEquals(partCount,sut.parts().size());
         // check parts
@@ -72,7 +73,7 @@ class Day3EngineTest {
             "aoc-2023-day3-input.txt,536576"
     })
     void puzzlePart1(String file,int partsSum) {
-        var slurper = new Slurper<>(Day3Engine.EngineScematicRow::parse);
+        var slurper = new Slurper<>(Day3Engine.EngineScematicRow::parseSymbols);
 
         var rows = slurper.list(Path.of(file));
 
@@ -86,5 +87,38 @@ class Day3EngineTest {
         }
 
         assertEquals(partsSum,parts.stream().mapToInt(Integer::intValue).sum());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "aoc-2023-day3-example.txt,467835",
+            "aoc-2023-day3-input.txt,7085887"//That's not the right answer; your answer is too low.
+    })
+    void puzzlePart2(String file,int partsSum) {
+        var slurper = new Slurper<>(Day3Engine.EngineScematicRow::parseStars);
+
+        var rows = slurper.list(Path.of(file));
+
+        var gearRatios = new ArrayList<Integer>();
+        for (int i=0;i<rows.size();i++) {
+            Day3Engine.EngineScematicRow current = rows.get(i);
+            Day3Engine.EngineScematicRow previous = i>0?rows.get(i-1):null;
+            Day3Engine.EngineScematicRow next = i<(rows.size()-1)?rows.get(i+1):null;
+            List<Integer> allParts = new ArrayList<>();
+            current.symbols().forEach(starIndex -> {
+                allParts.addAll(current.partsAdjecentToPosition(starIndex));
+                if(previous!=null) {
+                    allParts.addAll(previous.partsAdjecentToPosition(starIndex));
+                }
+                if(next!=null) {
+                    allParts.addAll(next.partsAdjecentToPosition(starIndex));
+                }
+            });
+            if(allParts.size()==2) {
+                gearRatios.add(allParts.get(0)*allParts.get(1));
+            }
+        }
+
+        assertEquals(partsSum,gearRatios.stream().mapToInt(Integer::intValue).sum());
     }
 }

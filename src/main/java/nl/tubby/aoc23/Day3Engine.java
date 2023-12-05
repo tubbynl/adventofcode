@@ -10,17 +10,35 @@ public class Day3Engine {
     record EngineScematicRow(Map<Integer,Integer> parts, Set<Integer> symbols) {
         private static final Pattern PART = Pattern.compile("([0-9]+)+");
         private static final Pattern SYMBOL = Pattern.compile("([\\W&&[^.]])+");
-        static EngineScematicRow parse(String row) {
+        private static final Pattern STAR = Pattern.compile("([*])+");
+
+        private  static EngineScematicRow parse(String row, Pattern symbolsPattern) {
             var parts = PART.matcher(row).results()
                     .collect(Collectors.toMap(MatchResult::start, r -> Integer.parseInt(r.group())));
-            var symbols = SYMBOL.matcher(row).results()
+            var symbols = symbolsPattern.matcher(row).results()
                     .map(MatchResult::start)
                     .collect(Collectors.toUnmodifiableSet());
             return new EngineScematicRow(parts, symbols);
         }
 
+        static EngineScematicRow parseStars(String row) {
+            return parse(row,STAR);
+        }
+
+        static EngineScematicRow parseSymbols(String row) {
+            return parse(row,SYMBOL);
+        }
+
         List<Integer> partsAdjecentToSymbols(EngineScematicRow... rows) {
             return partsAdjecentToSymbols(mergeSymbols(rows));
+        }
+
+        List<Integer> partsAdjecentToPosition(final Integer positions) {
+            return parts().entrySet()
+                    .stream()
+                    .filter(e -> hasAdjecentSymbols(e.getKey(),e.getValue(),Set.of(positions)))
+                    .map(Map.Entry::getValue)
+                    .toList();
         }
 
         List<Integer> partsAdjecentToSymbols(final Set<Integer> symbolPositions) {
