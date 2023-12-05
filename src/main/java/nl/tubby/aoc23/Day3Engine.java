@@ -30,23 +30,18 @@ public class Day3Engine {
         }
 
         List<Integer> partsAdjecentToSymbols(EngineScematicRow... rows) {
-            return partsAdjecentToSymbols(mergeSymbols(rows));
+            return partsAdjecentToSymbols(mergeSymbols(rows)).toList();
         }
 
-        List<Integer> partsAdjecentToPosition(final Integer positions) {
-            return parts().entrySet()
-                    .stream()
-                    .filter(e -> hasAdjecentSymbols(e.getKey(),e.getValue(),Set.of(positions)))
-                    .map(Map.Entry::getValue)
-                    .toList();
+        Stream<Integer> partsAdjecentToPosition(final Integer position) {
+            return partsAdjecentToSymbols(Set.of(position));
         }
 
-        List<Integer> partsAdjecentToSymbols(final Set<Integer> symbolPositions) {
+        Stream<Integer> partsAdjecentToSymbols(final Set<Integer> symbolPositions) {
             return parts().entrySet()
                     .stream()
                     .filter(e -> hasAdjecentSymbols(e.getKey(),e.getValue(),symbolPositions))
-                    .map(Map.Entry::getValue)
-                    .toList();
+                    .map(Map.Entry::getValue);
         }
     }
 
@@ -74,5 +69,12 @@ public class Day3Engine {
         }
         result.add(start+size);
         return result;
+    }
+
+    static List<Integer> partsAdjecentToPosition(final Integer position, EngineScematicRow... rows) {
+        return Stream.of(rows)
+                .filter(Objects::nonNull)
+                .flatMap(r -> r.partsAdjecentToPosition(position))
+                .toList();
     }
 }

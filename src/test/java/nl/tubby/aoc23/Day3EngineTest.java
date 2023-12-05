@@ -99,26 +99,19 @@ class Day3EngineTest {
 
         var rows = slurper.list(Path.of(file));
 
-        var gearRatios = new ArrayList<Integer>();
+        var gearRatioSum = 0;
         for (int i=0;i<rows.size();i++) {
             Day3Engine.EngineScematicRow current = rows.get(i);
             Day3Engine.EngineScematicRow previous = i>0?rows.get(i-1):null;
             Day3Engine.EngineScematicRow next = i<(rows.size()-1)?rows.get(i+1):null;
-            current.symbols().forEach(starIndex -> {
-                    List<Integer> adjecentParts = new ArrayList<>();
-                    adjecentParts.addAll(current.partsAdjecentToPosition(starIndex));
-                    if(previous!=null) {
-                        adjecentParts.addAll(previous.partsAdjecentToPosition(starIndex));
-                    }
-                    if(next!=null) {
-                        adjecentParts.addAll(next.partsAdjecentToPosition(starIndex));
-                    }
-                    if(adjecentParts.size()==2) {
-                        gearRatios.add(adjecentParts.get(0)*adjecentParts.get(1));
-                    }
-            });
+            gearRatioSum+=current.symbols()
+                    .stream()
+                    .map(starIndex -> Day3Engine.partsAdjecentToPosition(starIndex,previous,current,next))
+                    .filter(adjecentParts -> adjecentParts.size()==2)
+                    .mapToInt(adjecentParts -> adjecentParts.get(0)*adjecentParts.get(1))
+                    .sum();
         }
 
-        assertEquals(partsSum,gearRatios.stream().mapToInt(Integer::intValue).sum());
+        assertEquals(partsSum,gearRatioSum);
     }
 }
