@@ -92,7 +92,7 @@ class Day3EngineTest {
     @ParameterizedTest
     @CsvSource({
             "aoc-2023-day3-example.txt,467835",
-            "aoc-2023-day3-input.txt,7085887"//That's not the right answer; your answer is too low.
+            "aoc-2023-day3-input.txt,7085887"
     })
     void puzzlePart2(String file,int partsSum) {
         var slurper = new Slurper<>(Day3Engine.EngineScematicRow::parseStars);
@@ -104,19 +104,19 @@ class Day3EngineTest {
             Day3Engine.EngineScematicRow current = rows.get(i);
             Day3Engine.EngineScematicRow previous = i>0?rows.get(i-1):null;
             Day3Engine.EngineScematicRow next = i<(rows.size()-1)?rows.get(i+1):null;
-            List<Integer> allParts = new ArrayList<>();
             current.symbols().forEach(starIndex -> {
-                allParts.addAll(current.partsAdjecentToPosition(starIndex));
-                if(previous!=null) {
-                    allParts.addAll(previous.partsAdjecentToPosition(starIndex));
-                }
-                if(next!=null) {
-                    allParts.addAll(next.partsAdjecentToPosition(starIndex));
-                }
+                    List<Integer> adjecentParts = new ArrayList<>();
+                    adjecentParts.addAll(current.partsAdjecentToPosition(starIndex));
+                    if(previous!=null) {
+                        adjecentParts.addAll(previous.partsAdjecentToPosition(starIndex));
+                    }
+                    if(next!=null) {
+                        adjecentParts.addAll(next.partsAdjecentToPosition(starIndex));
+                    }
+                    if(adjecentParts.size()==2) {
+                        gearRatios.add(adjecentParts.get(0)*adjecentParts.get(1));
+                    }
             });
-            if(allParts.size()==2) {
-                gearRatios.add(allParts.get(0)*allParts.get(1));
-            }
         }
 
         assertEquals(partsSum,gearRatios.stream().mapToInt(Integer::intValue).sum());
