@@ -20,7 +20,7 @@ class Day4ScratchCardTest {
     })
     @ParameterizedTest
     void parseScore(String card,int score) {
-        assertEquals(score,Day4ScratchCard.parseScore(card));
+        assertEquals(score,Day4ScratchCard.ScratchCard.parse(card).getScore());
     }
 
     @Test

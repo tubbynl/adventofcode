@@ -17,20 +17,16 @@ public class Day4ScratchCard {
             return new ScratchCard(winning,wins);
         }
 
+        int getWins() {
+            return Long.valueOf(numbers().stream().filter(winning::contains).count()).intValue();
+        }
+
         int getScore() {
-            var wins = numbers().stream().filter(winning::contains).count();
-            return getPoints(wins);
+            return getPoints(getWins());
         }
     }
 
-    static Integer parseScore(String input) {
-        var splitted = StringUtils.split(input,"|:");
-        var winning = split(splitted[1]).collect(Collectors.toUnmodifiableSet());
-        var wins = split(splitted[2]).filter(winning::contains).count();
-        return getPoints(wins);
-    }
-
-    static int getPoints(long wins) {
+    static int getPoints(int wins) {
         int points = 0;
         if(wins>0) {
             points = 1;
