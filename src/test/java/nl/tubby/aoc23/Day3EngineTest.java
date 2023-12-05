@@ -69,7 +69,7 @@ class Day3EngineTest {
     @ParameterizedTest
     @CsvSource({
             "aoc-2023-day3-example.txt,4361",
-            "aoc-2023-day3-input.txt,410371" //FIXME: That's not the right answer; your answer is too low.
+            "aoc-2023-day3-input.txt,536576"
     })
     void puzzlePart1(String file,int partsSum) {
         var slurper = new Slurper<>(Day3Engine.EngineScematicRow::parse);

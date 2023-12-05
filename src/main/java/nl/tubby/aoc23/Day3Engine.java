@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 public class Day3Engine {
     record EngineScematicRow(Map<Integer,Integer> parts, Set<Integer> symbols) {
         private static final Pattern PART = Pattern.compile("([0-9]+)+");
-        private static final Pattern SYMBOL = Pattern.compile("([$*#+])+");
+        private static final Pattern SYMBOL = Pattern.compile("([\\W&&[^.]])+");
         static EngineScematicRow parse(String row) {
             var parts = PART.matcher(row).results()
                     .collect(Collectors.toMap(MatchResult::start, r -> Integer.parseInt(r.group())));
