@@ -108,7 +108,9 @@ class Day3EngineTest {
                     .stream()
                     .map(starIndex -> Day3Engine.partsAdjecentToPosition(starIndex,previous,current,next))
                     .filter(adjecentParts -> adjecentParts.size()==2)
+                    //.peek(adjecentParts -> System.err.print("adjecentParts "+adjecentParts))
                     .mapToInt(adjecentParts -> adjecentParts.get(0)*adjecentParts.get(1))
+                    //.peek(gearRatio -> System.err.println(" gearRatio "+gearRatio))
                     .sum();
         }
 
