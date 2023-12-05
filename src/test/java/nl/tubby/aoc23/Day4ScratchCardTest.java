@@ -39,9 +39,9 @@ class Day4ScratchCardTest {
             "aoc-2023-day4-input.txt,21568"
     })
     void puzzlePart1(String file,int points) {
-        var slurper = new Slurper<>(Day4ScratchCard::parseScore);
+        var slurper = new Slurper<>(Day4ScratchCard.ScratchCard::parse);
 
-        var sumPoints = slurper.sum(Path.of(file),Integer::intValue);
+        var sumPoints = slurper.sum(Path.of(file),Day4ScratchCard.ScratchCard::getScore);
 
         assertEquals(points,sumPoints);
     }
