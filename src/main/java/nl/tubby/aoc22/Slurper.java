@@ -10,13 +10,14 @@ import java.util.function.Predicate;
 import java.util.function.ToIntFunction;
 import java.util.stream.Stream;
 
-public class Slurper<T extends Object> {
+public class Slurper<T> {
 
     private final Function<String,T> parser;
     private final Predicate<T> filter;
+
     public Slurper(Function<String, T> parser, Predicate<T>... filters) {
         this.parser = parser;
-        this.filter = Stream.concat(Stream.of(Objects::nonNull),Stream.of(filters))
+        this.filter = Stream.concat(Stream.of(Objects::nonNull),Stream.of(filters).filter(Objects::nonNull))
                 .reduce(Predicate::and).get();
     }
 
