@@ -8,13 +8,14 @@ import java.util.stream.Stream;
 
 public class Day4ScratchCard {
 
-    record ScratchCard(Set<Integer> winning, Set<Integer> numbers) {
+    record ScratchCard(int nr,Set<Integer> winning, Set<Integer> numbers) {
 
         static ScratchCard parse(String input) {
             var splitted = StringUtils.split(input,"|:");
+            var nr = Integer.parseInt(StringUtils.trimToEmpty(StringUtils.removeStart(splitted[0],"Card")));
             var winning = split(splitted[1]).collect(Collectors.toUnmodifiableSet());
             var wins = split(splitted[2]).collect(Collectors.toUnmodifiableSet());
-            return new ScratchCard(winning,wins);
+            return new ScratchCard(nr,winning,wins);
         }
 
         int getWins() {
