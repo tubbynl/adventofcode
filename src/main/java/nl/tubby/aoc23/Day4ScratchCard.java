@@ -2,6 +2,7 @@ package nl.tubby.aoc23;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -15,6 +16,17 @@ public class Day4ScratchCard {
             var winning = split(splitted[1]).collect(Collectors.toUnmodifiableSet());
             int wins = split(splitted[2]).filter(winning::contains).toList().size();
             return new ScratchCard(nr,wins,getPoints(wins));
+        }
+
+        List<ScratchCard> copiesWon(final List<ScratchCard> allCards) {
+            return allCards.subList(nr(),nr()+wins());
+        }
+
+        int cardCount(final List<ScratchCard> allCards) {
+            return 1+copiesWon(allCards)
+                    .stream()
+                    .mapToInt(c -> c.cardCount(allCards))
+                    .sum();
         }
     }
 

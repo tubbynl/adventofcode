@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class Day4ScratchCardTest {
@@ -61,19 +59,7 @@ class Day4ScratchCardTest {
 
         var cards = slurper.list(Path.of(file));
 
-        var allCards = cards.stream().mapToInt(c -> cardCount(c,cards)).sum();
+        var allCards = cards.stream().mapToInt(c -> c.cardCount(cards)).sum();
         assertEquals(cardCount,allCards);
-
-
-    }
-
-    int cardCount(Day4ScratchCard.ScratchCard card,final List<Day4ScratchCard.ScratchCard> allCards) {
-        var result = 1;
-        var copies = allCards.subList(card.nr(),card.nr()+card.wins());
-        result+= copies
-                .stream()
-                .mapToInt(c -> cardCount(c,allCards))
-                .sum();
-        return result;
     }
 }
