@@ -2,28 +2,19 @@ package nl.tubby.aoc23;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Day4ScratchCard {
 
-    record ScratchCard(int nr,Set<Integer> winning, Set<Integer> numbers) {
+    record ScratchCard(int nr,int wins, int score) {
 
         static ScratchCard parse(String input) {
             var splitted = StringUtils.split(input,"|:");
             var nr = Integer.parseInt(StringUtils.trimToEmpty(StringUtils.removeStart(splitted[0],"Card")));
             var winning = split(splitted[1]).collect(Collectors.toUnmodifiableSet());
-            var wins = split(splitted[2]).collect(Collectors.toUnmodifiableSet());
-            return new ScratchCard(nr,winning,wins);
-        }
-
-        int getWins() {
-            return Long.valueOf(numbers().stream().filter(winning::contains).count()).intValue();
-        }
-
-        int getScore() {
-            return getPoints(getWins());
+            int wins = split(splitted[2]).filter(winning::contains).toList().size();
+            return new ScratchCard(nr,wins,getPoints(wins));
         }
     }
 

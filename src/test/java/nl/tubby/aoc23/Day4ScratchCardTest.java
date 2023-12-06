@@ -25,7 +25,7 @@ class Day4ScratchCardTest {
         var card = Day4ScratchCard.ScratchCard.parse(rawCard);
 
         assertEquals(nr,card.nr());
-        assertEquals(score,card.getScore());
+        assertEquals(score,card.score());
     }
 
     @Test
@@ -46,7 +46,7 @@ class Day4ScratchCardTest {
     void puzzlePart1(String file,int points) {
         var slurper = new Slurper<>(Day4ScratchCard.ScratchCard::parse);
 
-        var sumPoints = slurper.sum(Path.of(file),Day4ScratchCard.ScratchCard::getScore);
+        var sumPoints = slurper.sum(Path.of(file),Day4ScratchCard.ScratchCard::score);
 
         assertEquals(points,sumPoints);
     }
@@ -69,7 +69,7 @@ class Day4ScratchCardTest {
 
     int cardCount(Day4ScratchCard.ScratchCard card,final List<Day4ScratchCard.ScratchCard> allCards) {
         var result = 1;
-        var copies = allCards.subList(card.nr(),card.nr()+card.getWins());
+        var copies = allCards.subList(card.nr(),card.nr()+card.wins());
         result+= copies
                 .stream()
                 .mapToInt(c -> cardCount(c,allCards))
