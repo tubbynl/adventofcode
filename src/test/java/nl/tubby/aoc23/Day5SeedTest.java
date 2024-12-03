@@ -1,5 +1,7 @@
 package nl.tubby.aoc23;
 
+import nl.tubby.aoc22.Path;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -35,5 +37,16 @@ class Day5SeedTest {
 
         assertTrue(range.isPresent());
         assertEquals(output, range.get().map(input));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "aoc-2023-day5-example.txt,35"
+    })
+    @Disabled("unsolved")
+    void puzzlePart1(String file,int minValue) {
+        var results = new Day5Seed.SeedMappingSlurper().slurpAndMap(Path.of(file));
+
+        assertEquals(minValue,results.stream().mapToInt(Integer::intValue).min().orElse(0));
     }
 }

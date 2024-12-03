@@ -10,6 +10,10 @@ public class Fibonacci extends ArrayList<BigInteger> {
         add(BigInteger.ONE);
     }
 
+    BigInteger getLast() {
+        return get(size()-1);
+    }
+
     BigInteger getSecondLast() {
         return get(size()-2);
     }
@@ -36,4 +40,6 @@ public class Fibonacci extends ArrayList<BigInteger> {
         }
         return getLast();
     }
+
+
 }

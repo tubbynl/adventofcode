@@ -4,6 +4,7 @@ import nl.tubby.aoc22.Slurper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -32,7 +33,7 @@ public class Day5Seed {
         }
     }
 
-    class SeedMappingSlurper extends Slurper<Optional<MapRange>> {
+    static class SeedMappingSlurper extends Slurper<Optional<MapRange>> {
         private String type;
         private List<Integer> currentValues;
         public SeedMappingSlurper() {
@@ -47,9 +48,25 @@ public class Day5Seed {
                     var seeds = StringUtils.split(StringUtils.substringAfter(line,':')," ");
                     currentValues = Stream.of(seeds).map(NumberUtils::createInteger).toList();
                 }
-                System.err.print(type+": "+currentValues);
+            } else if(StringUtils.isBlank(line)) {
+                System.err.println(type+": "+currentValues);
             }
             return super.build(line);
+        }
+
+        public List<Integer> slurpAndMap(Path path) {
+            slurp(path).forEach(mapper -> {
+                mapper.ifPresent(m -> this.currentValues = mapValues(m));
+            });
+            System.err.println(currentValues);
+            return this.currentValues;
+        }
+
+        List<Integer> mapValues(MapRange mapper) {
+            return this.currentValues
+                    .stream()
+                    .map(mapper::map)
+                    .toList();
         }
     }
 }
