@@ -8,6 +8,8 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -32,5 +34,26 @@ class Day1LocationLinkerTest {
                 .sum();
 
         assertEquals(expected,totalDistance);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "day1-example.txt,31",
+            "day1-input.txt,2176849"
+    })
+    void similarityScore(Resource file,long expected) {
+        var slurper = new Slurper<>(Day1LocationLinker::parse);
+
+        var result = slurper.list(file);
+        var rightCounts = result.stream()
+                .map(Day1LocationLinker.Pair::right)
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+        var similarity = result.stream()
+                .map(Day1LocationLinker.Pair::left)
+                .mapToLong(id -> id * rightCounts.getOrDefault(id,0L))
+                .sum();
+
+        assertEquals(expected,similarity);
     }
 }
