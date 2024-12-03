@@ -39,7 +39,7 @@ class Day1LocationLinkerTest {
     @ParameterizedTest
     @CsvSource({
             "day1-example.txt,31",
-            "day1-input.txt,2176849"
+            "day1-input.txt,23384288"
     })
     void similarityScore(Resource file,long expected) {
         var slurper = new Slurper<>(Day1LocationLinker::parse);
