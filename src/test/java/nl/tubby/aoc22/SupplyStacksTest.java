@@ -1,5 +1,6 @@
 package nl.tubby.aoc22;
 
+import nl.tubby.Resource;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -54,7 +55,7 @@ class SupplyStacksTest {
             "puzzle-example-day5.txt,3,4"
     })
     void parseInput(String file,int expectedStacks,int expectedInstructionCount) {
-        var context = Context.build(Path.of(file));
+        var context = Context.build(Resource.of(file));
 
         assertNotNull(context);
         assertEquals(expectedStacks,context.ship().stacks().size());
@@ -67,7 +68,7 @@ class SupplyStacksTest {
             "puzzle-input-day5.txt,TDCHVHJTG"// <-- solution part 1
     })
     void apply(String file,String topCrates) {
-        var context = Context.build(Path.of(file));
+        var context = Context.build(Resource.of(file));
 
         context.instructions().forEach(context.ship()::applyCrateMover9000);
 
@@ -94,7 +95,7 @@ class SupplyStacksTest {
             //"aoc_2022_day05_large_input-2.txt,NGCMPJLHV"
     })
     void apply9001(String file,String topCrates) {
-        var context = Context.build(Path.of(file));
+        var context = Context.build(Resource.of(file));
 
         int count = context.instructions().size();
         long start = System.currentTimeMillis();

@@ -1,5 +1,6 @@
 package nl.tubby.aoc22;
 
+import nl.tubby.Resource;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -46,7 +47,7 @@ public class RucksackTest {
     void testForFile(String file,int expectedSum) {
         var slurper = new Slurper<>(Rucksack::parse);
 
-        int sum = slurper.sum(Path.of(file),Rucksack::priority);
+        int sum = slurper.sum(Resource.of(file),Rucksack::priority);
 
         assertEquals(expectedSum,sum);
     }
@@ -70,7 +71,7 @@ public class RucksackTest {
     void buildThreeElves(String file, int expectedPriority) {
         var slurper = new Slurper<>(new ThreeElvesCollector()::collectRucksacks);
 
-        int sumPriority = slurper.sum(Path.of(file),ThreeElves::priority);
+        int sumPriority = slurper.sum(Resource.of(file),ThreeElves::priority);
 
         assertEquals(expectedPriority,sumPriority);
     }

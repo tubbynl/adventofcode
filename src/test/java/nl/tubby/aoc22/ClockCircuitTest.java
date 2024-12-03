@@ -1,5 +1,6 @@
 package nl.tubby.aoc22;
 
+import nl.tubby.Resource;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -29,7 +30,7 @@ class ClockCircuitTest {
             //"puzzle-example-day10-2.txt,13140", FIXME: :)
     })
     void assignment1(String file,int expectedCount) {
-        var sum = ClockCircuit.slurp(Path.of(file));
+        var sum = ClockCircuit.slurp(Resource.of(file));
 
         assertEquals(expectedCount,sum);
     }

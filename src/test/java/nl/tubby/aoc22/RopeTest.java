@@ -1,5 +1,6 @@
 package nl.tubby.aoc22;
 
+import nl.tubby.Resource;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -36,7 +37,7 @@ class RopeTest {
     })
     void assignment1(String file, long expectedTailLocations) {
         var start = Coordinates.parse("0.4");
-        var result = Rope.countTailPositions(start,Path.of(file),1);
+        var result = Rope.countTailPositions(start, Resource.of(file),1);
 
         assertEquals(expectedTailLocations, result);
     }
@@ -49,7 +50,7 @@ class RopeTest {
     })
     void assignment2(String file, String startStr,long expectedTailLocations) {
         var start = Coordinates.parse(startStr);
-        var result = Rope.countTailPositions(start,Path.of(file),9);
+        var result = Rope.countTailPositions(start, Resource.of(file),9);
 
         assertEquals(expectedTailLocations, result);
     }

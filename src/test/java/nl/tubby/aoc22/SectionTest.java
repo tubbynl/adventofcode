@@ -1,10 +1,10 @@
 package nl.tubby.aoc22;
 
+import nl.tubby.Resource;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,7 +16,7 @@ class SectionTest {
     @Test
     void testBuild() {
         var result = new Slurper<>(PairOfSections::parse)
-                .list(Path.of("puzzle-example-day4.txt"));
+                .list(Resource.of("puzzle-example-day4.txt"));
 
         assertEquals(6,result.size());
 
@@ -46,7 +46,7 @@ class SectionTest {
     void testFindContainedPairs(String file,int expectedPairCount) {
         var slurper = new Slurper<>(PairOfSections::parse, PairOfSections::contains);
 
-        assertEquals(expectedPairCount,slurper.count(Path.of(file)));
+        assertEquals(expectedPairCount,slurper.count(Resource.of(file)));
     }
 
     @ParameterizedTest
@@ -57,7 +57,7 @@ class SectionTest {
     void testFindOverlappedPairs(String file,int expectedPairCount) {
         var slurper = new Slurper<>(PairOfSections::parse, PairOfSections::overlaps);
 
-        assertEquals(expectedPairCount,slurper.count(Path.of(file)));
+        assertEquals(expectedPairCount,slurper.count(Resource.of(file)));
     }
 
     @ParameterizedTest

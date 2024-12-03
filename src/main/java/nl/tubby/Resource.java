@@ -1,6 +1,6 @@
-package nl.tubby.aoc22;
+package nl.tubby;
 
-public class Path {
+public class Resource {
     private static final java.nio.file.Path TEST_RESOURCES = java.nio.file.Path.of("src/test/resources");
 
     public static final java.nio.file.Path of(String file) {

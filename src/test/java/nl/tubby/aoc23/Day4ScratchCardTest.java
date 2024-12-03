@@ -1,6 +1,6 @@
 package nl.tubby.aoc23;
 
-import nl.tubby.aoc22.Path;
+import nl.tubby.Resource;
 import nl.tubby.aoc22.Slurper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -44,7 +44,7 @@ class Day4ScratchCardTest {
     void puzzlePart1(String file,int points) {
         var slurper = new Slurper<>(Day4ScratchCard.ScratchCard::parse);
 
-        var sumPoints = slurper.sum(Path.of(file),Day4ScratchCard.ScratchCard::score);
+        var sumPoints = slurper.sum(Resource.of(file),Day4ScratchCard.ScratchCard::score);
 
         assertEquals(points,sumPoints);
     }
@@ -57,7 +57,7 @@ class Day4ScratchCardTest {
     void puzzlePart2(String file,long cardCount) {
         var slurper = new Slurper<>(Day4ScratchCard.ScratchCard::parse);
 
-        var cards = slurper.list(Path.of(file));
+        var cards = slurper.list(Resource.of(file));
 
         var allCards = cards.stream().mapToInt(c -> c.cardCount(cards)).sum();
         assertEquals(cardCount,allCards);

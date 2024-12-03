@@ -1,6 +1,6 @@
 package nl.tubby.aoc23;
 
-import nl.tubby.aoc22.Path;
+import nl.tubby.Resource;
 import nl.tubby.aoc22.Slurper;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -81,7 +81,7 @@ class Day2KubeGameTest {
     void parse(String file,int expectedSize) {
         var slurper = new Slurper<>(Day2KubeGame.Game::parse);
 
-        var games = slurper.list(Path.of(file));
+        var games = slurper.list(Resource.of(file));
 
         assertEquals(expectedSize,games.size());
 
@@ -101,7 +101,7 @@ class Day2KubeGameTest {
     void resultForPuzzle1(String file, int sumIds) {
         var slurper = new Slurper<>(Day2KubeGame.Game::parse, Day2KubeGame.Game::isPossible);
 
-        assertEquals(sumIds,slurper.sum(Path.of(file),Day2KubeGame.Game::id));
+        assertEquals(sumIds,slurper.sum(Resource.of(file),Day2KubeGame.Game::id));
     }
 
     @ParameterizedTest
@@ -112,6 +112,6 @@ class Day2KubeGameTest {
     void resultForPuzzle2(String file, int sumPower) {
         var slurper = new Slurper<>(Day2KubeGame.Game::parse);
 
-        assertEquals(sumPower,slurper.sum(Path.of(file),Day2KubeGame.Game::power));
+        assertEquals(sumPower,slurper.sum(Resource.of(file),Day2KubeGame.Game::power));
     }
 }

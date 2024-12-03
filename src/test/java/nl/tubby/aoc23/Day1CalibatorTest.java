@@ -1,6 +1,6 @@
 package nl.tubby.aoc23;
 
-import nl.tubby.aoc22.Path;
+import nl.tubby.Resource;
 import nl.tubby.aoc22.Slurper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -20,7 +20,7 @@ class Day1CalibatorTest {
     void parseAndSum(String file,int expectedCalibrationSum) {
         var slurper = new Slurper<>(Day1Calibator::parseDigits);
 
-        assertEquals(expectedCalibrationSum,slurper.sum(Path.of(file),Integer::intValue));
+        assertEquals(expectedCalibrationSum,slurper.sum(Resource.of(file),Integer::intValue));
     }
 
     @ParameterizedTest
@@ -31,7 +31,7 @@ class Day1CalibatorTest {
     void parseLettersAndSum(String file,int expectedCalibrationSum) {
         var slurper = new Slurper<>(Day1Calibator::parseLetters);
 
-        assertEquals(expectedCalibrationSum,slurper.sum(Path.of(file),Integer::intValue));
+        assertEquals(expectedCalibrationSum,slurper.sum(Resource.of(file),Integer::intValue));
     }
 
     @ParameterizedTest

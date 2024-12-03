@@ -1,5 +1,6 @@
 package nl.tubby.aoc22;
 
+import nl.tubby.Resource;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -16,7 +17,7 @@ class CliDirectoryParserTest {
             "puzzle-input-day7.txt,173,41412830"
     })
     void parse(String file,int expectedDirCount,int expectedSize) {
-        var root = CliDirectoryParser.parse(Path.of(file));
+        var root = CliDirectoryParser.parse(Resource.of(file));
 
         assertEquals(expectedDirCount,root.dirs().count());
         assertEquals(expectedSize,root.getSize());
@@ -28,7 +29,7 @@ class CliDirectoryParserTest {
             "puzzle-input-day7.txt,1749646"
     })
     void assignment1(String file,int expectedResult) {
-        var root = CliDirectoryParser.parse(Path.of(file));
+        var root = CliDirectoryParser.parse(Resource.of(file));
 
         var result = root.dirs()
                 .map(Dir::getSize)
@@ -46,7 +47,7 @@ class CliDirectoryParserTest {
     })
     void assignment2(String file,int totalDiskSpace, int requiredDiskSpace,int sizeOfDirToDelete) {
 
-        var root = CliDirectoryParser.parse(Path.of(file));
+        var root = CliDirectoryParser.parse(Resource.of(file));
         var spaceAvailable = totalDiskSpace-root.getSize();
         var extraSpaceRequired = requiredDiskSpace-spaceAvailable;
 

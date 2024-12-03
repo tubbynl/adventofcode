@@ -1,5 +1,6 @@
 package nl.tubby.aoc22;
 
+import nl.tubby.Resource;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -49,6 +50,6 @@ class StartPacketDetectorTest {
         var detector = new StartPacketDetector(startPacketLength);
         var slurper = new Slurper<>(detector::detect);
 
-        assertEquals(expectedLocation,slurper.first(Path.of(file)));
+        assertEquals(expectedLocation,slurper.first(Resource.of(file)));
     }
 }

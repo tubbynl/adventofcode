@@ -1,6 +1,6 @@
 package nl.tubby.aoc23;
 
-import nl.tubby.aoc22.Path;
+import nl.tubby.Resource;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -45,7 +45,7 @@ class Day5SeedTest {
     })
     @Disabled("unsolved")
     void puzzlePart1(String file,int minValue) {
-        var results = new Day5Seed.SeedMappingSlurper().slurpAndMap(Path.of(file));
+        var results = new Day5Seed.SeedMappingSlurper().slurpAndMap(Resource.of(file));
 
         assertEquals(minValue,results.stream().mapToInt(Integer::intValue).min().orElse(0));
     }

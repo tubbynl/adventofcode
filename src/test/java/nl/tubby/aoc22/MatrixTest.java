@@ -1,5 +1,6 @@
 package nl.tubby.aoc22;
 
+import nl.tubby.Resource;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -12,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * day 8
  */
 class MatrixTest {
-    Matrix sut = Matrix.slurp(Path.of("puzzle-example-day8.txt"));
+    Matrix sut = Matrix.slurp(Resource.of("puzzle-example-day8.txt"));
 
     @Test
     void rowAndColum() {
@@ -54,7 +55,7 @@ class MatrixTest {
             //"aoc_2022_day08_sparse.txt,27476" // <-- tweakers https://gathering.tweakers.net/forum/list_message/73727974#73727974
     })
     void assignment1(String file,int expectedCount) {
-        var matrix = Matrix.slurp(Path.of(file));
+        var matrix = Matrix.slurp(Resource.of(file));
 
         assertEquals(expectedCount,matrix.countVisibleTrees());
     }
@@ -66,7 +67,7 @@ class MatrixTest {
             //"aoc_2022_day08_sparse.txt,2132894400" // <-- tweakers https://gathering.tweakers.net/forum/list_message/73727974#73727974
     })
     void assignment2(String file,int expectedHighestScenicScore) {
-        var matrix = Matrix.slurp(Path.of(file));
+        var matrix = Matrix.slurp(Resource.of(file));
 
         var highestScenicScore = matrix.stream().mapToInt(matrix::scenicScore).max().getAsInt();
 

@@ -1,11 +1,11 @@
 package nl.tubby.aoc22;
 
+import nl.tubby.Resource;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.Collections;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -17,7 +17,7 @@ public class ElfCaloriesCollectorTest {
     @Test
     void build() {
         var slurper = new Slurper<>(new ElfCaloriesCollector()::collectOrParse);
-        var elves = slurper.list(Path.of("puzzle-example-day1.txt"));
+        var elves = slurper.list(Resource.of("puzzle-example-day1.txt"));
 
         assertEquals(5,elves.size());
         assertEquals(6000,elves.get(0));
@@ -32,7 +32,7 @@ public class ElfCaloriesCollectorTest {
     })
     void findTheBest(String file,int expectedSum) {
         var slurper = new Slurper<>(new ElfCaloriesCollector()::collectOrParse);
-        int best = slurper.max(Path.of(file),Integer::intValue);
+        int best = slurper.max(Resource.of(file),Integer::intValue);
 
         assertEquals(expectedSum,best);
     }
@@ -45,7 +45,7 @@ public class ElfCaloriesCollectorTest {
     })
     void findTheTop3(String file,int sumTop3) {
         var slurper = new Slurper<>(new ElfCaloriesCollector()::collectOrParse);
-        int top3sum = slurper.slurp(Path.of(file))
+        int top3sum = slurper.slurp(Resource.of(file))
                 .sorted(Collections.reverseOrder())
                 .mapToInt(Integer::intValue)
                 .limit(3)

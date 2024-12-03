@@ -1,6 +1,6 @@
 package nl.tubby.aoc23;
 
-import nl.tubby.aoc22.Path;
+import nl.tubby.Resource;
 import nl.tubby.aoc22.Slurper;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
@@ -9,7 +9,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -75,7 +74,7 @@ class Day3EngineTest {
     void puzzlePart1(String file,int partsSum) {
         var slurper = new Slurper<>(Day3Engine.EngineScematicRow::parseSymbols);
 
-        var rows = slurper.list(Path.of(file));
+        var rows = slurper.list(Resource.of(file));
 
         var parts = new ArrayList<Integer>();
         for (int i=0;i<rows.size();i++) {
@@ -97,7 +96,7 @@ class Day3EngineTest {
     void puzzlePart2(String file,int partsSum) {
         var slurper = new Slurper<>(Day3Engine.EngineScematicRow::parseStars);
 
-        var rows = slurper.list(Path.of(file));
+        var rows = slurper.list(Resource.of(file));
 
         var gearRatioSum = 0;
         for (int i=0;i<rows.size();i++) {

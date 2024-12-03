@@ -1,5 +1,6 @@
 package nl.tubby.aoc22;
 
+import nl.tubby.Resource;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -63,7 +64,7 @@ class RockPaperScissorsTest {
     })
     void tournament(String filename, int expectedScore) {
         var totalScore = new Slurper<>(RockPaperScissorsRound::build)
-                .sum(Path.of(filename),RockPaperScissorsRound::calculateScore);
+                .sum(Resource.of(filename),RockPaperScissorsRound::calculateScore);
 
         assertEquals(expectedScore,totalScore);
     }
@@ -75,7 +76,7 @@ class RockPaperScissorsTest {
     })
     void tournament2(String filename, int expectedScore) {
         var totalScore = new Slurper<>(RockPaperScissorsRound::build2)
-                .sum(Path.of(filename),RockPaperScissorsRound::calculateScore);
+                .sum(Resource.of(filename),RockPaperScissorsRound::calculateScore);
 
         assertEquals(expectedScore,totalScore);
     }
