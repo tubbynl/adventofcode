@@ -1,11 +1,11 @@
 package nl.tubby.aoc23;
 
-import java.util.function.Predicate;
-import java.util.function.UnaryOperator;
-import java.util.stream.Stream;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
+import java.util.stream.Stream;
 
 public class Day1Calibator {
     private  static final Map<String,Integer> DIGITS = Map.of(

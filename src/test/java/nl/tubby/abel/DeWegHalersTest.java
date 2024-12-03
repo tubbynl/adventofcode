@@ -5,7 +5,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.stream.IntStream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class DeWegHalersTest {
 

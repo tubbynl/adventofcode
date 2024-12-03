@@ -8,7 +8,7 @@ import java.math.BigInteger;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class FibonacciTest {
     static final List<BigInteger> FIBONACCI = IntStream.of(0,1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89)
