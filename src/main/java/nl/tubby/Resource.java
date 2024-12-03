@@ -7,18 +7,11 @@ import java.nio.file.Path;
 import java.util.stream.Stream;
 
 public record Resource(String file) {
-    private static final Path TEST_RESOURCES = java.nio.file.Path.of("src/test/resources");
-
     public static Resource of(String file) {
         return new Resource(file);
     }
 
     private Path resolveToPath(Class<?> type) {
-        var testRootResource = TEST_RESOURCES.resolve(file);
-        if(testRootResource.toFile().exists()) {
-            System.out.println(testRootResource.toFile().getAbsolutePath());
-            return testRootResource;
-        }
         var url = type.getResource(file);
         try {
             return Path.of(url.toURI());
