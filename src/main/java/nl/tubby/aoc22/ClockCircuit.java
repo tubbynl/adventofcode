@@ -1,9 +1,8 @@
 package nl.tubby.aoc22;
 
+import nl.tubby.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-
-import java.nio.file.Path;
 
 class ClockCircuit {
     private int x = 1;
@@ -22,10 +21,10 @@ class ClockCircuit {
         return null;
     }
 
-    static int slurp(Path path) {
+    static int slurp(Resource resource) {
         var circuit = new ClockCircuit();
         var slurper = new Slurper<>(circuit::getSignalStrength);
-        return slurper.sum(path,Integer::intValue);
+        return slurper.sum(resource,Integer::intValue);
     }
 
     static boolean shouldMultiplyByX(int cycle) {

@@ -1,5 +1,6 @@
 package nl.tubby.aoc23;
 
+import nl.tubby.Resource;
 import nl.tubby.aoc22.Slurper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -54,7 +55,7 @@ public class Day5Seed {
             return super.build(line);
         }
 
-        public List<Integer> slurpAndMap(Path path) {
+        public List<Integer> slurpAndMap(Resource path) {
             slurp(path).forEach(mapper -> {
                 mapper.ifPresent(m -> this.currentValues = mapValues(m));
             });

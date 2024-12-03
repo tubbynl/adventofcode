@@ -1,5 +1,6 @@
 package nl.tubby.aoc22;
 
+import nl.tubby.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
@@ -12,7 +13,7 @@ import java.util.stream.Stream;
 
 record Ship(List<SupplyStack> stacks) {
 
-    static Ship slurp(Path path) {
+    static Ship slurp(Resource path) {
         var builder = new ShipYard();
         var slurper = new Slurper<>(s->s.contains("[")?builder.add(s):null);
         slurper.sum(path,Integer::intValue);
@@ -132,13 +133,13 @@ record MoveInstruction(int amount,int from,int to) {
                 .mapToInt(NumberUtils::toInt);
     }
 
-    static List<MoveInstruction> slurp(final Path path) {
+    static List<MoveInstruction> slurp(final Resource path) {
         var slurper = new Slurper<>(MoveInstruction::parse);
         return slurper.list(path);
     }
 }
 record Context(Ship ship,List<MoveInstruction> instructions) {
-    static Context build(Path path) {
+    static Context build(Resource path) {
         var ship = CompletableFuture.supplyAsync(() -> Ship.slurp(path));
         var instructions = CompletableFuture.supplyAsync(() -> MoveInstruction.slurp(path));
         return new Context(ship.join(),instructions.join());

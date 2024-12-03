@@ -1,5 +1,6 @@
 package nl.tubby.aoc22;
 
+import nl.tubby.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
@@ -35,7 +36,7 @@ class Rope {
                 .peek(pos -> this.head=pos);
     }
 
-    static long countTailPositions(Coordinates start,Path path, int length) {
+    static long countTailPositions(Coordinates start, Resource path, int length) {
         var rope = new Rope(length,start);
         return new Slurper<>(rope::move)
                 .slurp(path)

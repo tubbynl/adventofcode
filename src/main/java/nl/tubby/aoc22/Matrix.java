@@ -1,5 +1,6 @@
 package nl.tubby.aoc22;
 
+import nl.tubby.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
@@ -14,7 +15,7 @@ import java.util.stream.Stream;
 
 record Matrix(List<List<Integer>> values, int width,int height) {
 
-    static Matrix slurp(Path path) {
+    static Matrix slurp(Resource path) {
         var slurper = new Slurper<>(Matrix::parse);
         var matrix = slurper.slurp(path).toList();
         return new Matrix(matrix,matrix.get(0).size(),matrix.size());

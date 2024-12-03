@@ -1,5 +1,7 @@
 package nl.tubby.aoc22;
 
+import nl.tubby.Resource;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,46 +23,38 @@ public class Slurper<T> {
                 .reduce(Predicate::and).get();
     }
 
-    private Stream<String> stream(Path path) {
-        try {
-            return Files.lines(path);
-        } catch (IOException e) {
-            throw new RuntimeException("unable to stream "+path,e);
-        }
-    }
-
     protected T build(String line) {
         return this.parser.apply(line);
     }
 
-    public Stream<T> slurp(Path path) {
-        return stream(path)
+    public Stream<T> slurp(Resource resource) {
+        return resource.stream(this.parser.getClass().getClassLoader())
                 .map(this::build)
                 .filter(this.filter);
     }
 
-    public int max(Path path,ToIntFunction<T> function) {
-        return slurp(path)
+    public int max(Resource resource, ToIntFunction<T> function) {
+        return slurp(resource)
                 .mapToInt(function)
                 .max().orElse(0);
     }
 
-    public int sum(Path path,ToIntFunction<T> function) {
-        return slurp(path)
+    public int sum(Resource resource,ToIntFunction<T> function) {
+        return slurp(resource)
                 .mapToInt(function)
                 .sum();
     }
 
-    public long count(Path path) {
-        return slurp(path)
+    public long count(Resource resource) {
+        return slurp(resource)
                 .count();
     }
 
-    public T first(Path path) {
-        return slurp(path).findFirst().orElse(null);
+    public T first(Resource resource) {
+        return slurp(resource).findFirst().orElse(null);
     }
 
-    public List<T> list(Path path) {
-        return slurp(path).toList();
+    public List<T> list(Resource resource) {
+        return slurp(resource).toList();
     }
 }

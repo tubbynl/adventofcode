@@ -1,5 +1,7 @@
 package nl.tubby.aoc22;
 
+import nl.tubby.Resource;
+
 import java.nio.file.Path;
 import java.util.Objects;
 import java.util.SortedMap;
@@ -13,10 +15,10 @@ public class CliDirectoryParser {
     final Dir root = new Dir(null, "");
     Dir currentFolder;
 
-    static Dir parse(Path path) {
+    static Dir parse(Resource resource) {
         var parser = new CliDirectoryParser();
         var slurper = new Slurper<>(parser::parse);
-        slurper.count(path);
+        slurper.count(resource);
         return parser.root;
     }
 
