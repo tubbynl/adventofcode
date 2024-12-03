@@ -16,6 +16,7 @@ public record Resource(String file) {
     private Path resolveToPath(Class<?> type) {
         var testRootResource = TEST_RESOURCES.resolve(file);
         if(testRootResource.toFile().exists()) {
+            System.out.println(testRootResource.toFile().getAbsolutePath());
             return testRootResource;
         }
         var url = type.getResource(file);
