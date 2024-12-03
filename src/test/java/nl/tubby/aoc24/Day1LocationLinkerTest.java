@@ -15,7 +15,8 @@ class Day1LocationLinkerTest {
 
     @ParameterizedTest
     @CsvSource({
-            "day1-example.txt,11"
+            "day1-example.txt,11",
+            "day1-input.txt,2176849"
     })
     void totalDistance(Resource file,int expected) {
         var slurper = new Slurper<>(Day1LocationLinker::parse);
