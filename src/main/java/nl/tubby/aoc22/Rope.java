@@ -1,12 +1,12 @@
 package nl.tubby.aoc22;
 
 import nl.tubby.Resource;
+import nl.tubby.Slurper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Stream;

@@ -1,7 +1,7 @@
 package nl.tubby.aoc23;
 
 import nl.tubby.Resource;
-import nl.tubby.aoc22.Slurper;
+import nl.tubby.Slurper;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

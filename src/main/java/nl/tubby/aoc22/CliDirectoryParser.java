@@ -1,8 +1,8 @@
 package nl.tubby.aoc22;
 
 import nl.tubby.Resource;
+import nl.tubby.Slurper;
 
-import java.nio.file.Path;
 import java.util.Objects;
 import java.util.SortedMap;
 import java.util.TreeMap;

@@ -1,6 +1,7 @@
 package nl.tubby.aoc22;
 
 import nl.tubby.Resource;
+import nl.tubby.Slurper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 

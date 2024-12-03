@@ -1,11 +1,10 @@
 package nl.tubby.aoc23;
 
 import nl.tubby.Resource;
-import nl.tubby.aoc22.Slurper;
+import nl.tubby.Slurper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;

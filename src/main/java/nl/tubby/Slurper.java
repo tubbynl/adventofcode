@@ -1,10 +1,5 @@
-package nl.tubby.aoc22;
+package nl.tubby;
 
-import nl.tubby.Resource;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
