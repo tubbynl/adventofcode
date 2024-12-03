@@ -21,12 +21,15 @@ public class Day2 {
 
             while(levels.hasNext()) {
                 var next = levels.next();
-                var diff = Math.abs(next - current);
-                if (diff > 2) {
+                var diff = Math.abs(next-current);
+                System.out.println(next+"-"+current+"="+diff);
+                if(diff >2 ) {
+                    System.out.println(this+" is unsafe");
                     return false;
                 }
                 current = next;
             }
+            System.out.println(this+" is safe");
             return true;
         }
     }
