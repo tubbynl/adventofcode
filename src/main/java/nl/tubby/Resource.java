@@ -14,21 +14,20 @@ public record Resource(String file) {
         return new Resource(file);
     }
 
-    private Path resolveToPath(ClassLoader classLoader) {
+    private Path resolveToPath(Class<?> type) {
         var testRootResource = TEST_RESOURCES.resolve(file);
         if(testRootResource.toFile().exists()) {
             return testRootResource;
         }
-        var loader = Optional.ofNullable(classLoader).orElseGet(getClass()::getClassLoader);
-        var url = loader.getResource(file);
+        var url = type.getResource(file);
         try {
-            return Path.of(loader.getResource(file).toURI());
+            return Path.of(url.toURI());
         } catch (URISyntaxException e) {
             throw new RuntimeException("unable get path from "+url,e);
         }
     }
 
-    public Stream<String> stream(ClassLoader classLoader) {
+    public Stream<String> stream(Class<?> classLoader) {
         var path = resolveToPath(classLoader);
         try {
             return Files.lines(path);

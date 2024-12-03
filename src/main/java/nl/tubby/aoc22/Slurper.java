@@ -28,7 +28,7 @@ public class Slurper<T> {
     }
 
     public Stream<T> slurp(Resource resource) {
-        return resource.stream(this.parser.getClass().getClassLoader())
+        return resource.stream(this.parser.getClass())
                 .map(this::build)
                 .filter(this.filter);
     }
