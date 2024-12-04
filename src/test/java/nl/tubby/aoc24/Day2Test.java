@@ -26,7 +26,7 @@ class Day2Test {
     @ParameterizedTest
     @CsvSource({
             "day2-example.txt,2",
-            "day2-input.txt,53"
+            "day2-input.txt,242"
     })
     void part1(Resource resource, int expected) {
         var slurper = new Slurper<>(Day2.Report::parse,Day2.Report::isSafe);
