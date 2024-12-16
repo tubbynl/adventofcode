@@ -33,4 +33,15 @@ class Day2Test {
 
         assertEquals(expected,slurper.count(resource));
     }
+
+    @ParameterizedTest
+    @CsvSource({
+            "day2-example.txt,4",
+            "day2-input.txt,311"
+    })
+    void part2(Resource resource, int expected) {
+        var slurper = new Slurper<>(Day2.Report::parse,Day2.Report::isSafeOrHasDamperedSafe);
+
+        assertEquals(expected,slurper.count(resource));
+    }
 }

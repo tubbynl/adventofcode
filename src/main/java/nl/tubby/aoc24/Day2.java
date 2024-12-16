@@ -3,11 +3,9 @@ package nl.tubby.aoc24;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Day2 {
     public record LevelChain(int a,int b) {
@@ -29,6 +27,10 @@ public class Day2 {
                     .map(NumberUtils::toInt)
                     .toList();
 
+            return chain(splitted);
+        }
+
+        private static Report chain(List<Integer> splitted) {
             var result = new ArrayList<LevelChain>();
             for(int i=0;i<splitted.size()-1;i++) {
                 result.add(new LevelChain(splitted.get(i),splitted.get(i+1)));
@@ -42,6 +44,35 @@ public class Day2 {
                 return false;
             }
             return levels().stream().noneMatch(level -> level.difference()>3);
+        }
+
+        boolean isSafeOrHasDamperedSafe() {
+            return isSafe() || dampered().anyMatch(Report::isSafe);
+        }
+
+        List<Integer> asIntegers() {
+            List<Integer> result = new ArrayList<>();
+            for(var level : levels()) {
+                if(result.isEmpty()) {
+                    result.add(level.a());
+                }
+                result.add(level.b());
+            }
+            return Collections.unmodifiableList(result);
+        }
+
+        /**
+         * apply damper; remove first Report being faulty
+         */
+        private Stream<Report> dampered() {
+            var splitted = asIntegers();
+            var result = new ArrayList<Report>();
+            for(int i=0;i<splitted.size();i++) {
+                var splittedWithoutItem = new ArrayList<>(splitted);
+                splittedWithoutItem.remove(i);
+                result.add(chain(splittedWithoutItem));
+            }
+            return result.stream();
         }
     }
 }
