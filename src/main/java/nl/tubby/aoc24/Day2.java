@@ -20,57 +20,44 @@ public class Day2 {
         }
     }
 
-    public record Report(List<LevelChain> levels) {
+    public record Report(List<Integer> levels) {
 
         public static Report parse(String line) {
-            var splitted = Arrays.stream(StringUtils.split(line,' '))
+            return new Report(Arrays.stream(StringUtils.split(line,' '))
                     .map(NumberUtils::toInt)
-                    .toList();
-
-            return chain(splitted);
+                    .toList());
         }
 
-        private static Report chain(List<Integer> splitted) {
+        private List<LevelChain> chain() {
             var result = new ArrayList<LevelChain>();
-            for(int i=0;i<splitted.size()-1;i++) {
-                result.add(new LevelChain(splitted.get(i),splitted.get(i+1)));
+            for(int i=0;i<levels().size()-1;i++) {
+                result.add(new LevelChain(levels().get(i),levels().get(i+1)));
             }
-            return new Report(Collections.unmodifiableList(result));
+            return result;
         }
 
         boolean isSafe() {
-            var directions = levels().stream().map(LevelChain::direction).collect(Collectors.toSet());
+            var chain = chain();
+            var directions = chain.stream().map(LevelChain::direction).collect(Collectors.toSet());
             if(directions.size()>1 || directions.contains(LevelChain.Direction.none)) {
                 return false;
             }
-            return levels().stream().noneMatch(level -> level.difference()>3);
+            return chain.stream().noneMatch(level -> level.difference()>3);
         }
 
         boolean isSafeOrHasDamperedSafe() {
             return isSafe() || dampered().anyMatch(Report::isSafe);
         }
 
-        List<Integer> asIntegers() {
-            List<Integer> result = new ArrayList<>();
-            for(var level : levels()) {
-                if(result.isEmpty()) {
-                    result.add(level.a());
-                }
-                result.add(level.b());
-            }
-            return Collections.unmodifiableList(result);
-        }
-
         /**
          * apply damper; remove first Report being faulty
          */
         private Stream<Report> dampered() {
-            var splitted = asIntegers();
             var result = new ArrayList<Report>();
-            for(int i=0;i<splitted.size();i++) {
-                var splittedWithoutItem = new ArrayList<>(splitted);
+            for(int i=0;i<levels().size();i++) {
+                var splittedWithoutItem = new ArrayList<>(levels());
                 splittedWithoutItem.remove(i);
-                result.add(chain(splittedWithoutItem));
+                result.add(new Report(splittedWithoutItem));
             }
             return result.stream();
         }
