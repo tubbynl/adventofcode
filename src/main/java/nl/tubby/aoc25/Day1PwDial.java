@@ -1,10 +1,6 @@
 package nl.tubby.aoc25;
 
-import nl.tubby.aoc24.Day1LocationLinker;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-
-import java.util.Arrays;
 
 public class Day1PwDial {
     private int pos;
@@ -14,8 +10,20 @@ public class Day1PwDial {
     }
 
     int turn(String string) {
-        System.out.println(string);
-        return pos;
+        int steps = NumberUtils.toInt(string.substring(1));
+        if ('L'==string.charAt(0)) { // turn left
+            this.pos -= steps;
+            if(this.pos<0) {
+                this.pos = 99 + this.pos + 1;
+            }
+        } else { // turn right
+            this.pos += steps;
+            if(this.pos>99) {
+                this.pos = this.pos - 99 - 1;
+            }
+        }
+        //System.out.println(string+" -> "+this.pos);
+        return this.pos;
     }
 
     public int getPos() {

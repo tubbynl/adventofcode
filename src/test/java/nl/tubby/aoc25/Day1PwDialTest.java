@@ -2,7 +2,6 @@ package nl.tubby.aoc25;
 
 import nl.tubby.Resource;
 import nl.tubby.Slurper;
-import nl.tubby.aoc24.Day1LocationLinker;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
