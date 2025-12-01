@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class Day1PwDialTest {
 
-
     @ParameterizedTest
     @CsvSource({
             "day1-example.txt,10,32,3,6",
