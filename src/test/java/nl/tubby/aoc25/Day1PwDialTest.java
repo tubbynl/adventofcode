@@ -14,7 +14,7 @@ class Day1PwDialTest {
             "day1-example.txt,10,32,3,6",
             "day1-input1.txt,4035,37,964,5872"
     })
-    void totalDistance(Resource file, int count, int endpos, int pw, int pw2) {
+    void dialerTurn(Resource file, int count, int endpos, int pw, int pw2) {
         var dialer = new Day1PwDial(50);
 
         var slurper = new Slurper<>(dialer::turn);
