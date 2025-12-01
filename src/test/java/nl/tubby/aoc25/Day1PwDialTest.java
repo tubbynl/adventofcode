@@ -12,9 +12,10 @@ class Day1PwDialTest {
 
     @ParameterizedTest
     @CsvSource({
-            "day1-example.txt,10,32"
+            "day1-example.txt,10,32,3",
+            "day1-input1.txt,4035,37,964"
     })
-    void totalDistance(Resource file, int count, int endpos) {
+    void totalDistance(Resource file, int count, int endpos, int password) {
         var dialer = new Day1PwDial(50);
 
         var slurper = new Slurper<>(dialer::turn);
@@ -23,5 +24,6 @@ class Day1PwDialTest {
 
         assertEquals(count, dials);
         assertEquals(endpos,dialer.getPos());
+        assertEquals(password,dialer.getZeros());
     }
 }

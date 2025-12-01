@@ -4,13 +4,15 @@ import org.apache.commons.lang3.math.NumberUtils;
 
 public class Day1PwDial {
     private int pos;
+    private int zeros;
 
     public Day1PwDial(int pos) {
         this.pos = pos;
     }
 
     int turn(String string) {
-        int steps = NumberUtils.toInt(string.substring(1));
+        int stepsInput = NumberUtils.toInt(string.substring(1));
+        int steps = stepsInput % 100;
         if ('L'==string.charAt(0)) { // turn left
             this.pos -= steps;
             if(this.pos<0) {
@@ -23,10 +25,17 @@ public class Day1PwDial {
             }
         }
         //System.out.println(string+" -> "+this.pos);
+        if(this.pos==0) {
+            this.zeros++;
+        }
         return this.pos;
     }
 
     public int getPos() {
         return pos;
+    }
+
+    public int getZeros() {
+        return zeros;
     }
 }
