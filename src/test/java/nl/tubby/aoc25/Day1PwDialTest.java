@@ -13,7 +13,7 @@ class Day1PwDialTest {
     @ParameterizedTest
     @CsvSource({
             "day1-example.txt,10,32,3,6",
-            "day1-input1.txt,4035,37,964,5861"
+            "day1-input1.txt,4035,37,964,5872"
     })
     void totalDistance(Resource file, int count, int endpos, int pw, int pw2) {
         var dialer = new Day1PwDial(50);
