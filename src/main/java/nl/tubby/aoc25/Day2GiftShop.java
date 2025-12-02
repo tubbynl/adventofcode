@@ -4,6 +4,7 @@ import nl.tubby.Resource;
 import nl.tubby.Slurper;
 
 import java.util.function.Function;
+import java.util.function.LongPredicate;
 import java.util.function.Predicate;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
@@ -23,17 +24,20 @@ public class Day2GiftShop extends Slurper<Stream<Day2GiftShop.IdRange>> {
         return slurp(resource).flatMap(Function.identity());
     }
 
-    Stream<Long> invalidIds(Resource resource, Predicate<String> filter) {
+    LongStream invalidIds(Resource resource, LongPredicate filter) {
         return flatSlurp(resource)
-                .flatMap(idRange -> idRange.invalidIds(filter));
+                .map(idRange -> idRange.invalidIds(filter))
+                .flatMapToLong(Function.identity());
     }
 
 
-    static boolean idCheck1(String id) {
+    static boolean idCheck1(long longId) {
+        String id = ""+longId;
         return id.length()%2==0 && id.substring(0,id.length()/2).equals(id.substring(id.length()/2));
     }
 
-    static boolean idCheck2(String id) {
+    static boolean idCheck2(long longId) {
+        String id = ""+longId;
         int half = id.length()/2;
         for(int i=1;i<=half;i++) {
             String partial = id.substring(0,i);
@@ -53,12 +57,9 @@ public class Day2GiftShop extends Slurper<Stream<Day2GiftShop.IdRange>> {
             return new IdRange(Long.parseLong(splitted[0]),Long.parseLong(splitted[1]));
         }
 
-        Stream<Long> invalidIds(Predicate<String> filter) {
+        LongStream invalidIds(LongPredicate filter) {
             return LongStream.rangeClosed(this.start,this.end)
-                    .boxed()
-                    .map(Object::toString)
-                    .filter(filter)
-                    .map(Long::parseLong);
+                    .filter(filter);
         }
     }
 }

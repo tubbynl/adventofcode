@@ -16,30 +16,24 @@ class Day2GiftShopTest {
 
     @ParameterizedTest
     @CsvSource({
-            "day2-example.txt,8,1227775554",
-            "day2-input1.txt,734,19605500130"
+            "day2-example.txt,1227775554",
+            "day2-input1.txt,19605500130"
     })
-    void parsePart1(Resource file, int invalidIdCount, long sum) {
-        var invalidIds = slurper.invalidIds(file,Day2GiftShop::idCheck1)
-                .toList();
+    void parsePart1(Resource file, long sum) {
+        var invalidIdSum = slurper.invalidIds(file,Day2GiftShop::idCheck1).sum();
 
-        assertEquals(invalidIdCount,invalidIds.size());
-
-        assertEquals(sum,invalidIds.stream().mapToLong(Long::longValue).sum());
+        assertEquals(sum,invalidIdSum);
     }
 
     @ParameterizedTest
     @CsvSource({
-            "day2-example.txt,13,4174379265",
-            "day2-input1.txt,802,36862281418"
+            "day2-example.txt,4174379265",
+            "day2-input1.txt,36862281418"
     })
-    void parsePart2(Resource file, int invalidIdCount, long sum) {
-        var invalidIds = slurper.invalidIds(file,Day2GiftShop::idCheck2)
-                .toList();
+    void parsePart2(Resource file, long sum) {
+        var invalidIdSum = slurper.invalidIds(file,Day2GiftShop::idCheck2).sum();
 
-        assertEquals(invalidIdCount,invalidIds.size());
-
-        assertEquals(sum,invalidIds.stream().mapToLong(Long::longValue).sum());
+        assertEquals(sum,invalidIdSum);
     }
 
     @ParameterizedTest
@@ -50,21 +44,22 @@ class Day2GiftShopTest {
     void idCheck1(String input, int invalidIdCount) {
         Day2GiftShop.IdRange range = Day2GiftShop.IdRange.parse(input);
 
-        var invalidIds = range.invalidIds(Day2GiftShop::idCheck1).toList();
+        var invalidIds = range.invalidIds(Day2GiftShop::idCheck1).boxed().toList();
 
         assertEquals(invalidIdCount,invalidIds.size());
     }
 
     @ParameterizedTest
     @CsvSource({
-            "998-1012,2",
-            "222220-222224,1",
+            "998-1012,2,999",
+            "222220-222224,1,222222",
     })
-    void idCheck2(String input, int invalidIdCount) {
+    void idCheck2(String input, int invalidIdCount, long containsId) {
         Day2GiftShop.IdRange range = Day2GiftShop.IdRange.parse(input);
 
-        var invalidIds = range.invalidIds(Day2GiftShop::idCheck2).toList();
+        var invalidIds = range.invalidIds(Day2GiftShop::idCheck2).boxed().toList();
 
         assertEquals(invalidIdCount,invalidIds.size());
+        assertTrue(invalidIds.contains(containsId));
     }
 }
