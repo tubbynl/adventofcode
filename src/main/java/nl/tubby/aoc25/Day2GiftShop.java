@@ -25,8 +25,9 @@ public class Day2GiftShop extends Slurper<Stream<Day2GiftShop.IdRange>> {
 
     LongStream invalidIds(Resource resource, LongPredicate filter) {
         return flatSlurp(resource)
-                .map(idRange -> idRange.invalidIds(filter))
-                .flatMapToLong(Function.identity());
+                .map(IdRange::stream)
+                .flatMapToLong(Function.identity())
+                .filter(filter);
     }
 
 
@@ -55,9 +56,8 @@ public class Day2GiftShop extends Slurper<Stream<Day2GiftShop.IdRange>> {
             return new IdRange(Long.parseLong(splitted[0]),Long.parseLong(splitted[1]));
         }
 
-        LongStream invalidIds(LongPredicate filter) {
-            return LongStream.rangeClosed(this.start,this.end)
-                    .filter(filter);
+        LongStream stream() {
+            return LongStream.rangeClosed(this.start,this.end);
         }
     }
 }

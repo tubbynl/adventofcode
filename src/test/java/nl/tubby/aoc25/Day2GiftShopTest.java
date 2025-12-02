@@ -1,13 +1,8 @@
 package nl.tubby.aoc25;
 
 import nl.tubby.Resource;
-import nl.tubby.Slurper;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
-import java.util.function.Function;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -44,7 +39,8 @@ class Day2GiftShopTest {
     void idCheck1(String input, int invalidIdCount) {
         Day2GiftShop.IdRange range = Day2GiftShop.IdRange.parse(input);
 
-        var invalidIds = range.invalidIds(Day2GiftShop::idCheck1).boxed().toList();
+        var invalidIds = range.stream()
+                .filter(Day2GiftShop::idCheck1).boxed().toList();
 
         assertEquals(invalidIdCount,invalidIds.size());
     }
@@ -57,7 +53,8 @@ class Day2GiftShopTest {
     void idCheck2(String input, int invalidIdCount, long containsId) {
         Day2GiftShop.IdRange range = Day2GiftShop.IdRange.parse(input);
 
-        var invalidIds = range.invalidIds(Day2GiftShop::idCheck2).boxed().toList();
+        var invalidIds = range.stream()
+                .filter(Day2GiftShop::idCheck2).boxed().toList();
 
         assertEquals(invalidIdCount,invalidIds.size());
         assertTrue(invalidIds.contains(containsId));
