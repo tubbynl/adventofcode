@@ -28,6 +28,25 @@ public class Day2GiftShop extends Slurper<Stream<Day2GiftShop.IdRange>> {
                 .flatMap(idRange -> idRange.invalidIds(filter));
     }
 
+
+    static boolean idCheck1(String id) {
+        return id.length()%2==0 && id.substring(0,id.length()/2).equals(id.substring(id.length()/2));
+    }
+
+    static boolean idCheck2(String id) {
+        int half = id.length()/2;
+        for(int i=1;i<=half;i++) {
+            String partial = id.substring(0,i);
+            if(id.length()%partial.length()==0) {
+                int repeat = id.length()/partial.length();
+                if(partial.repeat(repeat).equals(id)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     record IdRange(long start, long end) {
         static IdRange parse(String pair) {
             var splitted = pair.split("-",2);
@@ -40,24 +59,6 @@ public class Day2GiftShop extends Slurper<Stream<Day2GiftShop.IdRange>> {
                     .map(Object::toString)
                     .filter(filter)
                     .map(Long::parseLong);
-        }
-
-        static boolean idCheck1(String id) {
-            return id.length()%2==0 && id.substring(0,id.length()/2).equals(id.substring(id.length()/2));
-        }
-
-        static boolean idCheck2(String id) {
-            int half = id.length()/2;
-            for(int i=1;i<=half;i++) {
-                String partial = id.substring(0,i);
-                if(id.length()%partial.length()==0) {
-                    int repeat = id.length()/partial.length();
-                    if(partial.repeat(repeat).equals(id)) {
-                        return true;
-                    }
-                }
-            }
-            return false;
         }
     }
 }

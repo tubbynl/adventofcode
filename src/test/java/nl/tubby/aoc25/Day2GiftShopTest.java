@@ -20,7 +20,7 @@ class Day2GiftShopTest {
             "day2-input1.txt,734,19605500130"
     })
     void parsePart1(Resource file, int invalidIdCount, long sum) {
-        var invalidIds = slurper.invalidIds(file,Day2GiftShop.IdRange::idCheck1)
+        var invalidIds = slurper.invalidIds(file,Day2GiftShop::idCheck1)
                 .toList();
 
         assertEquals(invalidIdCount,invalidIds.size());
@@ -34,7 +34,7 @@ class Day2GiftShopTest {
             "day2-input1.txt,802,36862281418"
     })
     void parsePart2(Resource file, int invalidIdCount, long sum) {
-        var invalidIds = slurper.invalidIds(file,Day2GiftShop.IdRange::idCheck2)
+        var invalidIds = slurper.invalidIds(file,Day2GiftShop::idCheck2)
                 .toList();
 
         assertEquals(invalidIdCount,invalidIds.size());
@@ -50,7 +50,7 @@ class Day2GiftShopTest {
     void idCheck1(String input, int invalidIdCount) {
         Day2GiftShop.IdRange range = Day2GiftShop.IdRange.parse(input);
 
-        var invalidIds = range.invalidIds(Day2GiftShop.IdRange::idCheck1).toList();
+        var invalidIds = range.invalidIds(Day2GiftShop::idCheck1).toList();
 
         assertEquals(invalidIdCount,invalidIds.size());
     }
@@ -63,7 +63,7 @@ class Day2GiftShopTest {
     void idCheck2(String input, int invalidIdCount) {
         Day2GiftShop.IdRange range = Day2GiftShop.IdRange.parse(input);
 
-        var invalidIds = range.invalidIds(Day2GiftShop.IdRange::idCheck2).toList();
+        var invalidIds = range.invalidIds(Day2GiftShop::idCheck2).toList();
 
         assertEquals(invalidIdCount,invalidIds.size());
     }
