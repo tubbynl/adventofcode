@@ -41,4 +41,30 @@ class Day2GiftShopTest {
 
         assertEquals(sum,invalidIds.stream().mapToLong(Long::longValue).sum());
     }
+
+    @ParameterizedTest
+    @CsvSource({
+            "998-1012,1",
+            "222220-222224,1",
+    })
+    void idCheck1(String input, int invalidIdCount) {
+        Day2GiftShop.IdRange range = Day2GiftShop.IdRange.parse(input);
+
+        var invalidIds = range.invalidIds(Day2GiftShop.IdRange::idCheck1).toList();
+
+        assertEquals(invalidIdCount,invalidIds.size());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "998-1012,2",
+            "222220-222224,1",
+    })
+    void idCheck2(String input, int invalidIdCount) {
+        Day2GiftShop.IdRange range = Day2GiftShop.IdRange.parse(input);
+
+        var invalidIds = range.invalidIds(Day2GiftShop.IdRange::idCheck2).toList();
+
+        assertEquals(invalidIdCount,invalidIds.size());
+    }
 }
