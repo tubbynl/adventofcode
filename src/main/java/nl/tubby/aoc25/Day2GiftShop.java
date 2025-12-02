@@ -5,7 +5,6 @@ import nl.tubby.Slurper;
 
 import java.util.function.Function;
 import java.util.function.LongPredicate;
-import java.util.function.Predicate;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
@@ -40,10 +39,9 @@ public class Day2GiftShop extends Slurper<Stream<Day2GiftShop.IdRange>> {
         String id = ""+longId;
         int half = id.length()/2;
         for(int i=1;i<=half;i++) {
-            String partial = id.substring(0,i);
-            if(id.length()%partial.length()==0) {
-                int repeat = id.length()/partial.length();
-                if(partial.repeat(repeat).equals(id)) {
+            if(id.length()%i==0) {
+                int repeat = id.length()/i;
+                if(id.substring(0,i).repeat(repeat).equals(id)) {
                     return true;
                 }
             }
