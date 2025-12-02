@@ -1,17 +1,32 @@
 package nl.tubby.aoc25;
 
+import nl.tubby.Resource;
+import nl.tubby.Slurper;
+
+import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-public class Day2GiftShop {
+public class Day2GiftShop extends Slurper<Stream<Day2GiftShop.IdRange>> {
 
-    static Stream<IdRange> parse(String input) {
+    public Day2GiftShop() {
+        super(Day2GiftShop::parse);
+    }
+
+    private static Stream<IdRange> parse(String input) {
         return Stream.of(input.split(","))
                         .map(IdRange::parse);
     }
 
+    Stream<IdRange> flatSlurp(Resource resource) {
+        return slurp(resource).flatMap(Function.identity());
+    }
+
+    Stream<Long> invalidIds(Resource resource, Predicate<String> filter) {
+        return flatSlurp(resource)
+                .flatMap(idRange -> idRange.invalidIds(filter));
+    }
 
     record IdRange(long start, long end) {
         static IdRange parse(String pair) {
@@ -20,7 +35,7 @@ public class Day2GiftShop {
         }
 
         Stream<Long> invalidIds(Predicate<String> filter) {
-            return LongStream.range(this.start,this.end+1)
+            return LongStream.rangeClosed(this.start,this.end)
                     .boxed()
                     .map(Object::toString)
                     .filter(filter)
